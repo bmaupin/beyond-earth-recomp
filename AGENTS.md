@@ -1,0 +1,7 @@
+- This is a project to create a matching recompilation of Civilization: Beyond Earth's game core library
+- Beyond Earth game core library is at private/beyond-earth/libCvGameCoreDLL_Expansion1.so
+- Civ 5 game core library is at private/civ5/libCvGameCoreDLL_Expansion2.so
+  - Civ 5 game core source is at ~/.local/share/Steam/steamapps/common/Sid Meier's Civilization V SDK/CvGameCoreSource/CvGameCoreDLL_Expansion2
+- Put documentation in docs/ai
+- Put source in src/ai
+- Put binaries in private/ai
