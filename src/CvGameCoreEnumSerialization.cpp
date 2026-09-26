@@ -1,5 +1,5 @@
 /*	-------------------------------------------------------------------------------------------------------
-	© 1991-2012 Take-Two Interactive Software and its subsidiaries.  Developed by Firaxis Games.  
+	ï¿½ 1991-2012 Take-Two Interactive Software and its subsidiaries.  Developed by Firaxis Games.  
 	Sid Meier's Civilization V, Civ, Civilization, 2K Games, Firaxis Games, Take-Two Interactive Software 
 	and their respective logos are all trademarks of Take-Two interactive Software, Inc.  
 	All other marks and trademarks are the property of their respective owners.  
@@ -37,8 +37,8 @@ std::string toString(const YieldTypes& v)
 	case YIELD_PRODUCTION:
 		return std::string("YIELD_PRODUCTION");
 		break;
-	case YIELD_GOLD:
-		return std::string("YIELD_GOLD");
+	case YIELD_ENERGY:
+		return std::string("YIELD_ENERGY");
 		break;
 	case YIELD_SCIENCE:
 		return std::string("YIELD_SCIENCE");
@@ -48,6 +48,9 @@ std::string toString(const YieldTypes& v)
 		break;
 	case YIELD_FAITH:
 		return std::string("YIELD_FAITH");
+		break;
+	case YIELD_CAPITAL:
+		return std::string("YIELD_CAPITAL");
 		break;
 	default:
 		return std::string("INVALID ENUM VALUE");
