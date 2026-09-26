@@ -43,6 +43,10 @@ RUN source curl.sh && \
   dpkg -i *.deb && \
   rm curl.sh
 
+# This is a "pre-dependency" of gcc-multilib, so it has to be installed first
+RUN curl curl http://launchpadlibrarian.net/532045493/linux-libc-dev_3.2.0-150.197_amd64.deb > linux-libc-dev_3.2.0-150.197_amd64.deb && \
+  dpkg -i *.deb
+
 # Install gcc and g++ 4.6.3
 RUN curl http://launchpadlibrarian.net/96008034/binutils_2.22-6ubuntu1_amd64.deb > binutils_2.22-6ubuntu1_amd64.deb && \
   curl http://launchpadlibrarian.net/96684018/cpp_4.6.3-1ubuntu5_amd64.deb > cpp_4.6.3-1ubuntu5_amd64.deb && \
@@ -51,8 +55,15 @@ RUN curl http://launchpadlibrarian.net/96008034/binutils_2.22-6ubuntu1_amd64.deb
   curl http://launchpadlibrarian.net/102057171/g++-4.6_4.6.3-1ubuntu5_amd64.deb > g++-4.6_4.6.3-1ubuntu5_amd64.deb && \
   curl http://launchpadlibrarian.net/96684019/gcc_4.6.3-1ubuntu5_amd64.deb > gcc_4.6.3-1ubuntu5_amd64.deb && \
   curl http://launchpadlibrarian.net/102057187/gcc-4.6_4.6.3-1ubuntu5_amd64.deb > gcc-4.6_4.6.3-1ubuntu5_amd64.deb && \
+  curl http://launchpadlibrarian.net/102057185/gcc-4.6-multilib_4.6.3-1ubuntu5_amd64.deb > gcc-4.6-multilib_4.6.3-1ubuntu5_amd64.deb && \
+  curl http://launchpadlibrarian.net/96684020/gcc-multilib_4.6.3-1ubuntu5_amd64.deb > gcc-multilib_4.6.3-1ubuntu5_amd64.deb && \
+  curl http://launchpadlibrarian.net/102057145/lib32gcc1_4.6.3-1ubuntu5_amd64.deb > lib32gcc1_4.6.3-1ubuntu5_amd64.deb && \
+  curl http://launchpadlibrarian.net/102057153/lib32gomp1_4.6.3-1ubuntu5_amd64.deb > lib32gomp1_4.6.3-1ubuntu5_amd64.deb && \
+  curl http://launchpadlibrarian.net/102057149/lib32quadmath0_4.6.3-1ubuntu5_amd64.deb > lib32quadmath0_4.6.3-1ubuntu5_amd64.deb && \
   curl http://launchpadlibrarian.net/312073176/libc-dev-bin_2.15-0ubuntu10.18_amd64.deb > libc-dev-bin_2.15-0ubuntu10.18_amd64.deb && \
   curl http://launchpadlibrarian.net/312073159/libc6-dev_2.15-0ubuntu10.18_amd64.deb > libc6-dev_2.15-0ubuntu10.18_amd64.deb && \
+  curl http://launchpadlibrarian.net/312073167/libc6-dev-i386_2.15-0ubuntu10.18_amd64.deb > libc6-dev-i386_2.15-0ubuntu10.18_amd64.deb && \
+  curl http://launchpadlibrarian.net/312073177/libc6-i386_2.15-0ubuntu10.18_amd64.deb > libc6-i386_2.15-0ubuntu10.18_amd64.deb && \
   curl http://launchpadlibrarian.net/87460204/libgmp10_5.0.2+dfsg-2ubuntu1_amd64.deb > libgmp10_5.0.2+dfsg-2ubuntu1_amd64.deb && \
   curl http://launchpadlibrarian.net/102057151/libgomp1_4.6.3-1ubuntu5_amd64.deb > libgomp1_4.6.3-1ubuntu5_amd64.deb && \
   curl http://launchpadlibrarian.net/102057147/libquadmath0_4.6.3-1ubuntu5_amd64.deb > libquadmath0_4.6.3-1ubuntu5_amd64.deb && \
@@ -60,7 +71,6 @@ RUN curl http://launchpadlibrarian.net/96008034/binutils_2.22-6ubuntu1_amd64.deb
   curl http://launchpadlibrarian.net/99920104/libmpfr4_3.1.0-3ubuntu1_amd64.deb > libmpfr4_3.1.0-3ubuntu1_amd64.deb && \
   curl http://launchpadlibrarian.net/102057172/libstdc++6_4.6.3-1ubuntu5_amd64.deb > libstdc++6_4.6.3-1ubuntu5_amd64.deb && \
   curl http://launchpadlibrarian.net/102057175/libstdc++6-4.6-dev_4.6.3-1ubuntu5_amd64.deb > libstdc++6-4.6-dev_4.6.3-1ubuntu5_amd64.deb && \
-  curl http://launchpadlibrarian.net/532045493/linux-libc-dev_3.2.0-150.197_amd64.deb > linux-libc-dev_3.2.0-150.197_amd64.deb && \
   dpkg -i *.deb
 
 # Installs clang to /clang+llvm-3.4.1-x86_64-unknown-ubuntu12.04/bin
