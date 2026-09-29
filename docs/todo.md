@@ -221,7 +221,7 @@ Ordered by each file’s size plus its directly included project headers.
 - [ ] CvDllDealAI.h (1.7K)
 - [ ] CvDllResourceInfo.h (1.7K)
 - [ ] CvUnitCycler.h (1.7K)
-- [ ] CvInternalGameCoreUtils.h (1.7K)
+- [x] CvInternalGameCoreUtils.h (1.7K)
 - [ ] CvMapGenerator.h (1.7K)
 - [ ] CvDllScriptSystemUtility.h (1.7K)
 - [ ] Lua/CvLuaFractal.h (1.7K)

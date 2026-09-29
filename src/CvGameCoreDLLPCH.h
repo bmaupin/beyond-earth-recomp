@@ -5,4 +5,6 @@
 #include <string>
 
 #include "CvGameCoreEnums.h"
+#include "CvGlobals.h"
+#include "CvInfos.h"
 #include "Fireworks/FDataStream.h"
