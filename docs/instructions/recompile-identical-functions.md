@@ -37,7 +37,7 @@
      -w /work \
      civ-recompile \
      /clang+llvm-3.4.1-x86_64-unknown-ubuntu12.04/bin/clang++ \
-     -m32 -O2 -fPIC -fno-exceptions -fno-inline-functions \
+     -m32 -Os -fPIC -fno-exceptions \
      -isystem /clang+llvm-3.4.1-x86_64-unknown-ubuntu12.04/include/c++/v1 \
      -Isrc \
      -c src/CvGameCoreEnumSerialization.cpp \
