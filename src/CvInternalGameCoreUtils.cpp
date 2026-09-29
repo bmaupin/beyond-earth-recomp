@@ -63,5 +63,14 @@ int limitedWonderClassLimit(const CvBuildingClassInfo& kBuildingClass)
 
 	return bIsLimited ? iCount : -1;
 }
+//------------------------------------------------------------------------------
+// NOTE: getWorldSizeMaxConscript does not exist in Beyond Earth game core
+// int getWorldSizeMaxConscript(const CvPolicyEntry& kPolicy)
+// {
+// 	int iMaxConscript = kPolicy.GetMaxConscript();
 
-// TODO: getWorldSizeMaxConscript
+// 	iMaxConscript *= std::max(0, (GC.getMap().getWorldInfo().getMaxConscriptModifier() + 100));
+// 	iMaxConscript /= 100;
+
+// 	return iMaxConscript;
+// }

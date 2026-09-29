@@ -56,11 +56,19 @@
    - If the differences can be explained by compiler options or other reasons not related to the source, ignore them
    - Otherwise, the functions should not be considered identical and should be removed
 
-1. If a file is an identical match for a file in the Civ 5 game source, mark it as checked in [docs/todo.md](../todo.md)
-   - Do this for all modified `.cpp` and `.h` files
-
-1. If there are any functions in a file that are not identical, add a TODO with the function name
+1. If there are any constructs (functions, classes, definitions, etc.) in a file that are not identical, add a TODO with the construct name if the construct exists in the Beyond Earth game core, e.g.
 
    ```c++
-   // TODO: getWorldSizeMaxConscript
+   // TODO: CvPlayerManager::RefreshDangerPlots()
    ```
+
+1. If there are any constructs that do not exist in the Beyond Earth game core, copy the construct, comment it out, and add a note, e.g.
+
+   ```c++
+   // NOTE: getWorldSizeMaxConscript does not exist in Beyond Earth game core
+   // int getWorldSizeMaxConscript(const CvPolicyEntry& kPolicy);
+   ```
+
+1. For all modified `.cpp` and `.h` files, mark it as checked in [docs/todo.md](../todo.md) if it meets one of these criteria:
+   - It is an identical match for a file in the Civ 5 game source
+   - Or if the only constructs missing from the file (functions, classes, etc) do not exist in the Beyond Earth game core

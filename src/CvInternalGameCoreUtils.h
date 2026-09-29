@@ -25,4 +25,5 @@ bool isNationalWonderClass(const CvBuildingClassInfo& kBuildingClass);
 bool isLimitedWonderClass(const CvBuildingClassInfo& kBuildingClass);
 int limitedWonderClassLimit(const CvBuildingClassInfo& kBuildingClass);
 //------------------------------------------------------------------------------
-int getWorldSizeMaxConscript(const CvPolicyEntry& kPolicy);
+// NOTE: getWorldSizeMaxConscript does not exist in Beyond Earth game core
+// int getWorldSizeMaxConscript(const CvPolicyEntry& kPolicy);

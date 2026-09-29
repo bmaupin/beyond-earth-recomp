@@ -15,7 +15,7 @@ Ordered by each file’s size plus its directly included project headers.
 - [x] CvGameCoreEnumSerialization.cpp (2.6K)
 - [ ] CvPopupInfoSerialization.cpp (2.7K)
 - [ ] Lua/CvLuaArgsHandle.cpp (3.5K)
-- [ ] CvInternalGameCoreUtils.cpp (4.2K)
+- [x] CvInternalGameCoreUtils.cpp (4.2K)
 - [ ] cvStopWatch.cpp (5.1K)
 - [ ] CvGoodyHuts.cpp (5.2K)
 - [ ] CvReplayMessage.cpp (6.5K)
