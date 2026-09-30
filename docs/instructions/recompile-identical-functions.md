@@ -22,7 +22,9 @@
 
    TODO: What are some differences in the disassembly that do not indicate that the source is different?
 
-1. If the functions are not source-level identical, continue to the next function
+1. If the functions are not source-level identical, check a different Civ 5 game core to see if there's a matching function (Civ 5 has 3 different game cores all with source)
+
+1. If a matching function is still not found, continue to the next function
 
 1. If the functions are identical, copy the function from the Civ 5 game core source to an identically named file in [`src/`](../../src/)
 
