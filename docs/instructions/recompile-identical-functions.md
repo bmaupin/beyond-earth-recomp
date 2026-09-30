@@ -46,6 +46,7 @@
      -m32 -Os -fPIC -fno-exceptions \
      -isystem /clang+llvm-3.4.1-x86_64-unknown-ubuntu12.04/include/c++/v1 \
      -Isrc \
+     -Isrc/Fireworks \
      -c src/CvGameCoreEnumSerialization.cpp \
      -o private/build/CvGameCoreEnumSerialization.o
    ```
@@ -56,7 +57,7 @@
    - If the differences can be explained by compiler options or other reasons not related to the source, ignore them
    - Otherwise, the functions should not be considered identical and should be removed
 
-1. If there are any constructs (functions, classes, definitions, etc.) in a file that are not identical, add a TODO with the construct name if the construct exists in the Beyond Earth game core, e.g.
+1. If there are any constructs (functions, classes, definitions, etc.) in a file that are not identical, evaluate changes that are needed and add a TODO with the construct name if the construct exists in the Beyond Earth game core, e.g.
 
    ```c++
    // TODO: CvPlayerManager::RefreshDangerPlots()
@@ -69,6 +70,6 @@
    // int getWorldSizeMaxConscript(const CvPolicyEntry& kPolicy);
    ```
 
-1. For all modified `.cpp` and `.h` files, mark it as checked in [docs/todo.md](../todo.md) if it meets one of these criteria:
+1. Once modifications are done, mark all all modified `.cpp` and `.h` files as checked in [docs/todo.md](../todo.md) if they meet one of these criteria:
    - It is an identical match for a file in the Civ 5 game source
    - Or if the only constructs missing from the file (functions, classes, etc) do not exist in the Beyond Earth game core
