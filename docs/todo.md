@@ -1,9 +1,16 @@
 # To do
 
+## Progress
+
+[![Progress](https://img.shields.io/badge/progress-0.2%25-red)](../src/)
+
+25 functions recompiled out of ~ 14453
+
+(14453 is count of functions in Civ 5 game core source)
+
 ## Overall
 
 - [ ] Update list below with source files from Beyond Earth game core
-- [ ] Integrate objdiff?
 
 ## Files to recompile
 

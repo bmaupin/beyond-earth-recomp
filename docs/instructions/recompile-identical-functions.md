@@ -75,3 +75,38 @@
 1. Once modifications are done, mark all all modified `.cpp` and `.h` files as checked in [docs/todo.md](../todo.md) if they meet one of these criteria:
    - It is an identical match for a file in the Civ 5 game source
    - Or if the only constructs missing from the file (functions, classes, etc) do not exist in the Beyond Earth game core
+
+1. Update the Progress in [docs/todo.md](../todo.md)
+   1. Calculate the number of recompiled functions
+
+      ```
+      find src -type f -name '*.cpp' -print |
+        ctags --quiet \
+          --languages=C++ \
+          --kinds-C++=f \
+          -f - \
+          -L - |
+        awk -F '\t' '$4 == "f" { count++ } END { print count + 0 }'
+      ```
+
+   1. Update the text under the badge, e.g.
+
+      ```
+      25 functions recompiled out of ~ 14453
+      ```
+
+   1. Calculate the percentage, e.g.
+
+      25/14453\*100
+
+   1. Update the badge, e.g.
+
+      ```
+      [![Progress](https://img.shields.io/badge/progress-0.2%25-red)](../src/)
+      ```
+
+      (`%25` is URL-encoded `%`)
+      - Once progress is > 1%, only show whole numbers
+      - Once progress is > 10%, change the colour to orange and move the badge to README.md in the root of the repository
+      - Once progress is > 50%, change the colour to yellow
+      - Once progress is > 99%, change the colour to green

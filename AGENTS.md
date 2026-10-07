@@ -7,3 +7,4 @@
 - AI-generated documentation goes in docs/ai/
 - Source goes in src/
 - Binaries go in private/build/
+- Never remove files or directories. Tell me what needs to be removed and I will do it.
