@@ -5,7 +5,7 @@
 
    1. Open that file in the Civ 5 game core source to determine if all functions in that file have been recompiled. If not, pick the next function in that file.
 
-   1. If all functions in that file have been recompiled start at the top of the list of _Implementation files_ in [todo.md](../todo.md) and pick the next file
+   1. If all functions in that file have been recompiled pick the next file from the list under _Implementation files_ in [todo.md](../todo.md); do not pick previous files, even if they are unchecked in the list
 
 1. See if that function is in the Beyond Earth game core, e.g.
 
@@ -36,6 +36,9 @@
         1. `src/CvInfos.h` should be updated to include the definition for `CvBuildingClassInfo`
         1. `src/CvGameCoreDLLPCH.h` should be updated to include `CvInfos.h`
         1. `src/CvGlobals.h` should be updated to include references for `CvBuildingClassInfo`
+   - Do not:
+     - Add extra imports that were not in the source files
+     - Add extra structures to create padding for ABI compatibility
 
 1. Compile the source, e.g.
 

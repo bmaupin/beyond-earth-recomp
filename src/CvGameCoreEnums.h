@@ -26,6 +26,7 @@ enum YieldTypes
 // Popups specific to this DLL
 
 // Hashed values.  Use FStringHashGen to create!
+#define BUTTONPOPUP_QUEST_OBJECTIVE_RECEIVED           ((ButtonPopupTypes)0x855FB0EB)
 #define BUTTONPOPUP_LEAGUE_OVERVIEW						((ButtonPopupTypes)0x41D0F622)
 #define BUTTONPOPUP_DECLAREWAR_PLUNDER_TRADE_ROUTE		((ButtonPopupTypes)0xFCB501AF)
 #define BUTTONPOPUP_CHOOSE_ARCHAEOLOGY					((ButtonPopupTypes)0x0752FFBE)

@@ -22,8 +22,15 @@ public:
 
 protected:
 	void Write(const int& value);
+	void Write(const unsigned int& value);
+	void Write(const bool& value);
+	void Write(const short& value);
+	void Write(const std::string& szName);
 	void Read(int& value);
 	void Read(unsigned int& value);
+	void Read(bool& value);
+	void Read(short& value);
+	void Read(std::string& szName);
 };
 
 //----------------------------------------------------------------------

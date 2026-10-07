@@ -8,6 +8,16 @@
 #ifndef CVGAMECOREDLLUTIL_WIN32HEADERS_H
 #define CVGAMECOREDLLUTIL_Win32HEADERS_H
 
+#define UNREFERENCED_PARAMETER(P) (void)(P)
+
+struct GUID
+{
+	unsigned int Data1;
+	unsigned short Data2;
+	unsigned short Data3;
+	unsigned char Data4[8];
+};
+
 struct LARGE_INTEGER
 {
 	long long QuadPart;
@@ -15,5 +25,15 @@ struct LARGE_INTEGER
 
 extern "C" int QueryPerformanceFrequency(LARGE_INTEGER* lpFrequency);
 extern "C" int QueryPerformanceCounter(LARGE_INTEGER* lpPerformanceCount);
+
+// Linux compatibility declaration for the secure CRT string-copy function.
+// The array overload supplies the size used by the original SDK call site.
+int strcpy_s(char* destination, unsigned int size, const char* source);
+
+template<unsigned int Size>
+inline int strcpy_s(char (&destination)[Size], const char* source)
+{
+	return strcpy_s(destination, Size, source);
+}
 
 #endif //CVGAMECOREDLLUTIL_Win32HEADERS_H

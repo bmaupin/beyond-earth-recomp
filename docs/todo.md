@@ -2,9 +2,9 @@
 
 ## Progress
 
-[![Progress](https://img.shields.io/badge/progress-0.2%25-red)](../src/)
+[![Progress](https://img.shields.io/badge/progress-0.4%25-red)](../src/)
 
-25 functions recompiled out of ~ 14453
+60 functions recompiled out of ~ 14453
 
 (14453 is count of functions in Civ 5 game core source)
 
@@ -18,16 +18,16 @@ Ordered by each file’s size plus its directly included project headers.
 
 ### Implementation files (`.cpp`)
 
-- [ ] \_precompile.cpp (87)
+- [x] \_precompile.cpp (87)
 - [x] CvGameCoreEnumSerialization.cpp (2.6K)
-- [ ] CvPopupInfoSerialization.cpp (2.7K)
-- [ ] Lua/CvLuaArgsHandle.cpp (3.5K)
+- [x] CvPopupInfoSerialization.cpp (2.7K)
+- [x] Lua/CvLuaArgsHandle.cpp (3.5K)
 - [x] CvInternalGameCoreUtils.cpp (4.2K)
 - [x] cvStopWatch.cpp (5.1K)
 - [x] CvGoodyHuts.cpp (5.2K)
-- [ ] CvReplayMessage.cpp (6.5K)
+- [x] CvReplayMessage.cpp (6.5K)
 - [ ] CvProjectProductionAI.cpp (7.3K)
-- [ ] Lua/CvLuaGameInfo.cpp (7.6K)
+- [x] Lua/CvLuaGameInfo.cpp (7.6K)
 - [ ] CvPlotManager.cpp (11.2K)
 - [ ] CvPopupReturn.cpp (11.6K)
 - [ ] Lua/CvLuaTeamTech.cpp (11.8K)
@@ -185,7 +185,7 @@ Ordered by each file’s size plus its directly included project headers.
 - [ ] resource.h (422)
 - [x] CvGameCoreEnumSerialization.h (812)
 - [ ] CvTargeting.h (815)
-- [ ] CvPopupInfoSerialization.h (825)
+- [x] CvPopupInfoSerialization.h (825)
 - [ ] CvPlayerManager.h (947)
 - [ ] CvUnitMovement.h (983)
 - [ ] CvDefines.h (1.0K)
@@ -202,7 +202,7 @@ Ordered by each file’s size plus its directly included project headers.
 - [ ] CvDllInterfaceModeInfo.h (1.3K)
 - [ ] CvDllPromotionInfo.h (1.3K)
 - [ ] CvDllUnitCombatClassInfo.h (1.3K)
-- [ ] Lua/CvLuaGameInfo.h (1.3K)
+- [x] Lua/CvLuaGameInfo.h (1.3K)
 - [ ] CvDllLeaderheadInfo.h (1.3K)
 - [ ] CvDllHandicapInfo.h (1.3K)
 - [ ] CvDllGameSpeedInfo.h (1.3K)
@@ -232,10 +232,10 @@ Ordered by each file’s size plus its directly included project headers.
 - [ ] CvMapGenerator.h (1.7K)
 - [ ] CvDllScriptSystemUtility.h (1.7K)
 - [ ] Lua/CvLuaFractal.h (1.7K)
-- [ ] CvReplayMessage.h (1.7K)
+- [x] CvReplayMessage.h (1.7K)
 - [x] cvStopWatch.h (1.7K)
 - [ ] CvDllCivilizationInfo.h (1.8K)
-- [ ] Lua/CvLuaArgsHandle.h (1.8K)
+- [x] Lua/CvLuaArgsHandle.h (1.8K)
 - [x] CvGameCoreEnums.h (1.9K)
 - [ ] CvProcessProductionAI.h (1.9K)
 - [ ] CvPoint.h (1.9K)

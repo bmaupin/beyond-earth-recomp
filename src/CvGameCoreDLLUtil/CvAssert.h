@@ -7,5 +7,6 @@
 #pragma once
 
 #define CvAssertMsg(expr, msg)
+#define CvAssert(expr)
 
 #endif // _CVASSERT_H

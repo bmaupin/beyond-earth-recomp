@@ -3,6 +3,13 @@
 class FILogFile
 {
 public:
+	enum EFlags
+	{
+		kDontTimeStamp = 0x1,
+		kDontFlushOnWrite = 0x2,
+		kWriteToConsole = 0x4
+	};
+
 	virtual void Msg(const char* format, ...) = 0;
 
 protected:

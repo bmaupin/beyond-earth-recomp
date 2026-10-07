@@ -1,0 +1,66 @@
+#pragma once
+
+#include <list>
+#include <vector>
+#include <functional>
+
+// Reconstructed storage and iteration subset of Aspyr's MSVC-style hash map.
+// DWARF identifies libc++ list/vector members, not a separate custom node type.
+namespace ASL { namespace StdLib { namespace HashMap {
+namespace stdext
+{
+	template<class Key, class Compare = std::less<Key> >
+	class hash_compare
+	{
+		// TODO: hash_compare (hashing and comparison operations).
+	};
+}
+
+template<class Key, class Value, class Traits, class Alloc, bool Multi>
+class _Hmap_traits : public Traits
+{
+public:
+	typedef std::pair<const Key, Value> value_type;
+	typedef Alloc allocator_type;
+};
+
+template<class Traits>
+class _Hash : public Traits
+{
+public:
+	typedef typename Traits::value_type value_type;
+	typedef typename Traits::allocator_type allocator_type;
+	typedef std::list<value_type, allocator_type> _Mylist;
+	typedef typename _Mylist::iterator iterator;
+	typedef typename _Mylist::const_iterator const_iterator;
+	typedef typename allocator_type::template rebind<iterator>::other _Aliter;
+	typedef std::vector<iterator, _Aliter> _Myvec;
+	typedef typename _Mylist::size_type size_type;
+	_Hash();
+	~_Hash();
+	const_iterator begin() const { return _List.begin(); }
+	const_iterator end() const { return _List.end(); }
+	// TODO: _Hash (construction, destruction, lookup and mutation).
+protected:
+	_Mylist _List;
+	_Myvec _Vec;
+	size_type _Mask;
+	size_type _Maxidx;
+	float _Max_bucket_size;
+};
+
+template<class Key, class Value,
+	class Traits = stdext::hash_compare<Key>,
+	class Alloc = std::allocator<std::pair<const Key, Value> > >
+class hash_map : public _Hash<_Hmap_traits<Key, Value, Traits, Alloc, false> >
+{
+	// TODO: hash_map (remaining methods).
+};
+}}}
+
+// Keep Civ 5's source spelling without changing CvGlobals::InfosMap.
+namespace stdext
+{
+	using ASL::StdLib::HashMap::stdext::hash_compare;
+	using ASL::StdLib::HashMap::hash_map;
+}

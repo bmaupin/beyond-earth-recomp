@@ -8,3 +8,4 @@
 - Source goes in src/
 - Binaries go in private/build/
 - Never remove files or directories. Tell me what needs to be removed and I will do it.
+- On Linux, prefer command-line tools to custom code (e.g. Python)
