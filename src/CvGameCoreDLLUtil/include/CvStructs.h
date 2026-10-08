@@ -20,4 +20,32 @@ public:
 	char szText[512];
 };
 
+struct IDInfo
+{
+	IDInfo(PlayerTypes eOwner=NO_PLAYER, int iID=FFreeList::INVALID_INDEX) : eOwner(eOwner), iID(iID) {}
+	PlayerTypes eOwner;
+	int iID;
+
+	bool operator== (const IDInfo& info) const
+	{
+		return (eOwner == info.eOwner && iID == info.iID);
+	}
+
+	bool operator !=(const IDInfo& other) const
+	{
+		return (eOwner != other.eOwner || iID != other.iID);
+	}
+
+	void reset()
+	{
+		eOwner = NO_PLAYER;
+		iID = FFreeList::INVALID_INDEX;
+	}
+
+	bool isInvalid() const
+	{
+		return eOwner == NO_PLAYER && iID == FFreeList::INVALID_INDEX;
+	}
+};
+
 // TODO: CvStructs.h (remaining SDK structures).

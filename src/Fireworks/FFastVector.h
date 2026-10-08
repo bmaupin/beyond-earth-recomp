@@ -39,6 +39,8 @@ public:
 	};
 	inline T* begin() { return m_pData; };
 	inline T* end() { return m_pData+m_uiCurrSize; };
+	inline const T* begin() const { return m_pData; };
+	inline const T* end() const { return m_pData+m_uiCurrSize; };
 
 protected:
 	BaseVector() : m_uiCurrSize(0), m_uiCurrMaxSize(0), m_pData(NULL) {};
@@ -65,6 +67,9 @@ class FStaticVector : public BaseVector<T, bPODType>
 	using BaseVector<T, bPODType>::m_pData;
 
 public:
+	typedef T* iterator;
+	typedef const T* const_iterator;
+
 	FStaticVector()
 	{
 		m_uiCurrMaxSize = L;
@@ -76,6 +81,8 @@ public:
 	// TODO: FStaticVector::~FStaticVector and push_back (SDK definitions).
 	~FStaticVector();
 	unsigned int push_back(const T& element);
+	// TODO: FStaticVector::erase (SDK definition).
+	void erase(iterator it);
 
 protected:
 	// Allocate memory as bytes

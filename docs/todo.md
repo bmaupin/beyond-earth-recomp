@@ -2,9 +2,9 @@
 
 ## Progress
 
-[![Progress](https://img.shields.io/badge/progress-0.4%25-red)](../src/)
+[![Progress](https://img.shields.io/badge/progress-0.5%25-red)](../src/)
 
-57 functions recompiled out of ~ 14455
+78 functions recompiled out of ~ 14455
 
 (The Civ 5 game core source has 14453 functions; this is updated as functions are found that don't exist in both Civ 5 and Beyond Earth)
 
@@ -28,7 +28,7 @@ Ordered by each file’s size plus its directly included project headers.
 - [x] CvReplayMessage.cpp (6.5K)
 - [ ] CvProjectProductionAI.cpp (7.3K)
 - [x] Lua/CvLuaGameInfo.cpp (7.6K)
-- [ ] CvPlotManager.cpp (11.2K)
+- [x] CvPlotManager.cpp (11.2K)
 - [ ] CvPopupReturn.cpp (11.6K)
 - [ ] Lua/CvLuaTeamTech.cpp (11.8K)
 - [ ] CvDllColorInfo.cpp (13.7K)
@@ -260,7 +260,7 @@ Ordered by each file’s size plus its directly included project headers.
 - [ ] CvWonderProductionAI.h (2.7K)
 - [ ] CvTechAI.h (2.8K)
 - [ ] CvBitfield.h (2.9K)
-- [ ] CvPlotManager.h (3.0K)
+- [x] CvPlotManager.h (3.0K)
 - [ ] CvPolicyAI.h (3.0K)
 - [ ] CvCityConnections.h (3.2K)
 - [ ] CvDllUnit.h (3.2K)

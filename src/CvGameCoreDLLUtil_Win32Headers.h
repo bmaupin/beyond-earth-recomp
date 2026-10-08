@@ -18,6 +18,17 @@ struct GUID
 	unsigned char Data4[8];
 };
 
+struct _RTL_CRITICAL_SECTION_DEBUG;
+typedef struct _RTL_CRITICAL_SECTION
+{
+	_RTL_CRITICAL_SECTION_DEBUG* DebugInfo;
+	long LockCount;
+	long RecursionCount;
+	void* OwningThread;
+	void* LockSemaphore;
+	unsigned long SpinCount;
+} RTL_CRITICAL_SECTION, CRITICAL_SECTION;
+
 struct LARGE_INTEGER
 {
 	long long QuadPart;
