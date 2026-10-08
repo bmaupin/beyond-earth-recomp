@@ -1,4 +1,6 @@
-# Recompile identical functions
+# Recompile matching functions
+
+ⓘ These steps are for recompiling functions which exist in both the Beyond Earth game core and the Civ 5 game core
 
 1. Determine the next function to recompile
    1. Look at the file timestamps in [`src/`](../../src/) and the commit history to determine the most recent file and function that was recompiled
@@ -62,11 +64,18 @@
    - If the differences can be explained by compiler options or other reasons not related to the source, ignore them
    - Otherwise, the functions should not be considered identical and should be removed
 
-1. If there are any constructs (functions, classes, definitions, etc.) in a file that are not identical, evaluate changes that are needed and add a TODO with the construct name if the construct exists in the Beyond Earth game core, e.g.
+1. If there are any constructs (functions, classes, definitions, etc.) in a file that are not identical, evaluate changes that are needed.
+   1. If the changes are minimal and can be done, do them, and add a comment indicating an overview of the differences, e.g.
 
    ```c++
-   // TODO: CvPlayerManager::RefreshDangerPlots()
+   // Beyond Earth writes a signed version number and adds bOption3 in version 2.
    ```
+
+   1. Otherwise, add a TODO with the construct name if the construct exists in the Beyond Earth game core, e.g.
+
+      ```c++
+      // TODO: CvPlayerManager::RefreshDangerPlots()
+      ```
 
 1. If there are any constructs that do not exist in the Beyond Earth game core, copy the construct, comment it out, and add a note, e.g.
 
@@ -113,3 +122,7 @@
       - Once progress is > 10%, change the colour to orange and move the badge to README.md in the root of the repository
       - Once progress is > 50%, change the colour to yellow
       - Once progress is > 99%, change the colour to green
+
+   1. Update the number of total functions recompiled
+      - Increment for every function that exists in Beyond Earth but not in Civ 5
+      - Decrement for every function that exists in Civ 5 but not in Beyond Earth

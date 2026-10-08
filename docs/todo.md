@@ -4,9 +4,9 @@
 
 [![Progress](https://img.shields.io/badge/progress-0.4%25-red)](../src/)
 
-60 functions recompiled out of ~ 14453
+57 functions recompiled out of ~ 14455
 
-(14453 is count of functions in Civ 5 game core source)
+(The Civ 5 game core source has 14453 functions; this is updated as functions are found that don't exist in both Civ 5 and Beyond Earth)
 
 ## Overall
 
