@@ -10,13 +10,21 @@
 
 #define UNREFERENCED_PARAMETER(P) (void)(P)
 
-struct GUID
+#define _In_
+
+struct _GUID
 {
 	unsigned int Data1;
 	unsigned short Data2;
 	unsigned short Data3;
 	unsigned char Data4[8];
 };
+typedef _GUID GUID;
+
+inline bool operator==(const GUID& lhs, const GUID& rhs)
+{
+	return __builtin_memcmp(&lhs, &rhs, sizeof(GUID)) == 0;
+}
 
 struct _RTL_CRITICAL_SECTION_DEBUG;
 typedef struct _RTL_CRITICAL_SECTION

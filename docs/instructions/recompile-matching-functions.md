@@ -126,3 +126,8 @@
    1. Update the number of total functions recompiled
       - Increment for every function that exists in Beyond Earth but not in Civ 5
       - Decrement for every function that exists in Civ 5 but not in Beyond Earth
+
+1. If an AI agent is performing these steps, generate a document in `docs/ai` containing only the information listed below:
+   - For each `.cpp` file created or modified in this project, a table containing a list of functions with columns for whether the function exists in Beyond Earth, whether the function exists in Civ 5, and if the function is identical between the two
+     - For functions that are not identical, create a section below the table for each function with bullet points consisely describing the differences
+   - For any other files added to or modified in the project (e.g. `.h` files), add a section with bullet points consisely describing what was added or modified, noting any significant differences between the Beyond Earth and Civ 5 source

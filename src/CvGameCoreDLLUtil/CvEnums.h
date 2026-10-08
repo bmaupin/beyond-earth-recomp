@@ -171,4 +171,9 @@ enum ReplayMessageTypes
 	NUM_REPLAY_MESSAGE_TYPES
 };
 
+enum TechTypes
+{
+	NO_TECH = -1,
+};
+
 #endif // CVENUMS_H

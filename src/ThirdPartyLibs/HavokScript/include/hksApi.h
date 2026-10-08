@@ -65,7 +65,7 @@ inline void lua_pushstring(lua_State* L, const char* str)
 		++L->m_apistack.top;
 	}
 }
-inline void lua_setfield(lua_State* L, int idx, const char* key)
+inline void hksi_lua_setfield(lua_State* L, int idx, const char* key)
 {
 	hks::reserveApiStack(L);
 	lua_pushstring(L, key);
@@ -81,6 +81,33 @@ inline void lua_rawseti(lua_State* L, int idx, int n)
 {
 	hks_obj_rawseti(L, hks::indexToObject(L, idx), n, L->m_apistack.top - 1);
 	--L->m_apistack.top;
+}
+
+// Havok names C closures for debugging; preserve the macro-expanded function name.
+void hks_pushnamedcclosure(lua_State* L, lua_CFunction fn, int n, const char* name, int flags);
+#define HKS_STRINGIFY_IMPL(x) #x
+#define HKS_STRINGIFY(x) HKS_STRINGIFY_IMPL(x)
+#define lua_pushcclosure(L, fn, n) hks_pushnamedcclosure(L, fn, n, HKS_STRINGIFY(fn), 0)
+#define lua_setfield hksi_lua_setfield
+
+HksNumber hks_obj_tonumber(lua_State* L, const HksObject* obj);
+inline lua_Integer lua_tointeger(lua_State* L, int idx)
+{
+	HksObject* obj = hks::indexToObject(L, idx);
+	return obj < L->m_apistack.top ? (lua_Integer)hks_obj_tonumber(L, obj) : 0;
+}
+inline bool lua_toboolean(lua_State* L, int idx)
+{
+	HksObject* obj = hks::indexToObject(L, idx);
+	return obj < L->m_apistack.top && (obj->t & 15) != TNIL &&
+		((obj->t & 15) != TBOOLEAN || obj->v.boolean != 0);
+}
+inline void lua_pushboolean(lua_State* L, int value)
+{
+	HksObject* top = L->m_apistack.top;
+	top->v.boolean = value != 0;
+	top->t = TBOOLEAN;
+	L->m_apistack.top = top + 1;
 }
 
 #define lua_newtable(L) lua_createtable(L, 0, 0)

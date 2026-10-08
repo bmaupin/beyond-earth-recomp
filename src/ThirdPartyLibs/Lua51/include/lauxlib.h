@@ -1,2 +1,5 @@
 #pragma once
-// TODO: Lua auxiliary-library declarations (not used by CvLuaGameInfo).
+extern "C++" {
+int luaL_error(lua_State* L, const char* fmt, ...);
+}
+// TODO: Remaining Lua auxiliary-library declarations.

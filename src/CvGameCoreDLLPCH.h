@@ -32,3 +32,5 @@
 #include "CvCityStrategyAI.h"
 #include "CvPlayerAI.h"
 #include "CvGame.h"
+#include "CvTechClasses.h"
+#include "CvPolicyClasses.h"

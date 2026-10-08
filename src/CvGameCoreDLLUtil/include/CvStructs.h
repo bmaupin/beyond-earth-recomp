@@ -48,4 +48,11 @@ struct IDInfo
 	}
 };
 
+struct CvColorA
+{
+	CvColorA(float fr, float fg, float fb, float fa) : r(fr), g(fg), b(fb), a(fa) {}
+	CvColorA() : r(0.0f), g(0.0f), b(0.0f), a(0.0f) {}
+	float r, g, b, a;
+};
+
 // TODO: CvStructs.h (remaining SDK structures).
