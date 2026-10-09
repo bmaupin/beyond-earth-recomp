@@ -23,6 +23,20 @@ enum YieldTypes
     NUM_YIELD_TYPES
 };
 
+// Beyond Earth's diplomatic relationship levels, recovered from debug information.
+enum RelationshipLevels
+{
+    NO_RELATIONSHIP = -1,
+
+    RELATIONSHIP_WAR,
+    RELATIONSHIP_HOSTILE,
+    RELATIONSHIP_NEUTRAL,
+    RELATIONSHIP_COOPERATIVE,
+    RELATIONSHIP_ALLIED,
+
+    NUM_RELATIONSHIPS
+};
+
 // Popups specific to this DLL
 
 // Hashed values.  Use FStringHashGen to create!

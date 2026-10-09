@@ -1,6 +1,7 @@
 #pragma once
 
 class CvCityStrategyAI;
+class CvPlot;
 
 // Partial SDK declarations.
 class CvCity
@@ -13,5 +14,6 @@ public:
 	PlayerTypes getOwner() const;
 	const CvString getName() const;
 	CvCityStrategyAI* GetCityStrategyAI() const;
+	CvPlot* plot() const;
 	// TODO: CvCity (remaining members).
 };

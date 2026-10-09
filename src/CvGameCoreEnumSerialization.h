@@ -12,4 +12,5 @@ FDataStream& operator>>(FDataStream&, YieldTypes&);
 namespace FSerialization
 {
 std::string toString(const YieldTypes&);
+std::string toString(const RelationshipLevels&);
 }

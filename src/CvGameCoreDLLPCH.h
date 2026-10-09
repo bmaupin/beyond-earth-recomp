@@ -37,6 +37,7 @@
 #include "CvCityStrategyAI.h"
 #include "CvPlayerAI.h"
 #include "CvGame.h"
+#include "CvGameCoreUtils.h"
 #include "CvTechClasses.h"
 #include "CvUnitClasses.h"
 #include "CvBuildingClasses.h"

@@ -59,5 +59,34 @@ std::string toString(const YieldTypes& v)
 	return std::string("INVALID ENUM VALUE");
 }
 
+// Beyond Earth adds names for its diplomatic relationship levels.
+std::string toString(const RelationshipLevels& v)
+{
+	switch(v)
+	{
+	case NO_RELATIONSHIP:
+		return std::string("NO_RELATIONSHIP");
+		break;
+	case RELATIONSHIP_WAR:
+		return std::string("RELATIONSHIP_WAR");
+		break;
+	case RELATIONSHIP_HOSTILE:
+		return std::string("RELATIONSHIP_HOSTILE");
+		break;
+	case RELATIONSHIP_NEUTRAL:
+		return std::string("RELATIONSHIP_NEUTRAL");
+		break;
+	case RELATIONSHIP_COOPERATIVE:
+		return std::string("RELATIONSHIP_COOPERATIVE");
+		break;
+	case RELATIONSHIP_ALLIED:
+		return std::string("RELATIONSHIP_ALLIED");
+		break;
+	default:
+		return std::string("INVALID ENUM VALUE");
+		break;
+	}
+	return std::string("INVALID ENUM VALUE");
+}
 
 }

@@ -7,5 +7,6 @@
 - Only create new documentation files in docs/ai/
 - Source goes in src/
 - Binaries go in private/build/
+- Other binary files go in private/ai/
 - Never remove files or directories. Tell me what needs to be removed and I will do it.
-- On Linux, prefer command-line tools to custom code (e.g. Python)
+- On Linux, prefer commands directly in the shell and not custom code (e.g. Perl, Python) nor shell scripts in files

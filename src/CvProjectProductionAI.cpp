@@ -108,6 +108,22 @@ int CvProjectProductionAI::GetWeight(ProjectTypes eProject)
 	return m_ProjectAIWeights.GetWeight(eProject);
 }
 
+// Beyond Earth scores nearby cities, favoring the project city within three tiles.
+int ScorePlotByCityProximity(const CvPlayer& kPlayer, const CvPlot& kPlot, const CvCity* pProjectCity)
+{
+	int iScore = 0;
+	int iLoop = 0;
+	for(const CvCity* pCity = kPlayer.firstCity(&iLoop); pCity != NULL; pCity = kPlayer.nextCity(&iLoop))
+	{
+		const int iDistance = plotDistance(pCity->plot(), &kPlot);
+		if(pCity == pProjectCity && iDistance <= 3)
+			iScore += 10;
+		else
+			iScore += std::max(0, 7 - iDistance);
+	}
+	return iScore;
+}
+
 // TODO: CvProjectProductionAI::ChooseWonderPlotIndex(ProjectTypes) const (Beyond Earth only).
 // TODO: CvProjectProductionAI::ChooseProjectPlotIndex(ProjectTypes) const (Beyond Earth only).
 
