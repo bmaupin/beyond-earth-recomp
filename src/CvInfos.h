@@ -53,6 +53,12 @@ public:
 	{
 		return m_strType.c_str();
 	}
+	const char* GetText() const;
+	const char* GetTextKey() const;
+	const char* GetDescriptionKey() const
+	{
+		return m_strDescriptionKey.c_str();
+	}
 private:
 	int m_iID;
 	CvString m_strCivilopedia;
@@ -65,6 +71,179 @@ private:
 	CvString m_strTextKey;
 	CvString m_strText;
 	// TODO: CvBaseInfo (remaining SDK methods).
+};
+
+// Partial SDK civilization declarations; native getters remain external.
+class CvCivilizationBaseInfo : public CvBaseInfo
+{
+public:
+	CvCivilizationBaseInfo();
+	virtual ~CvCivilizationBaseInfo();
+	bool isAIPlayable() const;
+	bool isPlayable() const;
+	const char* getShortDescription() const;
+	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
+	// TODO: CvCivilizationBaseInfo (remaining SDK methods and members).
+};
+
+class CvCivilizationInfo : public CvCivilizationBaseInfo
+{
+public:
+	CvCivilizationInfo();
+	virtual ~CvCivilizationInfo();
+	int getDefaultPlayerColor() const;
+	int getArtStyleType() const;
+	int getNumCityNames() const;
+	const char* getArtStylePrefix() const;
+	const char* getArtStyleSuffix() const;
+	const char* GetDawnOfManAudio() const;
+	int getCivilizationBuildings(int i) const;
+	bool isLeaders(int i) const;
+	const char* getCityNames(int i) const;
+	const char* getSoundtrackKey() const;
+	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
+	// TODO: CvCivilizationInfo (remaining SDK methods and members).
+};
+
+class CvEraInfo : public CvBaseInfo
+{
+public:
+	CvEraInfo();
+	virtual ~CvEraInfo();
+
+	int GetNumEraVOs() const;
+	const char* GetEraVO(int iIndex);
+	const char* getArtPrefix() const;
+	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
+	// TODO: CvEraInfo (remaining SDK methods and Beyond Earth members).
+};
+
+class CvWorldInfo : public CvBaseInfo
+{
+public:
+	CvWorldInfo();
+	int getDefaultPlayers() const;
+	int getGridWidth() const;
+	int getGridHeight() const;
+	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
+	// TODO: CvWorldInfo (remaining SDK methods and Beyond Earth members).
+};
+
+class CvResourceInfo : public CvBaseInfo
+{
+public:
+	CvResourceInfo();
+	virtual ~CvResourceInfo();
+
+	int getResourceClassType() const;
+	ResourceUsageTypes getResourceUsage() const;
+	const char* GetIconString() const;
+	const char* getArtDefineTag() const;
+	const char* getArtDefineTagHeavy() const;
+	const char* getAltArtDefineTag() const;
+	const char* getAltArtDefineTagHeavy() const;
+	bool isTerrain(int i) const;
+	bool isFeature(int i) const;
+	bool isFeatureTerrain(int i) const;
+	// Beyond Earth adds the improvement-placement predicate.
+	bool ImprovementInResource() const;
+	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
+	// TODO: CvResourceInfo (remaining SDK methods and Beyond Earth members).
+};
+
+class CvFeatureInfo : public CvBaseInfo
+{
+public:
+	CvFeatureInfo();
+	virtual ~CvFeatureInfo();
+
+	// Beyond Earth renames the SDK placement predicates.
+	bool RequiresNoCoast() const;
+	bool RequiresNoRiver() const;
+	bool RequiresNoAdjacentSameFeature() const;
+	bool RequiresFlatTerrain() const;
+	bool RequiresRiver() const;
+	bool RequiresTerrainType(int i) const;
+	const char* getArtDefineTag() const;
+	int getWorldSoundscapeScriptId() const;
+	const char* getEffectTypeTag() const;
+	void RefreshWorldSoundscapeID();
+	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
+	// TODO: CvFeatureInfo (remaining SDK methods and Beyond Earth members).
+};
+
+class CvTerrainInfo : public CvBaseInfo
+{
+public:
+	CvTerrainInfo();
+	virtual ~CvTerrainInfo();
+
+	bool isWater() const;
+	const char* getArtDefineTag() const;
+	int getWorldSoundscapeScriptId() const;
+	const char* getEffectTypeTag() const;
+	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
+
+	// Beyond Earth refreshes the cached soundscape script ID.
+	void RefreshWorldSoundscapeID();
+	// TODO: CvTerrainInfo (remaining SDK methods and Beyond Earth members).
+};
+
+class CvPlayerColorInfo : public CvBaseInfo
+{
+public:
+	CvPlayerColorInfo();
+
+	int GetColorTypePrimary() const;
+	int GetColorTypeSecondary() const;
+	int GetColorTypeText() const;
+
+	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtilty);
+
+private:
+	int m_iColorTypePrimary;
+	int m_iColorTypeSecondary;
+	int m_iColorTypeText;
+};
+
+class CvGameOptionInfo : public CvBaseInfo
+{
+public:
+	CvGameOptionInfo();
+
+	bool getDefault() const;
+	bool getVisible() const;
+
+	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
+
+private:
+	bool m_bDefault;
+	bool m_bVisible;
+};
+
+class CvGameSpeedInfo : public CvBaseInfo
+{
+public:
+	CvGameSpeedInfo();
+	virtual ~CvGameSpeedInfo();
+
+	// Beyond Earth adds turn thresholds exposed by the DLL wrapper.
+	int getMidGameTurn() const;
+	int getLateGameTurn() const;
+	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
+	// TODO: CvGameSpeedInfo (remaining SDK methods and Beyond Earth members).
+};
+
+class CvHandicapInfo : public CvBaseInfo
+{
+public:
+	CvHandicapInfo();
+	virtual ~CvHandicapInfo();
+
+	// Beyond Earth replaces getBarbSpawnMod with getAlienSpawnMod.
+	int getAlienSpawnMod() const;
+	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
+	// TODO: CvHandicapInfo (remaining SDK methods and Beyond Earth members).
 };
 
 class CvHotKeyInfo : public CvBaseInfo
@@ -157,6 +336,72 @@ protected:
 	bool m_bHighlightPlot;
 	bool m_bSelectType;
 	bool m_bSelectAll;
+};
+
+class CvMissionInfo : public CvHotKeyInfo
+{
+public:
+	CvMissionInfo();
+
+	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
+	// TODO: CvMissionInfo (remaining SDK methods and members).
+};
+
+class CvBuildInfo : public CvHotKeyInfo
+{
+public:
+	CvBuildInfo();
+	virtual ~CvBuildInfo();
+
+	int getImprovement() const { return m_iImprovement; }
+	int getRoute() const { return m_iRoute; }
+	int getEntityEvent() const { return m_iEntityEvent; }
+
+	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
+
+protected:
+	int m_iTime;
+	int m_iCost;
+	int m_iCostIncreasePerImprovement;
+	// Beyond Earth adds expedition charges and terrain/feature changes.
+	int m_iExpeditionChargesNeeded;
+	int m_iTechPrereq;
+	int m_iImprovement;
+	int m_iTerrainTypeChange;
+	int m_iFeatureTypeChange;
+	int m_iRoute;
+	int m_iEntityEvent;
+	// TODO: CvBuildInfo (remaining SDK methods and Beyond Earth members).
+};
+
+class CvEntityEventInfo : public CvBaseInfo
+{
+public:
+	CvEntityEventInfo();
+	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
+	// TODO: CvEntityEventInfo (remaining SDK methods and members).
+};
+
+class CvLeaderHeadInfo : public CvBaseInfo
+{
+public:
+	CvLeaderHeadInfo();
+	virtual ~CvLeaderHeadInfo();
+
+	const char* getArtDefineTag() const;
+
+	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
+	// TODO: CvLeaderHeadInfo (remaining SDK methods and Beyond Earth members).
+};
+
+class CvVictoryInfo : public CvBaseInfo
+{
+public:
+	CvVictoryInfo();
+	virtual ~CvVictoryInfo();
+
+	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
+	// TODO: CvVictoryInfo (remaining SDK methods and Beyond Earth members).
 };
 
 class CvColorInfo : public CvBaseInfo

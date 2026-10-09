@@ -55,4 +55,19 @@ struct CvColorA
 	float r, g, b, a;
 };
 
+struct UnitMoveRate
+{
+	UnitMoveRate():m_fTotalMoveRate(1.0f),m_fEaseIn(0.0f),m_fEaseOut(0.0f),m_fIndividualOffset(0.0f), m_fRowOffset(0.0f), m_fCurveRoll(0.0f), m_iPathSubdivision(1)
+	{
+	}
+
+	float m_fTotalMoveRate;
+	float m_fEaseIn;
+	float m_fEaseOut;
+	float m_fIndividualOffset;
+	float m_fRowOffset;
+	float m_fCurveRoll;
+	int m_iPathSubdivision;
+};
+
 // TODO: CvStructs.h (remaining SDK structures).

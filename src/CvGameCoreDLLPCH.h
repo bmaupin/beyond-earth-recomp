@@ -6,6 +6,7 @@
 #include <vector>
 #include <assert.h>
 #include <hash_map>
+#include <string.h>
 
 #include "CvGameCoreDLLUtil_Win32Headers.h"
 #include "CvGameCoreDLLUtil/CvDLLUtilDefines.h"
@@ -15,11 +16,15 @@
 #include "CvGameCoreDLLUtil/include/CvString.h"
 #include "Fireworks/FFreeListArrayBase.h"
 #include "CvGameCoreDLLUtil/include/CvStructs.h"
+#include "CvStructs.h"
 #include "CvGameCoreDLLUtil/include/ICvDLLUtility.h"
+#include "CvGameDatabase/include/Database.h"
+#include "CvGameDatabase/include/DatabaseResults.h"
 #include "CvGlobals.h"
 #include "CvInfos.h"
 #include "Fireworks/FDefNew.h"
 #include "Fireworks/FMemHooks.h"
+#include "Fireworks/FMath.h"
 #include "Fireworks/FFireTypes.h"
 #include "Fireworks/FFastVector.h"
 #include "Fireworks/FAssert.h"
@@ -33,4 +38,12 @@
 #include "CvPlayerAI.h"
 #include "CvGame.h"
 #include "CvTechClasses.h"
+#include "CvUnitClasses.h"
+#include "CvBuildingClasses.h"
+#include "CvImprovementClasses.h"
+#include "CvDealClasses.h"
 #include "CvPolicyClasses.h"
+#include "CvPromotionClasses.h"
+#include "CvPreGame.h"
+#include "CvGameCoreDLLUtil/include/CvEnumSerialization.h"
+#include "Fireworks/FStlContainerSerialization.h"

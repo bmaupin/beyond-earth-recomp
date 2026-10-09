@@ -95,6 +95,15 @@ struct HksObject
 
 namespace hks
 {
+	struct Metatable;
+	struct UserData : public ChunkHeader
+	{
+		HashTable* m_env;
+		Metatable* m_meta;
+	private:
+		char m_data[4];
+	};
+
 	struct ApiStack
 	{
 		HksObject* top;

@@ -21,6 +21,18 @@ version 1.3
 template<class T, bool bPODType> class BaseVector
 {
 public:
+	struct FDefaultFastVectorAllocator
+	{
+		static void* AllocAligned(unsigned int nBytes, unsigned int nAlign, unsigned int nAllocPool, unsigned int nAllocSubID)
+		{
+			return FMALLOCALIGNED(nBytes, nAlign, nAllocPool, nAllocSubID);
+		}
+		static void FreeAligned(void* pBlock)
+		{
+			FFREEALIGNED(pBlock);
+		}
+	};
+
 	~BaseVector(){};
 	void clear(){
 		Destroy(m_pData, m_uiCurrSize);
@@ -105,4 +117,20 @@ protected:
 	// TODO: FStaticVector (remaining SDK methods).
 };
 
-// TODO: FFastVector (remaining SDK container types).
+template<class T, bool bPODType = false,
+	unsigned int AllocPool = c_eMPoolTypeContainer, unsigned int nSubID = 0,
+	class FAST_VEC_ALLOC = typename BaseVector<T, bPODType>::FDefaultFastVectorAllocator>
+class FFastVector : public BaseVector<T, bPODType>
+{
+public:
+	typedef FFastVector<T, bPODType, AllocPool, nSubID, FAST_VEC_ALLOC> THIS_TYPE;
+	typedef BaseVector<T, bPODType> BASE_TYPE;
+	typedef T TYPE;
+	typedef T* iterator;
+	typedef const T* const_iterator;
+
+	FFastVector(unsigned int uiStartingMaxSize = 0);
+	FFastVector(const THIS_TYPE& rhs);
+	~FFastVector();
+	// TODO: FFastVector constructors, destructor, and remaining SDK methods.
+};

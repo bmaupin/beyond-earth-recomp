@@ -11,6 +11,7 @@
 #define UNREFERENCED_PARAMETER(P) (void)(P)
 
 #define _In_
+#define _Ret_maybenull_
 
 struct _GUID
 {
@@ -20,6 +21,7 @@ struct _GUID
 	unsigned char Data4[8];
 };
 typedef _GUID GUID;
+typedef unsigned char byte;
 
 inline bool operator==(const GUID& lhs, const GUID& rhs)
 {
@@ -44,6 +46,11 @@ struct LARGE_INTEGER
 
 extern "C" int QueryPerformanceFrequency(LARGE_INTEGER* lpFrequency);
 extern "C" int QueryPerformanceCounter(LARGE_INTEGER* lpPerformanceCount);
+
+#define ZeroMemory(destination, size) memset(destination, 0, size)
+
+template<unsigned int Size>
+int sprintf_s(char (&destination)[Size], const char* format, ...);
 
 // Linux compatibility declaration for the secure CRT string-copy function.
 // The array overload supplies the size used by the original SDK call site.

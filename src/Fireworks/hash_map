@@ -1,66 +1,126 @@
 #pragma once
 
-#include <list>
-#include <vector>
 #include <functional>
+#include <list>
+#include <memory>
+#include <string>
+#include <type_traits>
+#include <utility>
+#include <vector>
 
-// Reconstructed storage and iteration subset of Aspyr's MSVC-style hash map.
-// DWARF identifies libc++ list/vector members, not a separate custom node type.
+// ASL's MSVC emulation uses this global trait in exported insert signatures.
+template<class _From, class _To>
+struct is_convertible : std::is_convertible<_From, _To> {};
+
 namespace ASL { namespace StdLib { namespace HashMap {
-namespace stdext
+
+namespace stdext {
+
+template<bool _Is_empty, class _Kty, class _Pr>
+class _Hash_pr;
+
+template<class _Kty, class _Pr>
+class _Hash_pr<false, _Kty, _Pr>
 {
-	template<class Key, class Compare = std::less<Key> >
-	class hash_compare
-	{
-		// TODO: hash_compare (hashing and comparison operations).
-	};
+public:
+    _Hash_pr(const _Pr& = _Pr()) {}
+    _Pr _Getcomp() const { return _Pr(); }
+};
+
+template<class _Kty, class _Pr = std::less<_Kty> >
+class hash_compare : public _Hash_pr<false, _Kty, _Pr>
+{
+public:
+    hash_compare(const _Pr& _Pred = _Pr()) : _Hash_pr<false, _Kty, _Pr>(_Pred) {}
+    size_t operator()(const _Kty& _Keyval) const;
+    bool operator()(const _Kty& _Left, const _Kty& _Right) const;
+};
+
 }
 
-template<class Key, class Value, class Traits, class Alloc, bool Multi>
-class _Hmap_traits : public Traits
+template<class _Kty, class _Ty, class _Tr, class _Alloc, bool _Mfl>
+class _Hmap_traits : public _Tr
 {
 public:
-	typedef std::pair<const Key, Value> value_type;
-	typedef Alloc allocator_type;
+    typedef _Kty key_type;
+    typedef _Tr key_compare;
+    typedef std::pair<const _Kty, _Ty> value_type;
+    typedef _Alloc allocator_type;
+
+    _Hmap_traits(const _Tr& _Traits = _Tr()) : _Tr(_Traits) {}
 };
 
-template<class Traits>
-class _Hash : public Traits
+template<class _Traits>
+class _Hash : public _Traits
 {
 public:
-	typedef typename Traits::value_type value_type;
-	typedef typename Traits::allocator_type allocator_type;
-	typedef std::list<value_type, allocator_type> _Mylist;
-	typedef typename _Mylist::iterator iterator;
-	typedef typename _Mylist::const_iterator const_iterator;
-	typedef typename allocator_type::template rebind<iterator>::other _Aliter;
-	typedef std::vector<iterator, _Aliter> _Myvec;
-	typedef typename _Mylist::size_type size_type;
-	_Hash();
-	~_Hash();
-	const_iterator begin() const { return _List.begin(); }
-	const_iterator end() const { return _List.end(); }
-	// TODO: _Hash (construction, destruction, lookup and mutation).
+    typedef typename _Traits::key_type key_type;
+    typedef typename _Traits::key_compare key_compare;
+    typedef typename _Traits::value_type value_type;
+    typedef typename _Traits::allocator_type allocator_type;
+    typedef std::list<value_type, allocator_type> _Mylist;
+    typedef typename _Mylist::iterator iterator;
+    typedef typename _Mylist::const_iterator const_iterator;
+    typedef typename _Mylist::size_type size_type;
+    typedef typename allocator_type::template rebind<iterator>::other _Aliter;
+    typedef std::vector<iterator, _Aliter> _Myvec;
+
+    // These helpers remain dependencies supplied by the native game core.
+    _Hash(const key_compare&, const allocator_type&);
+    ~_Hash() {}
+    // Native clear terminates on failure; this also governs caller cleanup paths.
+    void clear() noexcept;
+    size_type erase(const key_type&);
+    iterator lower_bound(const key_type&);
+
+    template<class _Valty>
+    typename std::enable_if<is_convertible<_Valty, value_type>::value,
+        std::pair<iterator, bool> >::type insert(_Valty&&);
+
+    iterator begin() { return _List.begin(); }
+    const_iterator begin() const { return _List.begin(); }
+    iterator end() { return _List.end(); }
+    const_iterator end() const { return _List.end(); }
+    iterator find(const key_type& _Keyval) { return lower_bound(_Keyval); }
+    size_type size() const { return _List.size(); }
+    bool empty() const { return _List.empty(); }
+
 protected:
-	_Mylist _List;
-	_Myvec _Vec;
-	size_type _Mask;
-	size_type _Maxidx;
-	float _Max_bucket_size;
+    _Mylist _List;
+    _Myvec _Vec;
+    size_type _Mask;
+    size_type _Maxidx;
+    float _Max_bucket_size;
 };
 
-template<class Key, class Value,
-	class Traits = stdext::hash_compare<Key>,
-	class Alloc = std::allocator<std::pair<const Key, Value> > >
-class hash_map : public _Hash<_Hmap_traits<Key, Value, Traits, Alloc, false> >
+template<class _Kty, class _Ty,
+    class _Tr = stdext::hash_compare<_Kty, std::less<_Kty> >,
+    class _Alloc = std::allocator<std::pair<const _Kty, _Ty> > >
+class hash_map : public _Hash<_Hmap_traits<_Kty, _Ty, _Tr, _Alloc, false> >
 {
-	// TODO: hash_map (remaining methods).
+    typedef _Hash<_Hmap_traits<_Kty, _Ty, _Tr, _Alloc, false> > _Mybase;
+public:
+    typedef _Kty key_type;
+    typedef _Ty mapped_type;
+    typedef _Tr key_compare;
+    typedef _Alloc allocator_type;
+
+    hash_map() : _Mybase(key_compare(), allocator_type()) {}
+
+    mapped_type& operator[](const key_type& _Keyval)
+    {
+        typename _Mybase::iterator _Where = this->lower_bound(_Keyval);
+        if (_Where == this->end())
+            _Where = this->insert(std::pair<key_type, mapped_type>(_Keyval, mapped_type())).first;
+        return _Where->second;
+    }
 };
+
 }}}
 
 // Keep Civ 5's source spelling without changing CvGlobals::InfosMap.
 namespace stdext
 {
-	using ASL::StdLib::HashMap::stdext::hash_compare;
-	using ASL::StdLib::HashMap::hash_map;
+    using ASL::StdLib::HashMap::stdext::hash_compare;
+    using ASL::StdLib::HashMap::hash_map;
 }

@@ -15,5 +15,6 @@ void* operator new[](unsigned int size, int blockType, const char* file, int lin
 #define FNEW( type, mpool, tag ) new(Platform::GetMemBlockType(), __FILE__, __LINE__, mpool, tag) type
 
 #define FMALLOCALIGNED( size, align, mpool, tag ) FireMallocAligned(size, align, __FILE__, __LINE__, mpool, tag)
+#define FFREEALIGNED( ptr ) FireFreeAligned(ptr)
 
 #endif // __FDEF_NEW_H__

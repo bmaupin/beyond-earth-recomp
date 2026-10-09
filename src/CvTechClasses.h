@@ -5,7 +5,24 @@ class CvTechXMLEntries;
 class CvTeam;
 class FDataStream;
 
-// TODO: CvTechEntry, CvTechXMLEntries, CvTechAI and CvPlayerTechs.
+class CvTechEntry: public CvBaseInfo
+{
+public:
+	CvTechEntry(void);
+	~CvTechEntry(void);
+
+	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
+	int GetEra() const;
+	const char* GetSound() const;
+	const char* GetSoundMP() const;
+
+	// Beyond Earth uses polar coordinates for the technology web.
+	int GetGridRadius() const;
+	int GetGridDegrees() const;
+	// TODO: CvTechEntry (remaining SDK methods and Beyond Earth members).
+};
+
+// TODO: CvTechXMLEntries, CvTechAI and CvPlayerTechs.
 class CvTeamTechs
 {
 public:
