@@ -4,6 +4,7 @@
 typedef enum eMPoolType
 {
 	c_eMPoolTypeContainer = 0,
+	c_eMPoolTypeGame = 19,
 	// TODO: eMPoolType (remaining values).
 } eMPoolType;
 

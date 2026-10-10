@@ -1,0 +1,92 @@
+#pragma once
+#include "CvDllInterfaces.h"
+
+ class CvDllPlot : public ICvPlot1 {
+    unsigned int m_uiRefCount;
+    CvPlot *m_pPlot;
+
+  public:
+    CvDllPlot(CvPlot *);
+    ~CvDllPlot();
+    virtual void * QueryInterface(GUID);
+    unsigned int IncrementReference();
+    unsigned int DecrementReference();
+    unsigned int GetReferenceCount();
+    static void operator delete(void *);
+    static void * operator new(size_t);
+    CvPlot * GetInstance();
+    virtual TeamTypes GetTeam() const;
+    virtual FogOfWarModeTypes GetActiveFogOfWarMode() const;
+    virtual void UpdateCenterUnit();
+    virtual bool IsAdjacent(ICvPlot1 *) const;
+    virtual bool IsRiver() const;
+    virtual ICvPlot1 * GetNeighboringPlot(DirectionTypes) const;
+    virtual DirectionTypes GetAdjacentPlotDirection(ICvPlot1 *) const;
+    virtual int GetBuildTime(BuildTypes, PlayerTypes) const;
+    virtual bool IsAllowsWalkWater() const;
+    virtual bool IsVisible(TeamTypes, bool) const;
+    virtual bool IsStrategicSite() const;
+    virtual bool IsEnemyStrategicSite(ICvUnit1 *) const;
+    virtual bool IsCity() const;
+    virtual bool IsEnemyCity(ICvUnit1 *) const;
+    virtual bool IsOutpost() const;
+    virtual bool IsEnemyOutpost(ICvUnit1 *) const;
+    virtual bool IsFighting() const;
+    virtual bool IsTradeRoute(PlayerTypes) const;
+    virtual bool IsImpassable() const;
+    virtual bool HasMiasma() const;
+    virtual bool HasBubbles() const;
+    virtual void GetPosition(int &, int &) const;
+    virtual bool IsNEOfRiver() const;
+    virtual bool IsWOfRiver() const;
+    virtual bool IsNWOfRiver() const;
+    virtual FlowDirectionTypes GetRiverEFlowDirection() const;
+    virtual FlowDirectionTypes GetRiverSEFlowDirection() const;
+    virtual FlowDirectionTypes GetRiverSWFlowDirection() const;
+    virtual PlayerTypes GetOwner() const;
+    virtual PlotTypes GetPlotType() const;
+    virtual bool IsWater() const;
+    virtual bool IsHills() const;
+    virtual bool IsOpenGround() const;
+    virtual bool IsMountain() const;
+    virtual bool IsCanyon() const;
+    virtual TerrainTypes GetTerrainType() const;
+    virtual FeatureTypes GetFeatureType() const;
+    virtual HeroLandmarkTypes GetHeroLandmarkType() const;
+    virtual int GetHeroLandmarkPiece() const;
+    virtual int GetHeroLandmarkOrientation() const;
+    virtual ResourceTypes GetResourceType(TeamTypes) const;
+    virtual int GetNumResource() const;
+    virtual ImprovementTypes GetImprovementType() const;
+    virtual bool IsImprovementPillaged() const;
+    virtual bool IsImprovementActivated() const;
+    virtual GenericWorldAnchorTypes GetWorldAnchor() const;
+    virtual int GetWorldAnchorData() const;
+    virtual RouteTypes GetRouteType() const;
+    virtual bool IsRoutePillaged() const;
+    virtual ICvCity1 * GetPlotCity() const;
+    virtual ICvCity1 * GetWorkingCity() const;
+    virtual ICvOutpost1 * GetPlotOutpost() const;
+    virtual ICvStrategicSite1 * GetPlotStrategicSite() const;
+    virtual bool IsRevealed(TeamTypes, bool) const;
+    virtual void SetRevealed(TeamTypes);
+    virtual ImprovementTypes GetRevealedImprovementType(TeamTypes, bool) const;
+    virtual int GetBuildProgress(BuildTypes) const;
+    virtual bool GetAnyBuildProgress() const;
+    virtual void UpdateLayout(bool);
+    virtual ICvUnit1 * GetCenterUnit();
+    virtual int GetNumUnits() const;
+    virtual ICvUnit1 * GetUnitByIndex(int) const;
+    virtual void AddUnit(ICvUnit1 *, bool);
+    virtual void RemoveUnit(ICvUnit1 *, bool);
+    virtual const IDInfo * NextUnitNode(const IDInfo *) const;
+    virtual IDInfo * NextUnitNode(IDInfo *);
+    virtual IDInfo * HeadUnitNode();
+    virtual int GetPlotIndex() const;
+    virtual char GetContinentType() const;
+    virtual void UpdateImpassable();
+    virtual FAutoArchive & GetSyncArchive();
+  private:
+    virtual void Destroy();
+}
+;

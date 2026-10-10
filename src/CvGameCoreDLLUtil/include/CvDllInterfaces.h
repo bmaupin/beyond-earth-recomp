@@ -1,5 +1,10 @@
 #pragma once
 
+#include "FFireTypes.h"
+#include "FDefNew.h"
+#include "FMemHooks.h"
+#include "FFastVector.h"
+
 // The Linux port uses the default calling convention for these interfaces.
 #define DLLCALL
 
@@ -11,6 +16,10 @@ static const GUID guidICvUnknown =
 //------------------------------------------------------------------------------
 // Base Interfaces
 //------------------------------------------------------------------------------
+struct CvWorldBuilderMapLoaderMapInfo;
+struct lua_State;
+template<class T> class TFGXInt2;
+
 class ICvUnknown
 {
 public:
@@ -40,6 +49,119 @@ protected:
 // {DEB48522-90CD-4925-83AA-DB514AC024D8}
 static const GUID guidICvEnumerator =
 {0xdeb48522, 0x90cd, 0x4925, {0x83, 0xaa, 0xdb, 0x51, 0x4a, 0xc0, 0x24, 0xd8}};
+
+// {A36ED87A-8AB7-4F36-BBA5-F6FE5920BFF6}
+static const GUID guidICvPathFinderUpdate1 =
+{0xa36ed87a, 0x8ab7, 0x4f36, {0xbb, 0xa5, 0xf6, 0xfe, 0x59, 0x20, 0xbf, 0xf6}};
+
+// {5A01256A-2D8A-4E46-BA90-C4741F8F1A34}
+static const GUID guidICvGame1 =
+{0x5a01256a, 0x2d8a, 0x4e46, {0xba, 0x90, 0xc4, 0x74, 0x1f, 0x8f, 0x1a, 0x34}};
+
+class ICvGame1 : public ICvUnknown
+{
+public:
+	static GUID DLLCALL GetInterfaceId() { return guidICvGame1; }
+	// TODO: ICvGame1 (remaining members).
+};
+
+class ICvGameAsynch1 : public ICvUnknown
+{
+public:
+	// TODO: Recover the asynchronous interface GUID from Beyond Earth.
+	static GUID DLLCALL GetInterfaceId();
+
+	virtual PlayerTypes DLLCALL GetActivePlayer() = 0;
+	virtual TeamTypes DLLCALL GetActiveTeam() = 0;
+	virtual int DLLCALL GetGameTurn() const = 0;
+	virtual GameSpeedTypes DLLCALL GetGameSpeedType() const = 0;
+	virtual GameStateTypes DLLCALL GetGameState() = 0;
+	// Beyond Earth exposes the extension state after the game-state query.
+	virtual bool DLLCALL HasGameEverBeenExtended() = 0;
+	virtual HandicapTypes DLLCALL GetHandicapType() const = 0;
+	virtual int DLLCALL IsAction(int iKeyStroke, bool bAlt, bool bShift, bool bCtrl) = 0;
+	virtual bool DLLCALL IsDebugMode() const = 0;
+	virtual bool DLLCALL IsFinalInitialized() const = 0;
+	virtual bool DLLCALL IsGameMultiPlayer() const = 0;
+	virtual bool DLLCALL IsHotSeat() const = 0;
+	virtual bool DLLCALL IsMPOption(MultiplayerOptionTypes eIndex) const = 0;
+	virtual bool DLLCALL IsNetworkMultiPlayer() const = 0;
+	virtual bool DLLCALL IsOption(GameOptionTypes eIndex) const = 0;
+	virtual bool DLLCALL IsPaused() = 0;
+	virtual bool DLLCALL IsPbem() const = 0;
+	virtual bool DLLCALL IsTeamGame() const = 0;
+	virtual bool DLLCALL TunerEverConnected() const = 0;
+};
+
+// {760A6E63-C41B-48FF-BAF5-659BFF10CD15}
+static const GUID guidICvTeam1 =
+{0x760a6e63, 0xc41b, 0x48ff, {0xba, 0xf5, 0x65, 0x9b, 0xff, 0x10, 0xcd, 0x15}};
+
+class ICvTeam1 : public ICvUnknown
+{
+public:
+	static GUID DLLCALL GetInterfaceId() { return guidICvTeam1; }
+
+	// NOTE: CanEmbarkAllWaterPassage does not exist in Beyond Earth.
+	// virtual bool DLLCALL CanEmbarkAllWaterPassage() const = 0;
+	virtual int DLLCALL GetAtWarCount(bool bIgnoreMinors) const = 0;
+	virtual EraTypes DLLCALL GetCurrentEra() const = 0;
+	virtual PlayerTypes DLLCALL GetLeaderID() const = 0;
+	virtual int DLLCALL GetProjectCount(ProjectTypes eIndex) const = 0;
+	virtual int DLLCALL GetTotalSecuredVotes() const = 0;
+	virtual void DLLCALL Init(TeamTypes eID) = 0;
+	virtual bool DLLCALL IsAlive() const = 0;
+	virtual bool DLLCALL IsAtWar(TeamTypes eIndex) const = 0;
+	// Beyond Earth replaces the barbarian query with an alien query.
+	virtual bool DLLCALL IsAlien() const = 0;
+	virtual bool DLLCALL IsBridgeBuilding() const = 0;
+	virtual bool DLLCALL IsHasMet(TeamTypes eIndex) const = 0;
+	virtual bool DLLCALL IsHomeOfUnitedNations() const = 0;
+	virtual void DLLCALL Uninit() = 0;
+	virtual void DLLCALL Read(FDataStream& kStream) = 0;
+	virtual void DLLCALL Write(FDataStream& kStream) const = 0;
+
+	// Techs
+	//! Get the number of Techs the player has fully researched
+	virtual int DLLCALL GetTechCount() const = 0;
+	//! Get all the techs the player has researched
+	virtual int DLLCALL GetTechs(TechTypes* pkTechArray, unsigned int uiArraySize) const = 0;
+};
+
+class ICvDeal1;
+
+// {368F021C-43F6-4730-9CE4-4244DCC65F06}
+static const GUID guidICvGameDeals1 =
+{0x368f021c, 0x43f6, 0x4730, {0x9c, 0xe4, 0x42, 0x44, 0xdc, 0xc6, 0x5f, 0x06}};
+
+class ICvGameDeals1 : public ICvUnknown
+{
+public:
+	static GUID DLLCALL GetInterfaceId() { return guidICvGameDeals1; }
+	virtual void DLLCALL AddProposedDeal(ICvDeal1* pDeal) = 0;
+	virtual bool DLLCALL FinalizeDeal(PlayerTypes eFromPlayer, PlayerTypes eToPlayer, bool bAccepted) = 0;
+	virtual ICvDeal1* DLLCALL GetTempDeal() = 0;
+	virtual void DLLCALL SetTempDeal(ICvDeal1* pDeal) = 0;
+	virtual PlayerTypes DLLCALL HasMadeProposal(PlayerTypes eFromPlayer) = 0;
+	virtual bool DLLCALL ProposedDealExists(PlayerTypes eFromPlayer, PlayerTypes eToPlayer) = 0;
+	virtual ICvDeal1* DLLCALL GetProposedDeal(PlayerTypes eFromPlayer, PlayerTypes eToPlayer) = 0;
+	virtual ICvDeal1* DLLCALL GetCurrentDeal(PlayerTypes ePlayer, unsigned int index) = 0;
+	virtual ICvDeal1* DLLCALL GetHistoricDeal(PlayerTypes ePlayer, unsigned int indx) = 0;
+	virtual unsigned int DLLCALL GetNumCurrentDeals(PlayerTypes ePlayer) = 0;
+	virtual unsigned int DLLCALL GetNumHistoricDeals(PlayerTypes ePlayer) = 0;
+	virtual unsigned int DLLCALL CreateDeal() = 0;
+	virtual ICvDeal1* DLLCALL GetDeal(unsigned int index) = 0;
+	virtual void DLLCALL DestroyDeal(unsigned int index) = 0;
+};
+
+class ICvPathFinderUpdate1 : public ICvUnknown
+{
+public:
+	static GUID DLLCALL GetInterfaceId() { return guidICvPathFinderUpdate1; }
+	virtual int DLLCALL GetX() const = 0;
+	virtual int DLLCALL GetY() const = 0;
+	virtual int DLLCALL GetTurnNumber() const = 0;
+};
 
 class ICvEnumerator : public ICvUnknown
 {
@@ -542,4 +664,269 @@ public:
 	virtual bool DLLCALL ResourceStaysVisible() const = 0;
 };
 
+// Beyond Earth changes the random-interface GUID.
+// {53E5EC7C-698D-4A08-B902-6ADBCDA5DC5C}
+static const GUID guidICvRandom1 =
+{ 0x53e5ec7c, 0x698d, 0x4a08, { 0xb9, 0x02, 0x6a, 0xdb, 0xcd, 0xa5, 0xdc, 0x5c } };
+
+class ICvRandom1 : public ICvUnknown
+{
+public:
+	static GUID DLLCALL GetInterfaceId() { return guidICvRandom1; }
+	virtual void DLLCALL Init(unsigned long ulSeed) = 0;
+	virtual void DLLCALL Reset(unsigned long ulSeed = 0) = 0;
+	virtual void DLLCALL CopyFrom(ICvRandom1* pOther) = 0;
+	virtual unsigned short DLLCALL Get(unsigned short usNum, const char* pszLog = NULL) = 0;
+	virtual float DLLCALL GetFloat() = 0;
+	virtual unsigned long DLLCALL GetSeed() const = 0;
+	virtual void DLLCALL Read(FDataStream& Stream) = 0;
+	virtual void DLLCALL Write(FDataStream& Stream) const = 0;
+};
+
 // TODO: CvDllInterfaces.h (remaining SDK interfaces).
+class ICvPlot1;
+class ICvCovertAgent1;
+class FAutoArchive;
+
+// Beyond Earth network-initialization interface ID.
+static const GUID guidICvNetInitInfo1 =
+{ 0x03f77c50, 0x0e5b, 0x4de1, { 0xb6, 0x62, 0x80, 0xb2, 0x02, 0x9e, 0x8b, 0x77 } };
+class ICvNetInitInfo1 : public ICvUnknown
+{
+public:
+	static GUID DLLCALL GetInterfaceId() { return guidICvNetInitInfo1; }
+	virtual const char* DLLCALL GetDebugString() = 0;
+	virtual bool DLLCALL Read(FDataStream& kStream) = 0;
+	virtual bool DLLCALL Write(FDataStream& kStream) = 0;
+	virtual bool DLLCALL Commit() = 0;
+};
+// Beyond Earth's city interface ID.
+static const GUID guidICvCity1 =
+{ 0x5d30cf16, 0x5836, 0x40ee, { 0xaa, 0x2d, 0xeb, 0xc9, 0x70, 0x2a, 0x74, 0x01 } };
+class ICvCity1 : public ICvUnknown
+{
+public:
+
+	static GUID DLLCALL GetInterfaceId() { return guidICvCity1; }
+
+	virtual int DLLCALL GetID() const = 0;
+	virtual PlayerTypes DLLCALL GetOwner() const = 0;
+
+	// Beyond Earth moves combat strength and bombard effects before position.
+	virtual int DLLCALL GetCombatStrength(bool bForRangeStrike = false) const = 0;
+	virtual int DLLCALL GetMaxHitPoints() const = 0;
+	virtual const char* DLLCALL GetBombardEffectTag() const = 0;
+
+	virtual void DLLCALL GetPosition(int& iX, int& iY) const = 0;
+
+	virtual ICvPlot1* DLLCALL Plot() const = 0;
+
+	virtual int DLLCALL GetPopulation() const = 0;
+
+	virtual const char* DLLCALL GetName() const = 0;
+
+	virtual bool DLLCALL CanBuyPlot(int iPlotX, int iPlotY, bool bIgnoreCost = false) = 0;
+	virtual CitySizeTypes DLLCALL GetCitySizeType() const = 0;
+
+	virtual TeamTypes DLLCALL GetTeam() const = 0;
+
+	virtual bool DLLCALL IsPuppet() const = 0;
+
+	virtual int DLLCALL GetX() const = 0;
+	virtual int DLLCALL GetY() const = 0;
+
+	virtual int DLLCALL FoodDifference(bool bBottom = true) const = 0;
+	virtual int DLLCALL GetFoodTurnsLeft() const = 0;
+	virtual int DLLCALL GetYieldRate(int eIndex) const = 0;
+	virtual int DLLCALL GetCulturePerTurn() const = 0;
+	virtual IDInfo DLLCALL GetIDInfo() const = 0;
+
+	virtual bool DLLCALL IsWorkingPlot(ICvPlot1* pPlot) const = 0;
+	virtual bool DLLCALL CanWork(ICvPlot1* pPlot) const = 0;
+	virtual ICvPlot1* DLLCALL GetCityPlotFromIndex(int iIndex) const = 0;
+	virtual FAutoArchive& DLLCALL GetSyncArchive() = 0;
+	// Beyond Earth adds intrigue and covert-agent access.
+	virtual int DLLCALL GetIntrigue() const = 0;
+	virtual int DLLCALL GetIntrigueLevel() const = 0;
+	virtual int DLLCALL GetClampedIntrigueCap() const = 0;
+	virtual std::unique_ptr<ICvCovertAgent1> DLLCALL GetCovertAgent(PlayerTypes ePlayer) const = 0;
+};
+
+// TODO: CvDllInterfaces.h (remaining SDK interfaces).
+
+// Beyond Earth's map interface retains the SDK virtual slot order but has a new GUID.
+static const GUID guidICvMap1 =
+{0xdfe7fa55, 0xe67b, 0x433e, {0xa9, 0xa1, 0xe1, 0x5f, 0x75, 0x5a, 0x96, 0x08}};
+
+struct CvMapInitData;
+class ICvMap1 : public ICvUnknown
+{
+public:
+	static GUID DLLCALL GetInterfaceId() { return guidICvMap1; }
+	virtual void DLLCALL Init(CvMapInitData* pInitData = NULL) = 0;
+	virtual void DLLCALL Uninit() = 0;
+	virtual void DLLCALL UpdateSymbolVisibility() = 0;
+	virtual void DLLCALL UpdateLayout(bool bDebug) = 0;
+	virtual void DLLCALL UpdateDeferredFog() = 0;
+	virtual ICvCity1* DLLCALL FindCity(int iX, int iY, PlayerTypes eOwner = NO_PLAYER,
+		TeamTypes eTeam = NO_TEAM, bool bSameArea = true, bool bCoastalOnly = false,
+		TeamTypes eTeamAtWarWith = NO_TEAM, DirectionTypes eDirection = NO_DIRECTION,
+		ICvCity1* pSkipCity = NULL) = 0;
+	virtual int DLLCALL NumPlots() const = 0;
+	virtual int DLLCALL PlotNum(int iX, int iY) const = 0;
+	virtual int DLLCALL GetGridWidth() const = 0;
+	virtual int DLLCALL GetGridHeight() const = 0;
+	virtual bool DLLCALL IsWrapX() const = 0;
+	virtual bool DLLCALL IsWrapY() const = 0;
+	virtual ICvPlot1* DLLCALL GetPlotByIndex(int iIndex) const = 0;
+	virtual ICvPlot1* DLLCALL GetPlot(int iX, int iY) const = 0;
+	virtual void DLLCALL RecalculateLandmasses() = 0;
+	virtual void DLLCALL Read(FDataStream& kStream) = 0;
+	virtual void DLLCALL Write(FDataStream& kStream) const = 0;
+	virtual int DLLCALL Validate() = 0;
+};
+
+class ICvOutpost1;
+class ICvStrategicSite1;
+class ICvPlot1 : public ICvUnknown {
+
+  public:
+    static GUID GetInterfaceId();
+    virtual TeamTypes GetTeam() const = 0;
+    virtual FogOfWarModeTypes GetActiveFogOfWarMode() const = 0;
+    virtual void UpdateCenterUnit() = 0;
+    virtual bool IsAdjacent(ICvPlot1 *) const = 0;
+    virtual bool IsRiver() const = 0;
+    virtual ICvPlot1 * GetNeighboringPlot(DirectionTypes) const = 0;
+    virtual DirectionTypes GetAdjacentPlotDirection(ICvPlot1 *) const = 0;
+    virtual int GetBuildTime(BuildTypes, PlayerTypes) const = 0;
+    virtual bool IsAllowsWalkWater() const = 0;
+    virtual bool IsVisible(TeamTypes, bool) const = 0;
+    virtual bool IsStrategicSite() const = 0;
+    virtual bool IsEnemyStrategicSite(ICvUnit1 *) const = 0;
+    virtual bool IsCity() const = 0;
+    virtual bool IsEnemyCity(ICvUnit1 *) const = 0;
+    virtual bool IsOutpost() const = 0;
+    virtual bool IsEnemyOutpost(ICvUnit1 *) const = 0;
+    virtual bool IsFighting() const = 0;
+    virtual bool IsTradeRoute(PlayerTypes) const = 0;
+    virtual bool IsImpassable() const = 0;
+    virtual bool HasMiasma() const = 0;
+    virtual bool HasBubbles() const = 0;
+    virtual void GetPosition(int &, int &) const = 0;
+    virtual bool IsNEOfRiver() const = 0;
+    virtual bool IsWOfRiver() const = 0;
+    virtual bool IsNWOfRiver() const = 0;
+    virtual FlowDirectionTypes GetRiverEFlowDirection() const = 0;
+    virtual FlowDirectionTypes GetRiverSEFlowDirection() const = 0;
+    virtual FlowDirectionTypes GetRiverSWFlowDirection() const = 0;
+    virtual PlayerTypes GetOwner() const = 0;
+    virtual PlotTypes GetPlotType() const = 0;
+    virtual bool IsWater() const = 0;
+    virtual bool IsHills() const = 0;
+    virtual bool IsOpenGround() const = 0;
+    virtual bool IsMountain() const = 0;
+    virtual bool IsCanyon() const = 0;
+    virtual TerrainTypes GetTerrainType() const = 0;
+    virtual FeatureTypes GetFeatureType() const = 0;
+    virtual HeroLandmarkTypes GetHeroLandmarkType() const = 0;
+    virtual int GetHeroLandmarkPiece() const = 0;
+    virtual int GetHeroLandmarkOrientation() const = 0;
+    virtual ResourceTypes GetResourceType(TeamTypes) const = 0;
+    virtual int GetNumResource() const = 0;
+    virtual ImprovementTypes GetImprovementType() const = 0;
+    virtual bool IsImprovementPillaged() const = 0;
+    virtual bool IsImprovementActivated() const = 0;
+    virtual GenericWorldAnchorTypes GetWorldAnchor() const = 0;
+    virtual int GetWorldAnchorData() const = 0;
+    virtual RouteTypes GetRouteType() const = 0;
+    virtual bool IsRoutePillaged() const = 0;
+    virtual ICvCity1 * GetPlotCity() const = 0;
+    virtual ICvCity1 * GetWorkingCity() const = 0;
+    virtual ICvOutpost1 * GetPlotOutpost() const = 0;
+    virtual ICvStrategicSite1 * GetPlotStrategicSite() const = 0;
+    virtual bool IsRevealed(TeamTypes, bool) const = 0;
+    virtual void SetRevealed(TeamTypes) = 0;
+    virtual ImprovementTypes GetRevealedImprovementType(TeamTypes, bool) const = 0;
+    virtual int GetBuildProgress(BuildTypes) const = 0;
+    virtual bool GetAnyBuildProgress() const = 0;
+    virtual void UpdateLayout(bool) = 0;
+    virtual ICvUnit1 * GetCenterUnit() = 0;
+    virtual int GetNumUnits() const = 0;
+    virtual ICvUnit1 * GetUnitByIndex(int) const = 0;
+    virtual void AddUnit(ICvUnit1 *, bool) = 0;
+    virtual void RemoveUnit(ICvUnit1 *, bool) = 0;
+    virtual const IDInfo * NextUnitNode(const IDInfo *) const = 0;
+    virtual IDInfo * NextUnitNode(IDInfo *) = 0;
+    virtual IDInfo * HeadUnitNode() = 0;
+    virtual int GetPlotIndex() const = 0;
+    virtual char GetContinentType() const = 0;
+    virtual void UpdateImpassable() = 0;
+    virtual FAutoArchive & GetSyncArchive() = 0;
+};
+class ICvCovertAgent1 : public ICvUnknown {
+
+  public:
+    static GUID GetInterfaceId();
+    virtual PlayerTypes GetOwner() const = 0;
+    virtual int GetRank() const = 0;
+    virtual std::string GetName() const = 0;
+    virtual int GetIndex() const = 0;
+    virtual int GetNumOperationsCompleted() const = 0;
+    virtual int GetRankProgressRate() const = 0;
+    virtual int GetNumTurnsInCity() const = 0;
+    virtual bool GetHasEstablishedNetwork() const = 0;
+    virtual std::unique_ptr<ICvCity1> GetCity() const = 0;
+    virtual bool IsIdle() const = 0;
+    virtual bool IsTraveling() const = 0;
+    virtual bool CanTravel() const = 0;
+    virtual bool IsDead() const = 0;
+    virtual int GetGoal() const = 0;
+    virtual int GetProgress() const = 0;
+    virtual bool IsAtHeadquarters() const = 0;
+    virtual bool IsDoingCounterIntelligence() const = 0;
+    virtual bool CanDoAnyOperation() const = 0;
+    virtual std::tuple<bool, std::string> CanDoOperation(CovertOperationTypes) const = 0;
+};
+
+// Beyond Earth uses one world-builder loader interface.
+static const GUID guidICvWorldBuilderMapLoader1 =
+{0xa09a58e8, 0x42e5, 0x436b, {0xbc, 0x68, 0x95, 0xd8, 0x2f, 0x9b, 0xb5, 0x6c}};
+
+class ICvWorldBuilderMapLoader1 : public ICvUnknown
+{
+public:
+	static GUID DLLCALL GetInterfaceId() { return guidICvWorldBuilderMapLoader1; }
+
+	virtual const CvWorldBuilderMapLoaderMapInfo& DLLCALL GetCurrentMapInfo() = 0;
+	virtual bool DLLCALL Preload( _In_z_ const wchar_t* wszFilename, bool bScenario) = 0;
+	virtual void DLLCALL SetupGameOptions() = 0;
+	virtual void DLLCALL SetupPlayers() = 0;
+	virtual void DLLCALL SetInitialItems(bool bFirstCall) = 0;
+	virtual bool DLLCALL InitMap() = 0;
+	virtual bool DLLCALL Save( _In_z_ const wchar_t* wszFilename, const char *szMapName = NULL) = 0;
+	virtual int DLLCALL LoadModData(lua_State *L) = 0;
+	virtual void DLLCALL ValidateTerrain() = 0;
+	virtual void DLLCALL ValidateCoast() = 0;
+	virtual void DLLCALL ClearResources() = 0;
+	virtual void DLLCALL ClearGoodies() = 0;
+	virtual void DLLCALL ResetPlayerSlots() = 0;
+	virtual void DLLCALL MapPlayerToSlot(uint uiPlayer, PlayerTypes ePlayerSlot) = 0;
+	virtual unsigned int DLLCALL PreviewPlayableCivCount( _In_z_ const wchar_t* wszFilename) = 0;
+	virtual int DLLCALL GetMapPreview(lua_State *L) = 0;
+	virtual int DLLCALL GetMapPlayers(lua_State *L) = 0;
+	virtual int DLLCALL AddRandomItems(lua_State *L) = 0;
+	virtual int DLLCALL ScatterResources(lua_State *L) = 0;
+	virtual int DLLCALL ScatterGoodies(lua_State *L) = 0;
+
+	// Beyond Earth inserts marvel placement before player-slot queries.
+	virtual void DLLCALL GetMarvelMapPositions(int iMinX, int iMinY, int iMaxX, int iMaxY, FFastVector<TFGXInt2<int> >& positions) = 0;
+
+	virtual PlayerTypes DLLCALL GetMapPlayerSlot(uint uiPlayer) = 0;
+	virtual int DLLCALL GetMapPlayerCount() = 0;
+
+
+	virtual void DLLCALL GenerateRandomMap(const char* szMapScript) = 0;
+	virtual WorldSizeTypes DLLCALL GetWorldSizeType() const = 0;
+};
+//------------------------------------------------------------------------------

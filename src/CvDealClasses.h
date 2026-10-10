@@ -149,4 +149,24 @@ public:
 FDataStream& operator>>(FDataStream&, CvDeal&);
 FDataStream& operator<<(FDataStream&, const CvDeal&);
 
-// TODO: CvGameDeals.
+class CvGameDeals
+{
+public:
+	CvGameDeals();
+	virtual ~CvGameDeals();
+	void AddProposedDeal(CvDeal kDeal);
+	bool FinalizeDeal(PlayerTypes eFromPlayer, PlayerTypes eToPlayer, bool bAccepted);
+	CvDeal* GetTempDeal();
+	void SetTempDeal(CvDeal* pDeal);
+	PlayerTypes HasMadeProposal(PlayerTypes eFromPlayer);
+	bool ProposedDealExists(PlayerTypes eFromPlayer, PlayerTypes eToPlayer);
+	CvDeal* GetProposedDeal(PlayerTypes eFromPlayer, PlayerTypes eToPlayer);
+	CvDeal* GetCurrentDeal(PlayerTypes ePlayer, uint index);
+	CvDeal* GetHistoricDeal(PlayerTypes ePlayer, uint indx);
+	uint GetNumCurrentDeals(PlayerTypes ePlayer);
+	uint GetNumHistoricDeals(PlayerTypes ePlayer);
+	uint CreateDeal();
+	CvDeal* GetDeal(uint index);
+	void DestroyDeal(uint index);
+	// TODO: CvGameDeals (remaining methods and native members).
+};

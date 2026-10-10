@@ -25,11 +25,13 @@ public:
 
 	~CvString() {}
 
-	CvString& operator=(const char* s) { if(s) assign(s); else clear(); return *this; }
+	// Beyond Earth's notification cache calls this SDK helper out of line.
+	__attribute__((noinline)) CvString& operator=(const char* s) { if(s) assign(s); else clear(); return *this; }
 	CvString& operator=(const std::string& s) { assign(s.c_str()); return *this; }
 	operator const char*() const { return c_str(); }
 	const char* GetCString() const { return c_str(); }
 	void Format(const char* lpszFormat, ...);
+	static CvString format(const char* lpszFormat, ...);
 
 	// TODO: CvString (remaining SDK constructors and helper methods).
 };

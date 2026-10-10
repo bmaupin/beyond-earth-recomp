@@ -11,6 +11,7 @@ public:
 	};
 
 	virtual void Msg(const char* format, ...) = 0;
+	virtual void DebugMsg(const char* format, ...) = 0;
 
 protected:
 	FILogFile() {}

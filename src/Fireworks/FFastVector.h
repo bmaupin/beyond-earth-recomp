@@ -134,3 +134,10 @@ public:
 	~FFastVector();
 	// TODO: FFastVector constructors, destructor, and remaining SDK methods.
 };
+
+// SDK fixed-list storage; list operations remain to be reconstructed.
+template<class T, unsigned int L, bool bPODType, unsigned int AllocPool, unsigned int nSubID = 0>
+class FFastSmallFixedList
+{
+	FStaticVector<T, L, bPODType, AllocPool, nSubID> mVec;
+};

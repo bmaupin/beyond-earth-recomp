@@ -56,14 +56,15 @@ TODO: Add examples of differences in the disassembly that would still be conside
    1. Compare the functions to determine if they already match with no additional changes needed
 
    1. If the functions do not match, check a different Civ 5 game core to see if there's a matching function (Civ 5 has 3 different game cores all with source)
+      - If a match is found, do not compare it to other Civ 5 game cores, only use the matching game core
 
    1. If the functions match, copy the function from the Civ 5 game core source to an identically named file in [`src/`](../../src/)
 
 1. If the functions do not match, or the functions only exist in Beyond Earth and not Civ 5
-   1. If the changed or new regions for a function contain more than 100 machine instructions in total (excluding alignment padding), do not implement the function but add a TODO with the function name, e.g.
+   1. If the changed or new regions for a function contain more than 100 machine instructions in total that need to be implemented (excluding alignment padding), do not implement the function but add a TODO with the function name and number of new or changed instructions, e.g.
 
       ```c++
-      // TODO: CvPlayerManager::RefreshDangerPlots()
+      // TODO: CvPlayerManager::RefreshDangerPlots() (127 changed instructions)
       ```
 
       Then skip the steps below and instead move to the next function
@@ -162,7 +163,14 @@ TODO: Add examples of differences in the disassembly that would still be conside
       - Increment for every function that exists in Beyond Earth but not in Civ 5
       - Decrement for every function that exists in Civ 5 but not in Beyond Earth
 
-1. If an AI agent is performing these steps, generate a document in `docs/ai` containing only the information listed below:
-   - For each `.cpp` file created or modified in this project, a table containing a list of functions with columns for whether the function exists in Beyond Earth, whether the function exists in Civ 5, and if the function matches between the two without any modifications
-     - For functions that do not match, create a section below the table for each function with bullet points consisely describing the differences
-   - For any other files added to or modified in the project (e.g. `.h` files), add a section with bullet points consisely describing what was added or modified in order to make the functions match, noting any significant differences between the Beyond Earth and Civ 5 source
+1. If an AI agent is performing these steps, provide a minimal summary at the end or a document in `docs/ai` containing:
+   - A table with a row for the `.cpp` file as well as its corresponding `.h` file with these columns:
+     - The name of the file
+     - Whether that file was copied without changes from Civ 5 or if it needed modifications
+     - If the file has any remaining functions that need to be implemented
+     - How long it took to implement the file
+   - A table for each file with remaining functions that need to be implemented with these columns:
+     - The name of the file
+     - The name of the function
+     - How many instructions the function has including how many changed/new
+   - If a file is created, provide a link

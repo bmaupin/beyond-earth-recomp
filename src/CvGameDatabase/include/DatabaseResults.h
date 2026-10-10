@@ -15,7 +15,10 @@ namespace Database
 		bool Step();
 		bool Reset();
 		bool Bind(int idx, const char* szValue, bool bMakeCopy = true);
+		const char* GetText(const char* szColumn);
 		int GetInt(int iColumn);
+		int GetInt(const char* szColumn);
+		bool GetBool(const char* szColumn);
 		void* operator new(size_t tSize);
 		void operator delete(void* pMem);
 

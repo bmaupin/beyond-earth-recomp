@@ -11,6 +11,7 @@
 #define UNREFERENCED_PARAMETER(P) (void)(P)
 
 #define _In_
+#define _In_z_
 #define _Ret_maybenull_
 
 struct _GUID
@@ -22,6 +23,7 @@ struct _GUID
 };
 typedef _GUID GUID;
 typedef unsigned char byte;
+typedef unsigned int DWORD;
 
 inline bool operator==(const GUID& lhs, const GUID& rhs)
 {

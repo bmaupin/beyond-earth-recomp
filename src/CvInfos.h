@@ -44,7 +44,11 @@ class CvBaseInfo
 {
 public:
 	CvBaseInfo();
+	~CvBaseInfo();
 	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
+	virtual bool operator==(const CvBaseInfo&) const;
+	virtual void readFrom(FDataStream&);
+	virtual void writeTo(FDataStream&) const;
 	const char* GetDescription() const
 	{
 		return m_strDescription.c_str();
@@ -228,6 +232,7 @@ public:
 	virtual ~CvGameSpeedInfo();
 
 	// Beyond Earth adds turn thresholds exposed by the DLL wrapper.
+	int getCreatePercent() const;
 	int getMidGameTurn() const;
 	int getLateGameTurn() const;
 	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
@@ -242,6 +247,8 @@ public:
 
 	// Beyond Earth replaces getBarbSpawnMod with getAlienSpawnMod.
 	int getAlienSpawnMod() const;
+	int getAIWorldCreatePercent() const;
+	int getAICreatePercent() const;
 	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
 	// TODO: CvHandicapInfo (remaining SDK methods and Beyond Earth members).
 };

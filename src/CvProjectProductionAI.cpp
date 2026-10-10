@@ -148,6 +148,7 @@ int CvProjectProductionAI::ChooseWonderPlotIndex(ProjectTypes eProject) const
 		iBestPlot = GC.getMap().plotByIndexUnchecked(vPlots.front())->GetPlotIndex();
 	return iBestPlot;
 }
+
 // Beyond Earth routes city relocation separately from other plot-based projects.
 int CvProjectProductionAI::ChooseProjectPlotIndex(ProjectTypes eProject) const
 {
