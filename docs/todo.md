@@ -26,7 +26,7 @@ Ordered by each file’s size plus its directly included project headers.
 - [x] cvStopWatch.cpp (5.1K)
 - [x] CvGoodyHuts.cpp (5.2K)
 - [x] CvReplayMessage.cpp (6.5K)
-- [ ] CvProjectProductionAI.cpp (7.3K)
+- [x] CvProjectProductionAI.cpp (7.3K)
 - [x] Lua/CvLuaGameInfo.cpp (7.6K)
 - [x] CvPlotManager.cpp (11.2K)
 - [x] CvPopupReturn.cpp (11.6K)

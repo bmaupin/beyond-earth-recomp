@@ -33,6 +33,8 @@ public:
 
 	CvDeal* UnwrapDealPointer(ICvDeal1* pDeal);
 	CvProjectXMLEntries* GetGameProjects() const;
+	// TODO: CvGlobals::getPROJECT_MOVE_CITY() (reconstruct the real layout through m_iPROJECT_MOVE_CITY).
+	int getPROJECT_MOVE_CITY() const;
 	bool getLogging();
 	bool getAILogging();
 	Database::Connection* GetGameDatabase()
@@ -42,6 +44,10 @@ public:
 	const Database::Connection* GetGameDatabase() const
 	{
 		return m_pGameDatabase;
+	}
+	CvMap& getMap()
+	{
+		return *m_map;
 	}
 	CvGame& getGame()
 	{

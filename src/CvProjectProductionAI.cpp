@@ -124,8 +124,45 @@ int ScorePlotByCityProximity(const CvPlayer& kPlayer, const CvPlot& kPlot, const
 	return iScore;
 }
 
-// TODO: CvProjectProductionAI::ChooseWonderPlotIndex(ProjectTypes) const (Beyond Earth only).
-// TODO: CvProjectProductionAI::ChooseProjectPlotIndex(ProjectTypes) const (Beyond Earth only).
+// Beyond Earth selects the highest proximity score, falling back to the first valid plot.
+int CvProjectProductionAI::ChooseWonderPlotIndex(ProjectTypes eProject) const
+{
+	if(!m_pCity || m_pCity->IsPuppet())
+		return -1;
+
+	std::vector<int> vPlots;
+	m_pCity->GetProjectPlotList(eProject, vPlots);
+	int iBestPlot = -1;
+	int iBestScore = 0;
+	for(std::vector<int>::const_iterator it = vPlots.begin(); it != vPlots.end(); ++it)
+	{
+		CvPlot* pPlot = GC.getMap().plotByIndexUnchecked(*it);
+		int iScore = ScorePlotByCityProximity(GET_PLAYER(m_pCity->getOwner()), *pPlot, m_pCity);
+		if(iScore > iBestScore)
+		{
+			iBestPlot = pPlot->GetPlotIndex();
+			iBestScore = iScore;
+		}
+	}
+	if(iBestPlot == -1 && !vPlots.empty())
+		iBestPlot = GC.getMap().plotByIndexUnchecked(vPlots.front())->GetPlotIndex();
+	return iBestPlot;
+}
+// Beyond Earth routes city relocation separately from other plot-based projects.
+int CvProjectProductionAI::ChooseProjectPlotIndex(ProjectTypes eProject) const
+{
+	if(eProject == GC.getPROJECT_MOVE_CITY())
+	{
+		int iScore;
+		CvPlot* pPlot = m_pCity->GetBestCityMovePlot(&iScore);
+		return pPlot ? pPlot->GetPlotIndex() : -1;
+	}
+
+	CvProjectEntry* pProject = GC.GetGameProjects()->GetEntry(eProject);
+	if(pProject && pProject->IsPlotProject())
+		return ChooseWonderPlotIndex(eProject);
+	return -1;
+}
 
 /// Recommend highest-weighted Project
 ProjectTypes CvProjectProductionAI::RecommendProject()

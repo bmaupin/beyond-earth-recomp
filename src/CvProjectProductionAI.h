@@ -44,14 +44,12 @@ public:
 
 	// Recommend highest-weighted Project
 	ProjectTypes RecommendProject();
-	// TODO: ChooseProjectPlotIndex (Beyond Earth only).
 	int ChooseProjectPlotIndex(ProjectTypes eProject) const;
 
 	// Logging
 	void LogPossibleBuilds();
 
 private:
-	// TODO: ChooseWonderPlotIndex (Beyond Earth only).
 	int ChooseWonderPlotIndex(ProjectTypes eProject) const;
 
 	// Private data

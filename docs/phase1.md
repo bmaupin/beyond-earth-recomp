@@ -60,7 +60,7 @@ TODO: Add examples of differences in the disassembly that would still be conside
    1. If the functions match, copy the function from the Civ 5 game core source to an identically named file in [`src/`](../../src/)
 
 1. If the functions do not match, or the functions only exist in Beyond Earth and not Civ 5
-   1. If the changed or new regions for a function contain more than 100 machine instructions in total or span more than 10 distinct basic blocks (excluding alignment padding), do not implement the function but add a TODO with the function name, e.g.
+   1. If the changed or new regions for a function contain more than 100 machine instructions in total (excluding alignment padding), do not implement the function but add a TODO with the function name, e.g.
 
       ```c++
       // TODO: CvPlayerManager::RefreshDangerPlots()
@@ -84,6 +84,7 @@ TODO: Add examples of differences in the disassembly that would still be conside
       ```
 
       - Decompiled code from Ghidra may be helpful in reconstructing missing source code
+      - Do not write unit tests; the source code will be compiled and compared to the Beyond Earth game core binary
 
 1. Also copy any necessary supporting structures from the Civ 5 game core source `.h` files into matching files in [`src/`](../../src/)
    - Keep the source as close as possible to the Civ 5 game core; use the same file layout, include headers, comments, etc.
@@ -93,9 +94,9 @@ TODO: Add examples of differences in the disassembly that would still be conside
         1. `src/CvInfos.h` should be updated to include the definition for `CvBuildingClassInfo`
         1. `src/CvGameCoreDLLPCH.h` should be updated to include `CvInfos.h`
         1. `src/CvGlobals.h` should be updated to include references for `CvBuildingClassInfo`
-   - Do not:
-     - Add extra imports that were not in the source files
-     - Add extra structures to create padding for ABI compatibility
+   - Do not add extra imports that were not in the source files
+   - Do not fabricate ABI layout using padding, placeholder members, raw byte offsets, or hardcoded object/array strides—even when verified against the binary
+     - If the required layout is incomplete, leave the accessor declared with a specific TODO. Do not substitute an ABI shortcut
 
 1. Compile the source, e.g.
 

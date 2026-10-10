@@ -34,6 +34,8 @@
 #include "CvGameCoreDLLUtil/include/CvWeightedVector.h"
 #include "CvProjectClasses.h"
 #include "CvCity.h"
+#include "CvPlot.h"
+#include "CvMap.h"
 #include "CvCityStrategyAI.h"
 #include "CvPlayerAI.h"
 #include "CvGame.h"
