@@ -18,6 +18,9 @@ public:
 	// File IO
 	virtual bool LoadFile(lua_State* L, const char* szFilename) = 0;
 
+	virtual void CallCFunction(lua_State* L, int (*pfn)(lua_State*), void* pArgs) = 0;
+	virtual void CallFunction(lua_State* L, int iArgs, int iResults) = 0;
+
 	// TODO: Identify Beyond Earth's additional virtual method before CreateArgs.
 
 	//Arguments

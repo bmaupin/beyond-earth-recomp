@@ -78,6 +78,27 @@ private:
 };
 
 // Partial SDK civilization declarations; native getters remain external.
+class CvProcessInfo : public CvBaseInfo
+{
+public:
+	CvProcessInfo();
+	virtual ~CvProcessInfo();
+
+	int getTechPrereq() const;
+	int getProductionToYieldModifier(int i) const;
+	int GetFlavorValue(int i) const;
+	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
+
+protected:
+	int m_iTechPrereq;
+	int* m_paiProductionToYieldModifier;
+	int* m_paiFlavorValue;
+
+private:
+	CvProcessInfo(const CvProcessInfo&);
+	CvProcessInfo& operator=(const CvProcessInfo&);
+};
+
 class CvCivilizationBaseInfo : public CvBaseInfo
 {
 public:
@@ -126,6 +147,7 @@ class CvWorldInfo : public CvBaseInfo
 {
 public:
 	CvWorldInfo();
+	int getTargetNumCities() const;
 	int getDefaultPlayers() const;
 	int getGridWidth() const;
 	int getGridHeight() const;
@@ -193,6 +215,24 @@ public:
 	// TODO: CvTerrainInfo (remaining SDK methods and Beyond Earth members).
 };
 
+class CvMinorCivInfo : public CvBaseInfo
+{
+public:
+	CvMinorCivInfo();
+	virtual ~CvMinorCivInfo();
+	int GetMinorCivTrait() const;
+
+	int getDefaultPlayerColor() const;
+	int getArtStyleType() const;
+	int getNumCityNames() const;
+	const char* getArtStylePrefix() const;
+	const char* getArtStyleSuffix() const;
+	const CvString& getCityNames(int i) const;
+	int getFlavorValue(int i) const;
+
+	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
+};
+
 class CvPlayerColorInfo : public CvBaseInfo
 {
 public:
@@ -249,6 +289,8 @@ public:
 	int getAlienSpawnMod() const;
 	int getAIWorldCreatePercent() const;
 	int getAICreatePercent() const;
+	int GetAITechNumOptions() const;
+	int GetAIVirtueNumOptions() const;
 	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
 	// TODO: CvHandicapInfo (remaining SDK methods and Beyond Earth members).
 };
@@ -396,6 +438,7 @@ public:
 	virtual ~CvLeaderHeadInfo();
 
 	const char* getArtDefineTag() const;
+	int getFlavorValue(int i) const;
 
 	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
 	// TODO: CvLeaderHeadInfo (remaining SDK methods and Beyond Earth members).

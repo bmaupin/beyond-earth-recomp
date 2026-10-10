@@ -36,6 +36,11 @@ struct IDInfo
 		return (eOwner != other.eOwner || iID != other.iID);
 	}
 
+	bool operator<(const IDInfo& other) const
+	{
+		return eOwner != other.eOwner ? eOwner < other.eOwner : iID < other.iID;
+	}
+
 	void reset()
 	{
 		eOwner = NO_PLAYER;
@@ -68,6 +73,21 @@ struct UnitMoveRate
 	float m_fRowOffset;
 	float m_fCurveRoll;
 	int m_iPathSubdivision;
+};
+
+struct CvMapInitData
+{
+	int m_iGridW;
+	int m_iGridH;
+	int m_iTopLatitude;
+	int m_iBottomLatitude;
+	bool m_bWrapX;
+	bool m_bWrapY;
+
+	CvMapInitData(int iGridW = 0, int iGridH = 0, int iTopLatitude = 90,
+		int iBottomLatitude = -90, bool bWrapX = true, bool bWrapY = false)
+		: m_iGridW(iGridW), m_iGridH(iGridH), m_iTopLatitude(iTopLatitude),
+		m_iBottomLatitude(iBottomLatitude), m_bWrapX(bWrapX), m_bWrapY(bWrapY) {}
 };
 
 // TODO: CvStructs.h (remaining SDK structures).

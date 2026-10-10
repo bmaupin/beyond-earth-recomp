@@ -28,6 +28,15 @@ public:
 	//! Call Lua function to obtain initial game items overrides.
 	bool GetGameInitialItemsOverrides(CvGameInitialItemsOverrides& kOverrides);
 
+	void RegisterLua();
+	static int lCalculateRegions(lua_State* L);
+	static int lGetNumRegions(lua_State* L);
+	static int lGetNumMatchingNeighborPlots(lua_State* L);
+	static int lDoForEachNeighborPlot(lua_State* L);
+	static int lDoForEachRingPlot(lua_State* L);
+	static int lGetPlotLinearDistanceFromRegionCentroid(lua_State* L);
+	static int lGetPlotHexDistanceFromRegionCentroid(lua_State* L);
+
 protected:
 
 	//! Protected Lua continuation of GetMapInitData.

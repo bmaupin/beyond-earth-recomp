@@ -6,11 +6,15 @@
 #include "CvCityNativeContainers.h"
 #include "CvCityStrategicSite.h"
 
+class CvBuildingXMLEntries;
+
 class CvCityBuildings
 {
 public:
 	int GetNumBuildings() const;
+	int GetNumBuilding(BuildingTypes eBuilding) const;
 	int GetNumBuildingClass(BuildingClassTypes eBuildingClass) const;
+	CvBuildingXMLEntries* GetBuildings() const;
 };
 
 class CvPlayer;
@@ -48,13 +52,18 @@ class CvCity
 public:
 	// Beyond Earth adds the optional failure-message argument.
 	bool canCreate(ProjectTypes eProject, bool bContinue = false, bool bTestVisible = false, CvString* pFailureMessage = NULL) const;
+	bool canConstruct(BuildingTypes eBuilding, bool bContinue = false, bool bTestVisible = false, bool bIgnoreCost = false, CvString* pFailureMessage = NULL) const;
+	bool canTrain(UnitTypes eUnit, bool bContinue = false, bool bTestVisible = false, bool bIgnoreCost = false, bool bIgnoreUniqueUnitStatus = false, CvString* pFailureMessage = NULL) const;
 	const CvPlayer* GetPlayer() const;
 	CvCityBuildings* GetCityBuildings() const;
 	int GetMoveCityCostModifier() const;
+	int getProductionTurnsLeft(BuildingTypes eBuilding, int iNum) const;
+	int getProductionTurnsLeft(UnitTypes eUnit, int iNum) const;
 	int getProductionTurnsLeft(ProjectTypes eProject, int iNum) const;
 	virtual ~CvCity();
 	int GetID() const { return m_iID; }
 	PlayerTypes getOwner() const { return m_eOwner; }
+	bool isCitySelected() const;
 	int getX() const { return m_iX; }
 	int getY() const { return m_iY; }
 	int getPopulation() const;
@@ -65,6 +74,7 @@ public:
 	int foodDifference(bool) const;
 	int getFoodTurnsLeft() const;
 	int getYieldRate(YieldTypes, bool bIgnoreTrade = false) const;
+	int getYieldRateTimes100(YieldTypes, bool bIgnoreTrade = false) const;
 	int getCulturePerTurn() const;
 	IDInfo GetIDInfo() const;
 	FAutoArchive& getSyncArchive();

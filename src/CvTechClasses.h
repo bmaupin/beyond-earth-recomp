@@ -12,6 +12,7 @@ public:
 	~CvTechEntry(void);
 
 	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
+	int GetFlavorValue(int i) const;
 	int GetEra() const;
 	const char* GetSound() const;
 	const char* GetSoundMP() const;
@@ -19,10 +20,67 @@ public:
 	// Beyond Earth uses polar coordinates for the technology web.
 	int GetGridRadius() const;
 	int GetGridDegrees() const;
+	int GetAffinityValue(AffinityType eAffinity) const;
+	bool IsLeafTech() const;
+	int GetNumConnectedTechs() const;
+	TechTypes GetConnectedTechs(int iIndex) const;
 	// TODO: CvTechEntry (remaining SDK methods and Beyond Earth members).
 };
 
-// TODO: CvTechXMLEntries, CvTechAI and CvPlayerTechs.
+class CvTechXMLEntries
+{
+public:
+	int GetNumTechs() const;
+	CvTechEntry* GetEntry(int iIndex);
+};
+
+class CvTechAI
+{
+public:
+	CvTechAI(CvPlayerTechs* currentTechs);
+	~CvTechAI();
+	void Reset();
+	void Read(FDataStream& kStream);
+	void Write(FDataStream& kStream) const;
+	int GetQuestSpecificWeight(TechTypes eTech, int& iWeight, int& iPropagationPercent) const;
+	void AddQuestWeights(int iWeight);
+	void WeightConnections(int iTech, int iWeight, int iPropagationPercent, int iPropagationLevel);
+	void AddFlavorWeights(FlavorTypes eFlavor, int iWeight, int iPropagationPercent);
+	TechTypes ChooseNextTech(bool bFreeTech = false);
+	void ReweightByAffinity();
+	void ReweightByCost();
+	void ReweightByStrategy();
+	void LogPossibleResearch();
+	void LogResearchChoice(TechTypes eTech);
+	TechTypes RecommendNextTech(TechTypes eIgnoreTech = NO_TECH);
+	float GetTechRatio();
+	bool IsAffinityMatch(const CvPlayerAI& kPlayer, TechTypes eTech);
+	bool HasLeafAffinityMatch(AffinityType eAffinity, TechTypes eTech, int* piWeight);
+	bool IsAffinityBooster(TechTypes eTech, AffinityType* peAffinity, int* piWeight);
+	bool ShouldBoostNonChosenAffinity(const CvPlayerAI& kPlayer) const;
+	CvString GetLogFileName(CvString& playerName) const;
+	int GetWeight(TechTypes eTech);
+
+private:
+	CvPlayerTechs* m_pCurrentTechs;
+	CvWeightedVector<int, 80, true> m_TechAIWeights;
+	CvWeightedVector<int, 80, true> m_ResearchableTechs;
+};
+
+class CvPlayerTechs
+{
+public:
+	TechTypes GetCurrentResearch() const;
+	CvTechXMLEntries* GetTechs() const;
+	CvTechAI* GetTechAI() const;
+	CvPlayer* GetPlayer();
+	bool CanResearch(TechTypes eTech, bool bTrade = false) const;
+	bool CanResearchForFree(TechTypes eTech) const;
+	bool IsResearched(TechTypes eTech) const;
+	int GetResearchTurnsLeft(TechTypes eTech, bool bOverflow) const;
+	int GetNumTechsKnown() const;
+};
+
 class CvTeamTechs
 {
 public:

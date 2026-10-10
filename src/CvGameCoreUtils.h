@@ -4,7 +4,10 @@
 
 class CvPlot;
 
+CvPlot* plotDirection(int iX, int iY, DirectionTypes eDirection);
+
 bool isWorldProject(ProjectTypes eProject);
+void getUnitAIString(CvString& strString, UnitAITypes eUnitAI);
 
 // Beyond Earth adds a plot-pointer overload of the distance utility.
 int plotDistance(const CvPlot* pPlot1, const CvPlot* pPlot2);

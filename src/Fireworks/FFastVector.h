@@ -76,6 +76,7 @@ class FStaticVector : public BaseVector<T, bPODType>
 {
 	// Standard C++ dependent-base lookup; SDK method bodies remain unchanged.
 	using BaseVector<T, bPODType>::m_uiCurrMaxSize;
+	using BaseVector<T, bPODType>::m_uiCurrSize;
 	using BaseVector<T, bPODType>::m_pData;
 
 public:
@@ -93,11 +94,18 @@ public:
 	// TODO: FStaticVector::~FStaticVector and push_back (SDK definitions).
 	~FStaticVector();
 	unsigned int push_back(const T& element);
+	void resize(unsigned int uiNewSize)
+	{
+		if(uiNewSize > m_uiCurrMaxSize)
+			GrowSize(uiNewSize);
+		m_uiCurrSize = uiNewSize;
+	}
 	// TODO: FStaticVector::erase (SDK definition).
 	void erase(iterator it);
 
 protected:
 	// Allocate memory as bytes
+	void GrowSize(unsigned int uiNewSize);
 	T* Alloc(unsigned int uiSize){
 		T* pRet;
 		if( uiSize > L ){

@@ -46,6 +46,7 @@
 #include "CvNotificationClasses.h"
 #include "Fireworks/FString.h"
 #include "CvUnitClasses.h"
+#include "CvUnitProductionAI.h"
 #include "CvBuildingClasses.h"
 #include "CvImprovementClasses.h"
 #include "CvDealClasses.h"

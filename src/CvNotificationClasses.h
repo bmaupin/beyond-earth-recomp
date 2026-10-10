@@ -7,6 +7,16 @@
 
 class CvDatabaseUtility;
 
+class CvNotifications
+{
+public:
+	int Add(NotificationTypes eType, const char* message, const char* summary, int iX, int iY, int iGameDataIndex, int iExtraGameData);
+	void Activate(int iLookupIndex);
+	void Dismiss(int iLookupIndex, bool bUserInvoked);
+	bool MayUserDismiss(int iLookupIndex);
+	void Rebroadcast();
+};
+
 class CvNotificationEntry
 {
 public:

@@ -4,6 +4,8 @@
 #include "FDefNew.h"
 #include "FMemHooks.h"
 #include "FFastVector.h"
+#include <memory>
+#include <vector>
 
 // The Linux port uses the default calling convention for these interfaces.
 #define DLLCALL
@@ -16,6 +18,17 @@ static const GUID guidICvUnknown =
 //------------------------------------------------------------------------------
 // Base Interfaces
 //------------------------------------------------------------------------------
+struct CvCombatMemberEntry;
+struct IDInfo;
+class CvCombatInfo;
+class CvString;
+class FAutoArchive;
+class ICvMissionData1;
+class ICvPlayer1;
+class ICvUnit1;
+class ICvUnitInfo1;
+class ICvStrategicSite1;
+class ICvPlot1;
 struct CvWorldBuilderMapLoaderMapInfo;
 struct lua_State;
 template<class T> class TFGXInt2;
@@ -46,6 +59,37 @@ protected:
 	virtual void DLLCALL Destroy() = 0;
 };
 
+// {A08E5C02-8892-4E5A-ACD1-6D40907548BB}
+static const GUID guidICvCombatInfo1 =
+{0xa08e5c02, 0x8892, 0x4e5a, {0xac, 0xd1, 0x6d, 0x40, 0x90, 0x75, 0x48, 0xbb}};
+
+class ICvCombatInfo1 : public ICvUnknown
+{
+public:
+	static GUID DLLCALL GetInterfaceId() { return guidICvCombatInfo1; }
+
+	virtual ICvUnit1* DLLCALL GetUnit(BattleUnitTypes unitType) const = 0;
+	virtual ICvStrategicSite1* DLLCALL GetStrategicSite(BattleUnitTypes unitType) const = 0;
+	virtual ICvPlot1* DLLCALL GetPlot() const = 0;
+
+	virtual bool DLLCALL GetAttackerAdvances() const = 0;
+	virtual bool DLLCALL GetVisualizeCombat() const = 0;
+	virtual int DLLCALL GetDamageInflicted(BattleUnitTypes unitType) const = 0;
+	virtual int DLLCALL GetFinalDamage(BattleUnitTypes unitType) const = 0;
+	virtual void* DLLCALL TEMPGetRawCombatInfo() const = 0;
+	virtual const CvCombatMemberEntry* DLLCALL GetDamageMember(int iIndex) const = 0;
+	virtual int DLLCALL GetDamageMemberCount() const = 0;
+	virtual int DLLCALL GetMaxDamageMemberCount() const = 0;
+	virtual bool DLLCALL GetDefenderRetaliates() const = 0;
+	virtual int DLLCALL GetNuclearDamageLevel() const = 0;
+	virtual bool DLLCALL GetAttackIsRanged() const = 0;
+	virtual bool DLLCALL GetAttackIsBombingMission() const = 0;
+	virtual bool DLLCALL GetAttackIsAirSweep() const = 0;
+	virtual bool DLLCALL GetDefenderCaptured() const = 0;
+	virtual bool DLLCALL GetAttackIsAgainstOrbital() const = 0;
+	virtual unsigned int DLLCALL GetVisFXHash() const = 0;
+};
+
 // {DEB48522-90CD-4925-83AA-DB514AC024D8}
 static const GUID guidICvEnumerator =
 {0xdeb48522, 0x90cd, 0x4925, {0x83, 0xaa, 0xdb, 0x51, 0x4a, 0xc0, 0x24, 0xd8}};
@@ -63,6 +107,16 @@ class ICvGame1 : public ICvUnknown
 public:
 	static GUID DLLCALL GetInterfaceId() { return guidICvGame1; }
 	// TODO: ICvGame1 (remaining members).
+};
+
+// Beyond Earth's station wrapper uses this interface identity.
+static const GUID guidICvStation1 =
+{0x753f3a60, 0x0d81, 0x40d6, {0xa9, 0x69, 0x59, 0x02, 0xd4, 0x12, 0x95, 0xec}};
+
+class ICvStation1 : public ICvUnknown
+{
+public:
+	static GUID DLLCALL GetInterfaceId() { return guidICvStation1; }
 };
 
 class ICvGameAsynch1 : public ICvUnknown
@@ -129,6 +183,123 @@ public:
 };
 
 class ICvDeal1;
+
+// {4505FBCB-7C69-474F-A0F0-34B0A0B344BB}
+static const GUID guidICvDealAI1 =
+{0x4505fbcb, 0x7c69, 0x474f, {0xa0, 0xf0, 0x34, 0xb0, 0xa0, 0xb3, 0x44, 0xbb}};
+
+class ICvCity1;
+class ICvOutpost1;
+class ICvDiplomacyAI1 : public ICvUnknown
+{
+public:
+	virtual void DoBeginDiploWithHuman() = 0;
+	virtual const char* GetDiploStringForMessage(DiploMessageTypes eMessage, PlayerTypes ePlayer, const char* szOptionalKey = NULL) = 0;
+	virtual void TestUIDiploStatement(PlayerTypes ePlayer, DiploStatementTypes eStatement, int iData) = 0;
+};
+class ICvDealAI1;
+class ICvCovertAgent1;
+
+static const GUID guidICvPlayer1 =
+{0x08370bca, 0x41c4, 0x48ff, {0xb2, 0xe7, 0x6a, 0x71, 0x66, 0x43, 0x35, 0xd4}};
+
+class ICvPlayer1 : public ICvUnknown
+{
+public:
+	static GUID DLLCALL GetInterfaceId() { return guidICvPlayer1; }
+	virtual void DLLCALL Init(PlayerTypes eID) = 0;
+	virtual void DLLCALL SetupGraphical() = 0;
+	virtual void DLLCALL InitAffinityValues() = 0;
+	virtual void DLLCALL LaterInit() = 0;
+	virtual void DLLCALL Uninit() = 0;
+	virtual bool DLLCALL IsHuman() const = 0;
+	virtual bool DLLCALL IsAlien() const = 0;
+	virtual bool DLLCALL IsObserver() const = 0;
+	virtual const char* DLLCALL GetName() const = 0;
+	virtual const char* DLLCALL GetNickName() const = 0;
+	virtual ArtStyleTypes DLLCALL GetArtStyleType() const = 0;
+	virtual ICvUnit1* DLLCALL GetFirstReadyUnit() = 0;
+	virtual bool DLLCALL HasBusyUnit() const = 0;
+	virtual bool DLLCALL HasBusyUnitOrCity() const = 0;
+	virtual int DLLCALL GetScore(bool bFinal = false, bool bVictory = false) const = 0;
+	virtual ICvPlot1* DLLCALL GetStartingPlot() const = 0;
+	virtual ICvCity1* DLLCALL GetCapitalCity() = 0;
+	virtual bool DLLCALL IsHasLostCapital() const = 0;
+	virtual void DLLCALL SetStartTime(unsigned int uiStartTime) = 0;
+	virtual bool DLLCALL IsMinorCiv() const = 0;
+	virtual bool DLLCALL IsAlive() const = 0;
+	virtual bool DLLCALL IsEverAlive() const = 0;
+	virtual bool DLLCALL IsTurnActive() const = 0;
+	virtual PlayerTypes DLLCALL GetID() const = 0;
+	virtual HandicapTypes DLLCALL GetHandicapType() const = 0;
+	virtual CivilizationTypes DLLCALL GetCivilizationType() const = 0;
+	virtual LeaderHeadTypes DLLCALL GetLeaderType() const = 0;
+	virtual const char* DLLCALL GetLeaderTypeKey() const = 0;
+	virtual EraTypes DLLCALL GetCurrentEra() const = 0;
+	virtual TeamTypes DLLCALL GetTeam() const = 0;
+	virtual PlayerColorTypes DLLCALL GetPlayerColor() const = 0;
+	virtual bool DLLCALL IsOption(PlayerOptionTypes eOption) const = 0;
+	virtual ICvCity1* DLLCALL FirstCity(int* pIterIdx, bool bRev = false) = 0;
+	virtual ICvCity1* DLLCALL NextCity(int* pIterIdx, bool bRev = false) = 0;
+	virtual int DLLCALL GetNumCities() const = 0;
+	virtual ICvOutpost1* DLLCALL FirstOutpost(int* pIterIdx, bool bRev = false) = 0;
+	virtual ICvOutpost1* DLLCALL NextOutpost(int* pIterIdx, bool bRev = false) = 0;
+	virtual int DLLCALL GetNumOutposts() const = 0;
+	virtual ICvCity1* DLLCALL GetCity(int iID) = 0;
+	virtual ICvUnit1* DLLCALL FirstUnit(int* pIterIdx, bool bRev = false) = 0;
+	virtual ICvUnit1* DLLCALL NextUnit(int* pIterIdx, bool bRev = false) = 0;
+	virtual ICvUnit1* DLLCALL GetUnit(int iID) = 0;
+	virtual int DLLCALL GetPlotDanger(ICvPlot1* pPlot) const = 0;
+	virtual int DLLCALL GetCityDistanceHighwaterMark() const = 0;
+	virtual void DLLCALL Disconnected() = 0;
+	virtual void DLLCALL Reconnected() = 0;
+	virtual void DLLCALL SetBusyUnitUpdatesRemaining(int iUpdateCount) = 0;
+	virtual bool DLLCALL HasUnitsThatNeedAIUpdate() const = 0;
+	virtual AffinityType DLLCALL GetDominantAffinity() const = 0;
+	virtual int DLLCALL GetAffinityLevel(AffinityType eAffinity) const = 0;
+	virtual int DLLCALL GetAffinityPercentTowardsMaxLevel(AffinityType eAffinity) const = 0;
+	virtual int DLLCALL GetNumPolicyBranchesFinished() const = 0;
+	virtual void DLLCALL Read(FDataStream& kStream) = 0;
+	virtual void DLLCALL Write(FDataStream& kStream) const = 0;
+	virtual int DLLCALL GetEnergy() const = 0;
+	virtual int DLLCALL CalculateBaseNetGold() = 0;
+	virtual const char* DLLCALL GetEmbarkedGraphicOverride() = 0;
+	virtual FAutoArchive& DLLCALL GetSyncArchive() = 0;
+	virtual MinorCivTypes DLLCALL GetMinorCivType() const = 0;
+	virtual ICvDiplomacyAI1* DLLCALL GetDiplomacyAI() = 0;
+	virtual ICvDealAI1* DLLCALL GetDealAI() = 0;
+	virtual bool DLLCALL AddDiplomacyRequest(PlayerTypes ePlayer, DiploUIStateTypes eState, const char* message, LeaderheadAnimationTypes eAnimation, int iExtraGameData = -1) = 0;
+	virtual void DLLCALL ActiveDiplomacyRequestComplete() = 0;
+	virtual int DLLCALL AddNotification(NotificationTypes eType, const char* message, const char* summary, int iX, int iY, int iGameDataIndex, int iExtraGameData = -1) = 0;
+	virtual void DLLCALL ActivateNotification(int iLookupIndex) = 0;
+	virtual void DLLCALL DismissNotification(int iLookupIndex, bool bUserInvoked) = 0;
+	virtual bool DLLCALL MayUserDismissNotification(int iLookupIndex) = 0;
+	virtual void DLLCALL RebroadcastNotifications() = 0;
+	virtual bool DLLCALL GetCurrentResearchTech(TechTypes* pTech, int* pTurnsLeft) const = 0;
+	virtual bool DLLCALL IsSimultaneousTurns() const = 0;
+	virtual bool DLLCALL HasTurnTimerExpired() = 0;
+	virtual bool DLLCALL IsOptionKey(PlayerOptionTypes eOption) const = 0;
+	virtual bool DLLCALL MayNotAnnex() = 0;
+	virtual bool DLLCALL HasCompletedLoadout() const = 0;
+	virtual void DLLCALL GetBestUnitUpgrade(UnitTypes eUnit, UnitUpgradeTypes& eUpgrade, UnitPerkTypes& ePerk) = 0;
+	virtual void DLLCALL WaitForEffect(bool bWait) = 0;
+	virtual std::vector<std::unique_ptr<ICvCovertAgent1> > DLLCALL GetCovertAgents() const = 0;
+	virtual std::unique_ptr<ICvCovertAgent1> DLLCALL GetCovertAgentByIndex(int iIndex) const = 0;
+	virtual bool DLLCALL HasMadePlanetfall() const = 0;
+};
+
+class ICvDealAI1 : public ICvUnknown
+{
+public:
+	static GUID DLLCALL GetInterfaceId() { return guidICvDealAI1; }
+
+	virtual ICvPlayer1* DLLCALL GetPlayer() = 0;
+	virtual int DLLCALL DoHumanOfferDealToThisAI(ICvDeal1* pDeal) = 0;
+	virtual void DLLCALL DoAcceptedDeal(PlayerTypes eFromPlayer, ICvDeal1* pDeal, int iDealValueToMe, int iValueImOffering, int iValueTheyreOffering) = 0;
+	virtual int DLLCALL DoHumanDemand(ICvDeal1* pDeal) = 0;
+	virtual void DLLCALL DoAcceptedDemand(PlayerTypes eFromPlayer, ICvDeal1* pDeal) = 0;
+	virtual bool DLLCALL DoEqualizeDealWithHuman(ICvDeal1* pDeal, PlayerTypes eOtherPlayer, bool bDontChangeMyExistingItems, bool bDontChangeTheirExistingItems, bool& bDealGoodToBeginWith, bool& bCantMatchOffer) = 0;
+};
 
 // {368F021C-43F6-4730-9CE4-4244DCC65F06}
 static const GUID guidICvGameDeals1 =
@@ -248,7 +419,57 @@ class ICvUnit1 : public ICvUnknown
 {
 public:
 	static GUID DLLCALL GetInterfaceId() { return guidICvUnit1; }
-	// TODO: ICvUnit1 (remaining SDK methods and Beyond Earth changes).
+
+	virtual int DLLCALL GetID() const = 0;
+	virtual PlayerTypes DLLCALL GetOwner() const = 0;
+	virtual int DLLCALL GetDamage() const = 0;
+	virtual int DLLCALL GetMoves() const = 0;
+	virtual bool DLLCALL IsSelected() const = 0;
+	virtual int DLLCALL GetMaxHitPoints() const = 0;
+	virtual CivilizationTypes DLLCALL GetCivilizationType() const = 0;
+	virtual TeamTypes DLLCALL GetTeam() const = 0;
+	virtual DomainTypes DLLCALL GetDomainType() const = 0;
+	virtual bool DLLCALL IsCombatUnit() const = 0;
+	virtual bool DLLCALL IsAlien() const = 0;
+	virtual bool DLLCALL IsHoveringUnit() const = 0;
+	virtual bool DLLCALL IsAmphibiousUnit() const = 0;
+	virtual bool DLLCALL IsInvisible(TeamTypes eTeam, bool bDebug) const = 0;
+	virtual bool DLLCALL IsOrbitalUnit() const = 0;
+	virtual bool DLLCALL IsInOrbit() const = 0;
+	virtual bool DLLCALL CanMoveImpassable() const = 0;
+	virtual DirectionTypes DLLCALL GetFacingDirection(bool checkLineOfSightProperty) const = 0;
+	virtual ICvPlot1* DLLCALL GetPlot() const = 0;
+	virtual ICvUnitInfo1* DLLCALL GetUnitInfo() const = 0;
+	virtual bool DLLCALL IsEmbarked() const = 0;
+	virtual bool DLLCALL IsGarrisoned() const = 0;
+	virtual ICvMissionData1* DLLCALL GetHeadMissionData() const = 0;
+	virtual UnitCombatTypes DLLCALL GetUnitCombatType() = 0;
+	virtual int DLLCALL GetX() const = 0;
+	virtual int DLLCALL GetY() const = 0;
+	virtual void DLLCALL GetPosition(int& iX, int& iY) const = 0;
+	virtual bool DLLCALL CanSwapWithUnitHere(ICvPlot1* pPlot) const = 0;
+	virtual bool DLLCALL CanEmbarkOnto(ICvPlot1* pOriginPlot, ICvPlot1* pTargetPlot, bool bOverrideEmbarkedCheck = false) const = 0;
+	virtual bool DLLCALL CanDisembarkOnto(ICvPlot1* pOriginPlot, ICvPlot1* pTargetPlot, bool bOverrideEmbarkedCheck = false) const = 0;
+	virtual bool DLLCALL IsFirstTimeSelected() const = 0;
+	virtual UnitTypes DLLCALL GetUnitType() const = 0;
+	virtual bool DLLCALL IsDelayedDeathExported() const = 0;
+	virtual bool DLLCALL IsBusy() const = 0;
+	virtual void DLLCALL SetupGraphical() = 0;
+	virtual void DLLCALL ResetGraphical(int iState) = 0;
+	virtual CvString DLLCALL GetName() const = 0;
+	virtual CvString DLLCALL GetNameTextKey() const = 0;
+	virtual void DLLCALL DoCommand(CommandTypes eCommand, int iData1, int iData2) = 0;
+	virtual bool DLLCALL CanDoInterfaceMode(InterfaceModeTypes eInterfaceMode, bool bTestVisibility = false) = 0;
+	virtual IDInfo DLLCALL GetIDInfo() const = 0;
+	virtual int DLLCALL MovesLeft() const = 0;
+	virtual bool DLLCALL CanMoveInto(ICvPlot1* pPlot, byte bMoveFlags = 0) const = 0;
+	virtual TeamTypes DLLCALL GetDeclareWarMove(ICvPlot1* pPlot) const = 0;
+	virtual bool DLLCALL ReadyToSelect() const = 0;
+	virtual bool DLLCALL CanWork() const = 0;
+	virtual bool DLLCALL CanFound() const = 0;
+	virtual FAutoArchive& DLLCALL GetSyncArchive() = 0;
+	virtual bool DLLCALL IsTrade() const = 0;
+	virtual bool DLLCALL IsWorker() const = 0;
 };
 
 // {92D85D44-7102-4093-941E-5A99849FFE7B}
@@ -264,6 +485,24 @@ public:
 	virtual const char* DLLCALL GetDescription() = 0;
 	// Beyond Earth adds this slot after the SDK's description getter.
 	virtual bool DLLCALL IsKickerPolicy() = 0;
+};
+
+// {21FC6D09-4AC8-40E6-BE66-20DC25430AC1}
+static const GUID guidICvMinorCivInfo1 =
+{0x21fc6d09, 0x4ac8, 0x40e6, {0xbe, 0x66, 0x20, 0xdc, 0x25, 0x43, 0x0a, 0xc1}};
+
+class ICvMinorCivInfo1 : public ICvUnknown
+{
+public:
+	static GUID DLLCALL GetInterfaceId() { return guidICvMinorCivInfo1; }
+	virtual const char* DLLCALL GetType() = 0;
+	virtual const char* DLLCALL GetDescription() = 0;
+	virtual int DLLCALL GetDefaultPlayerColor() const = 0;
+	virtual int DLLCALL GetArtStyleType() const = 0;
+	virtual int DLLCALL GetNumCityNames() const = 0;
+	virtual const char* DLLCALL GetArtStylePrefix() const = 0;
+	virtual const char* DLLCALL GetArtStyleSuffix() const = 0;
+	virtual const char* DLLCALL GetCityNames(int i) const = 0;
 };
 
 // {895B6976-33D1-44AA-95B6-E951CE12AAFC}
@@ -786,8 +1025,51 @@ public:
 	virtual int DLLCALL Validate() = 0;
 };
 
-class ICvOutpost1;
-class ICvStrategicSite1;
+// {BEBF43FC-C47C-4C6C-9DBA-48948A8E95FC}
+static const GUID guidICvOutpost1 =
+{0x753f3a60, 0x0d81, 0x40d6, {0xa9, 0x69, 0x59, 0x02, 0xd4, 0x12, 0x95, 0xec}};
+
+class ICvOutpost1 : public ICvUnknown
+{
+public:
+	static GUID DLLCALL GetInterfaceId() { return guidICvOutpost1; }
+	virtual int DLLCALL GetID() const = 0;
+	virtual PlayerTypes DLLCALL GetOwner() const = 0;
+	virtual const char* DLLCALL GetName() const = 0;
+	virtual TeamTypes DLLCALL GetTeam() const = 0;
+	virtual int DLLCALL GetX() const = 0;
+	virtual int DLLCALL GetY() const = 0;
+	virtual void DLLCALL GetPosition(int& iX, int& iY) const = 0;
+	virtual ICvPlot1* DLLCALL GetPlot() const = 0;
+	virtual IDInfo DLLCALL GetIDInfo() const = 0;
+	virtual void DLLCALL InitFromLoad() const = 0;
+	virtual int DLLCALL GetCombatStrength(bool bForRangedAttack) const = 0;
+	virtual int DLLCALL GetMaxHitPoints() const = 0;
+	virtual const char* DLLCALL GetBombardEffectTag() const = 0;
+};
+
+// {753F3A60-0D81-40D6-A969-5902D41295EC}
+static const GUID guidICvStrategicSite1 =
+{0x753f3a60, 0x0d81, 0x40d6, {0xa9, 0x69, 0x59, 0x02, 0xd4, 0x12, 0x95, 0xec}};
+
+class ICvStrategicSite1 : public ICvUnknown
+{
+public:
+	static GUID DLLCALL GetInterfaceId() { return guidICvStrategicSite1; }
+
+	virtual int DLLCALL GetID() const = 0;
+	virtual PlayerTypes DLLCALL GetOwner() const = 0;
+	virtual const char* DLLCALL GetName() const = 0;
+	virtual TeamTypes DLLCALL GetTeam() const = 0;
+	virtual int DLLCALL GetX() const = 0;
+	virtual int DLLCALL GetY() const = 0;
+	virtual void DLLCALL GetPosition(int& iX, int& iY) const = 0;
+	virtual ICvPlot1* DLLCALL GetPlot() const = 0;
+	virtual IDInfo DLLCALL GetIDInfo() const = 0;
+	virtual int DLLCALL GetMaxHitPoints() const = 0;
+	virtual const char* DLLCALL GetBombardEffectTag() const = 0;
+};
+
 class ICvPlot1 : public ICvUnknown {
 
   public:

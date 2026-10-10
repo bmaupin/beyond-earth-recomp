@@ -2,6 +2,7 @@
 
 namespace CvPreGame
 {
+extern std::vector<TeamTypes>* sr_TeamTypes;
 class CustomOption
 {
 public:
@@ -37,6 +38,7 @@ bool gameStarted();
 int gameTurn();
 const std::vector<CustomOption>& GetGameOptions();
 const std::vector<CustomOption>& GetMapOptions();
+bool GetMapOption(const char* szOptionName, int& iValue);
 const CvString& loadFileName();
 StorageLocation loadFileStorage();
 bool mapNoPlayers();
@@ -90,6 +92,7 @@ void setPlanet(PlanetTypes);
 int initialMaxTurns();
 void setInitialMaxTurns(int);
 
+SlotStatus slotStatus(PlayerTypes eID);
 const std::vector<SlotStatus>& GetSlotStatus();
 void setAllSlotStatus(const std::vector<SlotStatus>& vSlotStatus);
 // TODO: CvPreGame (remaining SDK declarations).

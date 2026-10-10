@@ -1,37 +1,139 @@
 #pragma once
-
+class CvArea;
 class CvTeamTechs;
-
-// Partial SDK declarations and the leading SDK member layout.
+enum UnitClassTypes : int;
+enum VoteSourceTypes : int;
 class CvTeam
 {
 public:
+	void addTeam(TeamTypes eTeam);
+	bool canChangeWarPeace(TeamTypes eTeam) const;
+	bool canDeclareWar(TeamTypes eTeam) const;
+	void declareWar(TeamTypes eTeam, bool bDefensivePact = false);
+	void makePeace(TeamTypes eTeam, bool bBumpUnits = true, bool bSuppressNotification = false);
+	int getPower() const;
+	int getDefensivePower() const;
+	int getNumNukeUnits() const;
+	TeamTypes GetTeamVotingForInDiplo() const;
+	int GetProjectedVotesFromMinorAllies() const;
+	int GetProjectedVotesFromLiberatedMinors() const;
+	int GetProjectedVotesFromCivs() const;
+	int GetTotalProjectedVotes() const;
+	int GetTotalSecuredVotes() const; // DEPRECATED, use GetTotalProjectedVotes instead
 	int getAtWarCount(bool bIgnoreMinors) const;
-	EraTypes GetCurrentEra() const;
+	int getHasMetCivCount(bool bIgnoreMinors) const;
+	bool hasMetHuman() const;
+	int getUnitClassMaking(UnitClassTypes eUnitClass) const;
+	int getUnitClassCountPlusMaking(UnitClassTypes eIndex) const;
+	int getBuildingClassMaking(BuildingClassTypes eBuildingClass) const;
+	int getBuildingClassCountPlusMaking(BuildingClassTypes eIndex) const;
+	int countNumUnitsByArea(CvArea* pArea) const;
+	int countNumCitiesByArea(CvArea* pArea) const;
+	int countTotalPopulationByArea(CvArea* pArea) const;
+	int countEnemyDangerByArea(CvArea* pArea) const;
+	bool isHuman() const;
+	bool isMinorCiv() const;
+	bool IsMinorCivWarmonger() const;
 	PlayerTypes getLeaderID() const;
-	int getProjectCount(ProjectTypes eIndex) const;
-	int GetTotalSecuredVotes() const;
-	void init(TeamTypes eID);
-	bool isAlive() const
-	{
-		return m_iAliveCount > 0;
-	}
-	bool isAtWar(TeamTypes eIndex) const;
-	// Beyond Earth uses alien teams instead of barbarians.
-	bool isAlien() const;
+	PlayerTypes getSecretaryID() const;
+	HandicapTypes getHandicapType() const;
+	int getNumMembers() const;
+	bool isAlive() const;
+	int getTotalPopulation() const;
+	int getTotalLand() const;
+	int getNukeInterception() const;
+	void changeNukeInterception(int iChange);
+	int getForceTeamVoteEligibilityCount(VoteSourceTypes eVoteSource) const;
+	bool isForceTeamVoteEligible(VoteSourceTypes eVoteSource) const;
+	void changeForceTeamVoteEligibilityCount(VoteSourceTypes eVoteSource, int iChange);
+	int getExtraWaterSeeFromCount() const;
+	bool isExtraWaterSeeFrom() const;
+	void changeExtraWaterSeeFromCount(int iChange);
+	int getMapTradingCount() const;
+	bool isMapTrading() const;
+	void changeMapTradingCount(int iChange);
+	int getTechTradingCount() const;
+	bool isTechTrading() const;
+	void changeTechTradingCount(int iChange);
+	int getGoldTradingCount() const;
+	bool isGoldTrading() const;
+	void changeGoldTradingCount(int iChange);
+	int getBridgeBuildingCount() const;
 	bool isBridgeBuilding() const;
+	void changeBridgeBuildingCount(int iChange);
+	int getWaterWorkCount() const;
+	bool isWaterWork() const;
+	void changeWaterWorkCount(int iChange);
+	int getBorderObstacleCount() const;
+	bool isBorderObstacle() const;
+	void changeBorderObstacleCount(int iChange);
+	bool isMapCentering() const;
+	void setMapCentering(bool bNewValue);
+	TeamTypes GetID() const;
+	int getTechShareCount(int iIndex) const;
+	bool isTechShare(int iIndex) const;
+	void changeTechShareCount(int iIndex, int iChange);
+	int getExtraMoves(DomainTypes eIndex) const;
+	void changeExtraMoves(DomainTypes eIndex, int iChange);
+	bool canEmbark() const;
+	void UpdateEmbarkGraphics();
 	bool isHasMet(TeamTypes eIndex) const;
+	bool isAtWar(TeamTypes eIndex) const;
+	int GetNumTurnsLockedIntoWar(TeamTypes eTeam) const;
+	bool isPermanentWarPeace(TeamTypes eIndex) const;
+	void setPermanentWarPeace(TeamTypes eIndex, bool bNewValue);
+	TeamTypes GetLiberatedByTeam() const;
+	TeamTypes GetKilledByTeam() const;
+	bool IsAllowsOpenBordersToTeam(TeamTypes eIndex) const;
+	bool IsHasTradeAgreement(TeamTypes eIndex) const;
+	bool isForcePeace(TeamTypes eIndex) const;
+	int getRouteChange(RouteTypes eIndex) const;
+	void changeRouteChange(RouteTypes eIndex, int iChange);
+	int getProjectCount(ProjectTypes eIndex) const;
+	int getProjectDefaultArtType(ProjectTypes eIndex) const;
+	void setProjectDefaultArtType(ProjectTypes eIndex, int value);
+	int getProjectArtType(ProjectTypes eIndex, int number) const;
+	void setProjectArtType(ProjectTypes eIndex, int number, int value);
+	bool isProjectMaxedOut(ProjectTypes eIndex, int iExtra = 0) const;
+	bool isProjectAndArtMaxedOut(ProjectTypes eIndex) const;
+	void changeProjectCount(ProjectTypes eIndex, int iChange);
+	int getProjectMaking(ProjectTypes eIndex) const;
+	int getUnitClassCount(UnitClassTypes eIndex) const;
+	bool isUnitClassMaxedOut(UnitClassTypes eIndex, int iExtra = 0) const;
+	int getBuildingClassCount(BuildingClassTypes eIndex) const;
+	bool isBuildingClassMaxedOut(BuildingClassTypes eIndex, int iExtra = 0) const;
+	int getObsoleteBuildingCount(BuildingTypes eIndex) const;
+	bool isObsoleteBuilding(BuildingTypes eIndex) const;
+	int getImprovementYieldChange(ImprovementTypes eIndex1, YieldTypes eIndex2) const;
+	void changeImprovementYieldChange(ImprovementTypes eIndex1, YieldTypes eIndex2, int iChange);
 	bool IsHomeOfUnitedNations() const;
-	void uninit();
+	int getVictoryCountdown(VictoryTypes eIndex) const;
+	bool canLaunch(VictoryTypes eVictory) const;
+	int GetScore() const;
+	int getVictoryPoints() const;
+	void changeVictoryPoints(int iChange);
+	EraTypes GetCurrentEra() const;
+	void SetCurrentEra(EraTypes eNewValue);
+	bool isAlien() const;
+	bool isNeutral() const;
+	void declareWarWithReveal(TeamTypes eTeam, bool bDefensivePact);
+	int countNumCapturedCapitals() const;
+	int countNumPlayersOnTeam() const;
+	int getAllianceCount(TeamTypes eTeam) const;
+	bool IsHasAlliance(TeamTypes eTeam) const;
+	bool HasDeepWaterCityMovement() const;
+	bool isResourceRevealed(ResourceTypes eResource) const;
+	bool isResourceUIVisible(ResourceTypes eResource) const;
+	void stealTech(TechTypes eTech, PlayerTypes eThief, PlayerTypes eVictim);
+	void setQuestProjectAllowed(ProjectTypes eProject, bool bAllowed);
+	void meet(TeamTypes eTeam, bool bSuppressMessages);
+	CvString getName() const;
+	CvString getNameKey() const;
+	bool isEverAlive() const;
 	CvTeamTechs* GetTeamTechs() const;
-
-	virtual void Read(FDataStream& kStream);
-	virtual void Write(FDataStream& kStream) const;
-
-protected:
-	TeamTypes m_eID;
-	static CvTeam* m_aTeams;
-	int m_iNumMembers;
-	int m_iAliveCount;
-	// TODO: CvTeam (remaining members).
+	void setHasTech(TechTypes eIndex, bool bNewValue, PlayerTypes ePlayer, bool bFirst, bool bAnnounce);
+	bool getQuestProjectAllowed(ProjectTypes eProject) const;
+	int GetTurnMadePeaceWithTeam(TeamTypes eTeam) const;
+	int getNumCities() const;
+	static CvTeam& getTeam(TeamTypes eTeam);
 };

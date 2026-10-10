@@ -7,6 +7,8 @@ public:
 	~CvUnitEntry(void);
 
 	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
+	int GetFlavorValue(int i) const;
+	bool GetUnitAIType(int i) const;
 	int GetCombat() const;
 	int GetDomainType() const;
 	UnitMoveRate GetMoveRate(int numHexes) const;
@@ -22,4 +24,9 @@ public:
 	// TODO: CvUnitEntry (remaining SDK methods and Beyond Earth members).
 };
 
-// TODO: CvUnitXMLEntries.
+class CvUnitXMLEntries
+{
+public:
+	int GetNumUnits() const;
+	CvUnitEntry* GetEntry(int iIndex) const;
+};

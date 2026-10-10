@@ -7,6 +7,7 @@ class FObjectHandle
 public:
 	FObjectHandle();
 	~FObjectHandle();
+	PointingTo* pointer() const;
 private:
 	PointingTo* m_target;
 	bool m_ignoreDestruction;

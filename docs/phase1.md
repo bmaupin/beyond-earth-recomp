@@ -85,7 +85,6 @@ TODO: Add examples of differences in the disassembly that would still be conside
       ```
 
       - Decompiled code from Ghidra may be helpful in reconstructing missing source code
-      - Do not write unit tests; the source code will be compiled and compared to the Beyond Earth game core binary
 
 1. Also copy any necessary supporting structures from the Civ 5 game core source `.h` files into matching files in [`src/`](../../src/)
    - Keep the source as close as possible to the Civ 5 game core; use the same file layout, include headers, comments, etc.

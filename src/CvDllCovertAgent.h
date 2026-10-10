@@ -2,6 +2,8 @@
 #include "CvDllInterfaces.h"
 #include <tuple>
 
+class CvCovertAgent;
+
 class CvDllCovertAgent : public ICvCovertAgent1 {
     unsigned int m_refCount;
     CvCovertAgent *m_agent;

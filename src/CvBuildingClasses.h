@@ -10,7 +10,14 @@ public:
 	int GetPreferredDisplayPosition() const;
 	const char* GetArtDefineTag() const;
 	const char* GetWonderSplashAudio() const;
+	int GetFlavorValue(int i) const;
+	bool IsNoOccupiedUnhealth() const;
 	// TODO: CvBuildingEntry (remaining SDK methods and Beyond Earth members).
 };
 
-// TODO: CvBuildingXMLEntries.
+class CvBuildingXMLEntries
+{
+public:
+	int GetNumBuildings();
+	CvBuildingEntry* GetEntry(int iIndex);
+};

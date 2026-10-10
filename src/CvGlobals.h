@@ -4,6 +4,8 @@
 
 // Forward declaration retained from CvGlobals.h for CvBuildingClassInfo users.
 class CvBuildingClassInfo;
+class CvBuildingEntry;
+class CvBuildingXMLEntries;
 class CvPolicyEntry;
 class CvProjectXMLEntries;
 class CvProjectEntry;
@@ -11,6 +13,7 @@ class CvGame;
 class CvRandom;
 class CvActionInfo;
 class CvEntityEventInfo;
+class CvEmphasisEntry;
 class CvDeal;
 class ICvDeal1;
 class CvMap;
@@ -19,6 +22,7 @@ class CvIgnoreUnitsPathFinder;
 class CvStepPathFinder;
 class CvAStar;
 class ICvDLLDatabaseUtility1;
+class ICvUserInterface1;
 class CvInterfaceModeInfo;
 namespace Database { class Connection; }
 
@@ -76,6 +80,9 @@ class CvStageEntry;
 class CvTerrainInfo;
 class CvTopicEntry;
 class CvUnitClassInfo;
+class CvUnitEntry;
+class CvUnitXMLEntries;
+class CvTechEntry;
 class CvUnitPassiveAbilityEntry;
 class CvVictoryInfo;
 class CvVoteInfo;
@@ -95,17 +102,62 @@ public:
 	int getNumResourceInfos();
 	int getNumVictoryInfos();
 	int getNumProjectInfos();
+	int getNumProcessInfos();
+	std::vector<CvProcessInfo*>& getProcessInfo();
+	CvProcessInfo* getProcessInfo(ProcessTypes eProcess);
 	int getNumAffinityInfos();
 	int getNumFlavorTypes() const
 	{
 		return m_iNumFlavorTypes;
 	}
+	int getNumEmphasisInfos();
+	CvLeaderHeadInfo* getLeaderHeadInfo(int eLeader);
+	CvMinorCivInfo* getMinorCivInfo(MinorCivTypes eMinor);
+	CvMinorCivInfo* getMinorCivInfo(int eMinor) { return getMinorCivInfo(static_cast<MinorCivTypes>(eMinor)); }
+	int getSTARTING_DISTANCE_PERCENT() const { return m_iSTARTING_DISTANCE_PERCENT; }
+	int getMIN_CIV_STARTING_DISTANCE() const { return m_iMIN_CIV_STARTING_DISTANCE; }
+	int getMIN_START_AREA_TILES() const { return m_iMIN_START_AREA_TILES; }
+	int getMIN_DISTANCE_OTHER_AREA_PERCENT() const { return m_iMIN_DISTANCE_OTHER_AREA_PERCENT; }
+	int getMINOR_CIV_FOOD_REQUIREMENT() const { return m_iMINOR_CIV_FOOD_REQUIREMENT; }
+	int getMAJOR_CIV_FOOD_REQUIREMENT() const { return m_iMAJOR_CIV_FOOD_REQUIREMENT; }
+	int getMIN_START_FOUND_VALUE_AS_PERCENT_OF_BEST() const { return m_iMIN_START_FOUND_VALUE_AS_PERCENT_OF_BEST; }
+	int getLAKE_MAX_AREA_SIZE() const { return m_iLAKE_MAX_AREA_SIZE; }
+	int getDEFAULT_FLAVOR_VALUE() const { return m_iDEFAULT_FLAVOR_VALUE; }
+	int getPERSONALITY_FLAVOR_MAX_VALUE() const { return m_iPERSONALITY_FLAVOR_MAX_VALUE; }
+	int getPERSONALITY_FLAVOR_MIN_VALUE() const { return m_iPERSONALITY_FLAVOR_MIN_VALUE; }
+	int getFLAVOR_MIN_VALUE() const { return m_iFLAVOR_MIN_VALUE; }
+	int getFLAVOR_MAX_VALUE() const { return m_iFLAVOR_MAX_VALUE; }
+	int getFLAVOR_RANDOMIZATION_RANGE() const { return m_iFLAVOR_RANDOMIZATION_RANGE; }
+	int getFLAVOR_EXPANDGROW_COEFFICIENT() const { return m_iFLAVOR_EXPANDGROW_COEFFICIENT; }
+	float getFLAVOR_STANDARD_LOG10_TILES_PER_PLAYER() const { return m_fFLAVOR_STANDARD_LOG10_TILES_PER_PLAYER; }
+	bool getPlayerAndCityAILogSplit();
+	_Ret_maybenull_ CvEmphasisEntry* getEmphasisInfo(EmphasizeTypes eEmphasisNum);
 	_Ret_maybenull_ CvEntityEventInfo* getEntityEventInfo(EntityEventTypes e);
 
 	CvDeal* UnwrapDealPointer(ICvDeal1* pDeal);
 	CvRandom* UnwrapRandomPointer(ICvRandom1* pRandom);
+	CvPlot* UnwrapPlotPointer(ICvPlot1* pPlot);
+	CvUnit* UnwrapUnitPointer(ICvUnit1* pUnit);
+	CvTwoLayerPathFinder& getInterfacePathFinder();
 	CvProjectXMLEntries* GetGameProjects() const;
 	CvProjectEntry* getProjectInfo(ProjectTypes eProject);
+	CvBuildingXMLEntries* GetGameBuildings() const;
+	CvBuildingEntry* getBuildingInfo(BuildingTypes eBuilding);
+	int getNumBuildingClassInfos();
+	CvBuildingClassInfo* getBuildingClassInfo(BuildingClassTypes eBuildingClass);
+	CvUnitXMLEntries* GetGameUnits() const;
+	CvUnitEntry* getUnitInfo(UnitTypes eUnit);
+	CvTechEntry* getTechInfo(TechTypes eTech);
+	int getNumPolicyInfos();
+	CvPolicyEntry* getPolicyInfo(PolicyTypes ePolicy);
+	int getNumPolicyBranchInfos();
+	class CvPolicyBranchEntry* getPolicyBranchInfo(PolicyBranchTypes eBranch);
+	int getPOLICY_WEIGHT_PROPAGATION_LEVELS() const { return m_iPOLICY_WEIGHT_PROPAGATION_LEVELS; }
+	int getPOLICY_WEIGHT_PERCENT_DROP_NEW_BRANCH() const { return m_iPOLICY_WEIGHT_PERCENT_DROP_NEW_BRANCH; }
+	int getNUM_OR_TECH_PREREQS() const { return m_iNUM_OR_TECH_PREREQS; }
+	const char* getFlavorTypes(FlavorTypes eFlavor) const;
+	float getAI_RESEARCH_WEIGHT_MOD_PER_TURN_LEFT() const;
+	float getAI_RESEARCH_WEIGHT_BASE_MOD() const;
 	int getPROJECT_MOVE_CITY() const
 	{
 		return m_iPROJECT_MOVE_CITY;
@@ -118,8 +170,12 @@ public:
 	{
 		return m_iHIDDEN_START_TURN_OFFSET;
 	}
+	int getTRADE_ROUTE_BASE_ENERGY() const { return m_iTRADE_ROUTE_BASE_ENERGY; }
+	int getTRADE_ROUTE_CAPITAL_POP_ENERGY_MULTIPLIER() const { return m_iTRADE_ROUTE_CAPITAL_POP_ENERGY_MULTIPLIER; }
+	int getTRADE_ROUTE_CITY_POP_ENERGY_MULTIPLIER() const { return m_iTRADE_ROUTE_CITY_POP_ENERGY_MULTIPLIER; }
 	bool getLogging();
 	bool getAILogging();
+	void LogMessage(const char* szMessage);
 	int getInfoTypeForString(const char* szType, bool hideAssert = false) const;
 	Database::Connection* GetGameDatabase()
 	{
@@ -141,6 +197,10 @@ public:
 	ICvEngineUtility4* getDLLIFace()
 	{
 		return static_cast<ICvEngineUtility4*>(m_pDLL);
+	}
+	ICvUserInterface1* GetEngineUserInterface()
+	{
+		return m_pEngineUI;
 	}
 
 protected:
@@ -2181,7 +2241,7 @@ protected:
 	CvString m_szAMPHIBIOUS_UNIT_WATER_EXTENSION;
 	CvString m_szAMPHIBIOUS_UNIT_LAND_EXTENSION;
 	class ICvEngineUtility1 *m_pDLL;
-	// TODO: CvGlobals (remaining data members after m_pDLL).
+	ICvUserInterface1* m_pEngineUI;
 };
 
 extern CvGlobals gGlobals;

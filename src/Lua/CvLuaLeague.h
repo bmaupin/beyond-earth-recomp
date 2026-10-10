@@ -1,0 +1,14 @@
+#pragma once
+#include "CvLuaScopedInstance.h"
+class CvResolution; class CvProposal;
+class CvLuaLeague : public CvLuaScopedInstance<CvLuaLeague, CvLeague> {
+public:
+ static void PushMethods(lua_State*, int); static void HandleMissingInstance(lua_State*); static const char* GetTypeName();
+protected:
+ static int lIsNone(lua_State*); static int lGetID(lua_State*); static int lGetName(lua_State*); static int lCanChangeCustomName(lua_State*); static int lIsInSession(lua_State*); static int lIsInSpecialSession(lua_State*); static int lGetTurnsUntilSession(lua_State*); static int lGetTurnsUntilVictorySession(lua_State*);
+ static int lCanProposeEnactAnyChoice(lua_State*); static int lCanProposeEnact(lua_State*); static int lCanProposeRepeal(lua_State*); static int lIsProposed(lua_State*); static int lGetChoicesForDecision(lua_State*); static int lGetTextForChoice(lua_State*); static int lGetInactiveResolutions(lua_State*); static int lGetEnactProposals(lua_State*); static int lGetEnactProposalsOnHold(lua_State*); static int lGetRepealProposals(lua_State*); static int lGetRepealProposalsOnHold(lua_State*); static int lGetActiveResolutions(lua_State*);
+ static int lIsMember(lua_State*); static int lCanVote(lua_State*); static int lGetRemainingVotesForMember(lua_State*); static int lGetSpentVotesForMember(lua_State*); static int lGetCoreVotesForMember(lua_State*); static int lCalculateStartingVotesForMember(lua_State*); static int lCanPropose(lua_State*); static int lGetRemainingProposalsForMember(lua_State*); static int lIsHostMember(lua_State*); static int lGetHostMember(lua_State*); static int lIsUnitedNations(lua_State*);
+ static int lIsProjectActive(lua_State*); static int lIsProjectComplete(lua_State*); static int lGetProjectCostPerPlayer(lua_State*); static int lGetProjectBuildingCostPerPlayer(lua_State*); static int lGetProjectCost(lua_State*); static int lGetMemberContribution(lua_State*); static int lGetMemberContributionTier(lua_State*); static int lGetContributionTierThreshold(lua_State*); static int lGetArtsyGreatPersonRateModifier(lua_State*); static int lGetScienceyGreatPersonRateModifier(lua_State*);
+ static int lGetResolutionName(lua_State*); static int lGetResolutionDetails(lua_State*); static int lGetMemberDetails(lua_State*); static int lGetProjectDetails(lua_State*); static int lGetProjectRewardTierDetails(lua_State*); static int lGetCurrentEffectsSummary(lua_State*); static int lGetLeagueSplashTitle(lua_State*); static int lGetLeagueSplashDescription(lua_State*); static int lGetLeagueSplashThisEraDetails(lua_State*); static int lGetLeagueSplashNextEraDetails(lua_State*); static int lGetGreatPersonRateModifierDetails(lua_State*);
+ static int lResolutionTableHelper(lua_State*, int, CvResolution&); static int lProposalTableHelper(lua_State*, int, CvProposal&);
+};

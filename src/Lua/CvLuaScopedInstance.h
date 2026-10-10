@@ -6,6 +6,7 @@ class CvLuaScopedInstance : public CvLuaMethodWrapper<Derived, InstanceType>
 {
 public:
 	// TODO: Push overloads and GetInstance implementation.
+	static void Push(lua_State* L, InstanceType* pInstance);
 	static InstanceType* GetInstance(lua_State* L, int idx = 1, bool bErrorOnFail = true);
 	static const int GetStartingArgIndex();
 

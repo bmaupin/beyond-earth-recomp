@@ -6,9 +6,48 @@
 
 // SDK archaeology types retained in Beyond Earth's native plot layout.
 enum GreatWorkArtifactClass { NO_GREAT_WORK_ARTIFACT_CLASS = 0 };
+enum GreatWorkSlotType { NO_GREAT_WORK_SLOT = -1 };
 enum GreatWorkType { NO_GREAT_WORK = -1 };
 #ifndef CVENUMS_H
 #define CVENUMS_H
+
+enum BattleUnitTypes
+{
+	BATTLE_UNIT_ATTACKER,
+	BATTLE_UNIT_DEFENDER,
+	BATTLE_UNIT_INTERCEPTOR,
+	BATTLE_UNIT_COUNT
+};
+
+enum InterfaceModeTypes
+{
+	NO_INTERFACEMODE = -1,
+};
+
+enum InterfaceDirtyBits
+{
+	SelectionButtons_DIRTY_BIT = 6,
+};
+
+enum CivilizationTypes
+{
+	NO_CIVILIZATION = -1,
+};
+
+enum EmphasizeTypes
+{
+	NO_EMPHASIZE = -1,
+};
+
+enum ProcessTypes
+{
+	NO_PROCESS = -1,
+};
+
+enum DomainTypes
+{
+	NO_DOMAIN = -1,
+};
 
 // If you want the game to work correctly, be careful when you modify ButtonPopupTypes.
 // They are directly tied into playing sounds, so if you add, remove, or (God forbid) replace one of these,
@@ -147,6 +186,16 @@ enum VictoryTypes
 };
 
 // Beyond Earth's affinity identifiers are data-driven.
+enum AdvisorTypes
+{
+	NO_ADVISOR_TYPE = -1,
+	ADVISOR_MILITARY,
+	ADVISOR_ECONOMIC,
+	ADVISOR_FOREIGN,
+	ADVISOR_SCIENCE,
+	NUM_ADVISOR_TYPES
+};
+
 enum AffinityType
 {
 	NO_AFFINITY_TYPE = -1
@@ -560,6 +609,15 @@ enum PersonalityTraitTypes
 	NO_PERSONALITY_TRAIT = -1
 };
 
+enum LeaderHeadTypes { NO_LEADER = -1 };
+enum ArtStyleTypes { NO_ARTSTYLE = -1 };
+enum PlayerColorTypes { NO_PLAYERCOLOR = -1 };
+enum MinorCivTypes { NO_MINORCIV = -1 };
+enum DiploStatementTypes { NO_DIPLO_STATEMENT_TYPE = -1 };
+enum DiploMessageTypes { NO_DIPLO_MESSAGE_TYPE = -1 };
+// Signed sentinel plus unsigned 32-bit hashes make this a 64-bit enum on i386.
+enum NotificationTypes : long long { NO_NOTIFICATION_TYPE = -1 };
+
 enum PlayerOptionTypes
 {
 	NO_PLAYEROPTION = -1,
@@ -661,6 +719,11 @@ enum UnitTypes
 	NO_UNIT = -1
 };
 
+enum UnitAITypes
+{
+	NO_UNITAI = -1
+};
+
 enum UnitUpgradeMode
 {
 	UNITUPGRADE_ADD,
@@ -677,6 +740,10 @@ enum FlavorTypes
 {
 	NO_FLAVOR = -1,
 };
+
+enum PolicyTypes { NO_POLICY = -1 };
+enum PolicyBranchTypes { NO_POLICY_BRANCH_TYPE = -1 };
+enum AIGrandStrategyTypes { NO_AIGRANDSTRATEGY = -1 };
 
 enum ActionSubTypes
 {
@@ -803,6 +870,11 @@ enum ImprovementUsageTypes
 	IMPROVEMENTUSAGE_LANDMARK,
 
 	NUM_IMPROVEMENTUSAGE_TYPES
+};
+
+enum UnitCombatTypes
+{
+	NO_UNITCOMBAT = -1,
 };
 
 enum EraTypes
