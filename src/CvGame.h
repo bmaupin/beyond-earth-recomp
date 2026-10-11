@@ -1,11 +1,16 @@
 #pragma once
 
 #include <vector>
+#include "CvRandom.h"
+#include "CvDllContextNativeContainers.h"
+#include "CvStructs.h"
 
 class CvRandom;
 class CvGameSpeedInfo;
 class CvHandicapInfo;
 class CvGameDeals;
+class CvSiteEvaluatorForSettler;
+class CvGameVictories;
 class CvTacticalAnalysisMap
 {
 public:
@@ -40,7 +45,8 @@ public:
 	int GetNumMinorCivsEver();
 	CvRandom& getMapRand();
 	int getMapRandNum(int iNum, const char* pszLog);
-	CvRandom& getJonRand();
+	CvRandom& getJonRand() { return m_syncRand; }
+	int getDefaultEstimateEndTurn() const;
 	PlayerTypes getActivePlayer() const;
 	TeamTypes getActiveTeam();
 	int getGameTurn() const;
@@ -73,6 +79,8 @@ public:
 	void endTurnTimerSemaphoreDecrement();
 	void endTurnTimerSemaphoreIncrement();
 	CvGameDeals* GetGameDeals();
+	CvSiteEvaluatorForSettler* GetSettlerSiteEvaluator();
+	CvGameVictories* GetGameVictories();
 	int getMaxTurns() const;
 	int getNumGameTurnActive();
 	PlayerTypes getPausePlayer();
@@ -130,4 +138,97 @@ public:
 	CvGameMinorPowers* GetGameMinorPowers() const;
 	CvGameTrade* GetGameTrade();
 	CvPartnerApp* GetPartnerApp();
+protected:
+
+    int m_iEndTurnMessagesSent;
+    int m_iElapsedGameTurns;
+    int m_iStartTurn;
+    int m_iWinningTurn;
+    int m_iStartYear;
+    int m_iEstimateEndTurn;
+    int m_iDefaultEstimateEndTurn;
+    int m_iTurnSlice;
+    int m_iCutoffSlice;
+    int m_iNumCities;
+    int m_iTotalPopulation;
+    int m_iNoNukesCount;
+    int m_iNukesExploded;
+    int m_iMaxPopulation;
+    int m_iUnused1;
+    int m_iUnused2;
+    int m_iUnused3;
+    int m_iInitPopulation;
+    int m_iInitLand;
+    int m_iInitTech;
+    int m_iInitWonders;
+    int m_iAIAutoPlay;
+    int m_iTotalReligionTechCost;
+    int m_iCachedWorldReligionTechProgress;
+    int m_iUnitedNationsCountdown;
+    int m_iNumVictoryVotesTallied;
+    int m_iNumVictoryVotesExpected;
+    int m_iVotesNeededForDiploVictory;
+    int m_iMapScoreMod;
+    int m_turnOrder[64];
+    unsigned int m_uiInitialTime;
+    bool m_bScoreDirty;
+    bool m_bCircumnavigated;
+    bool m_bDebugMode;
+    bool m_bDebugModeCache;
+    bool m_bFinalInitialized;
+    bool m_bPbemTurnSent;
+    bool m_bHotPbemBetweenTurns;
+    bool m_bPlayerOptionsSent;
+    bool m_bNukesValid;
+    bool m_bEndGameTechResearched;
+    bool m_bTunerEverConnected;
+    bool m_bDynamicTurnsSimultMode;
+    PlayerTypes m_eWaitDiploPlayer;
+    bool m_bFOW;
+    bool m_bStaticTutorialActive;
+    bool m_bTutorialEverAttacked;
+    bool m_bEverRightClickMoved;
+    bool m_bCombatWarned;
+    ASL::StdLib::UnorderedSet::unordered_set<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, ASL::StdLib::UnorderedSet::hash<std::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::equal_to<std::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::basic_string<char, std::char_traits<char>, std::allocator<char> > > > m_AdvisorMessagesViewed;
+    ASL::StdLib::HashMap::unordered_map<PlayerTypes, int, ASL::StdLib::HashMap::hash<PlayerTypes>, std::equal_to<PlayerTypes>, std::allocator<std::pair<PlayerTypes const, int> > > m_staggeredStartTimers;
+    HandicapTypes m_eHandicap;
+    PlayerTypes m_ePausePlayer;
+    PlayerTypes m_eAIAutoPlayReturnPlayer;
+    UnitTypes m_eBestLandUnit;
+    TeamTypes m_eWinner;
+    VictoryTypes m_eVictory;
+    GameStateTypes m_eGameState;
+    PlayerTypes m_eEventPlayer;
+    PlayerTypes m_eBestWondersPlayer;
+    PlayerTypes m_eBestPoliciesPlayer;
+    TechTypes m_eReligionTech;
+    RouteTypes m_eIndustrialRoute;
+    bool m_bArchaeologyTriggered;
+    CvString m_strScriptData;
+    int *m_aiEndTurnMessagesReceived;
+    int *m_aiRankPlayer;
+    int *m_aiPlayerRank;
+    int *m_aiPlayerScore;
+    int *m_aiRankTeam;
+    int *m_aiTeamRank;
+    int *m_aiTeamScore;
+    int *m_paiUnitCreatedCount;
+    int *m_paiUnitClassCreatedCount;
+    int *m_paiBuildingClassCreatedCount;
+    int *m_paiProjectCreatedCount;
+    PlayerVoteTypes *m_paiVoteOutcome;
+    int *m_aiSecretaryGeneralTimer;
+    int *m_aiVoteTimer;
+    int *m_aiDiploVote;
+    int *m_aiVotesCast;
+    int *m_aiPreviousVotesCast;
+    int *m_aiNumVotesForTeam;
+    bool *m_pabSpecialUnitValid;
+    int **m_apaiPlayerVote;
+    int **m_ppaaiTeamVictoryRank;
+    std::vector<CvString, std::allocator<CvString> > m_aszDestroyedCities;
+    FFreeListTrashArray<VoteSelectionData> m_voteSelections;
+    FFreeListTrashArray<VoteTriggeredData> m_votesTriggered;
+	CvRandom m_mapRand;
+	CvRandom m_syncRand;
 };

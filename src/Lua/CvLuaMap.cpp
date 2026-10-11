@@ -1,3 +1,6 @@
+// TODO: Phase1 (anonymous namespace)::OffsetPlot(int, int, int, int): UNVERIFIED; complete export comparison pending (see docs/ai/phase1-lua-map-audit.md).
+// TODO: Phase1 CvLuaStaticInstance<CvLuaMap, CvMap>::RegisterMethod(lua_State*, int (*)(lua_State*), char const*): UNVERIFIED; complete export comparison pending (see docs/ai/phase1-lua-map-audit.md).
+// TODO: Phase1 CvLuaStaticInstance<CvLuaMap, CvMap>::pRegister(lua_State*): MISMATCH; complete export comparison pending (see docs/ai/phase1-lua-map-audit.md).
 #include "CvGameCoreDLLPCH.h"
 #include "CvLuaMap.h"
 #include "CvLuaArea.h"
@@ -22,16 +25,19 @@ namespace
 	}
 }
 
+// TODO: Phase1 CvLuaMap::GetInstanceName(): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 const char* CvLuaMap::GetInstanceName()
 {
 	return "Map";
 }
 
+// TODO: Phase1 CvLuaMap::GetInstance(lua_State*, int): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 CvMap* CvLuaMap::GetInstance(lua_State*, int)
 {
 	return &GC.getMap();
 }
 
+// TODO: Phase1 CvLuaMap::RegisterMembers(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 void CvLuaMap::RegisterMembers(lua_State* L)
 {
 	Method(Areas);
@@ -77,12 +83,14 @@ void CvLuaMap::RegisterMembers(lua_State* L)
 
 #undef Method
 
+// TODO: Phase1 CvLuaMap::lAreas(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lAreas(lua_State* L)
 {
 	lua_pushcclosure(L, CvLuaMap::lAreasAux, 0);
 	return 1;
 }
 
+// TODO: Phase1 CvLuaMap::lAreasAux(lua_State*): MISMATCH; Non-padding instruction count: BE 58, object 53; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lAreasAux(lua_State* L)
 {
 	int iterator = 0;
@@ -100,6 +108,7 @@ int CvLuaMap::lAreasAux(lua_State* L)
 	return 2;
 }
 
+// TODO: Phase1 CvLuaMap::lFindBiggestArea(lua_State*): MISMATCH; Non-padding instruction count: BE 41, object 43; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lFindBiggestArea(lua_State* L)
 {
 	CvArea* area = GC.getMap().findBiggestArea(lua_toboolean(L, 1));
@@ -108,6 +117,7 @@ int CvLuaMap::lFindBiggestArea(lua_State* L)
 	return 1;
 }
 
+// TODO: Phase1 CvLuaMap::lFindWater(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lFindWater(lua_State* L)
 {
 	CvPlot* plot = CvLuaPlot::GetInstance(L, 1);
@@ -117,6 +127,7 @@ int CvLuaMap::lFindWater(lua_State* L)
 	return 1;
 }
 
+// TODO: Phase1 CvLuaMap::lFindNearestStartPlot(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lFindNearestStartPlot(lua_State* L)
 {
 	const int x = lua_tointeger(L, 1);
@@ -133,22 +144,36 @@ int CvLuaMap::l##Name(lua_State* L) \
 	return 1; \
 }
 
+// TODO: Phase1 CvLuaMap::lGetClimate(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 MapInteger(GetClimate, GC.getMap().getClimate())
+// TODO: Phase1 CvLuaMap::lGetNumPlots(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 MapInteger(GetNumPlots, GC.getMap().numPlots())
+// TODO: Phase1 CvLuaMap::lGetIndexAfterLastArea(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 MapInteger(GetIndexAfterLastArea, GC.getMap().getIndexAfterLastArea())
+// TODO: Phase1 CvLuaMap::lGetLandPlots(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 MapInteger(GetLandPlots, GC.getMap().getLandPlots())
+// TODO: Phase1 CvLuaMap::lGetWaterPlots(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 MapInteger(GetWaterPlots, GC.getMap().getWaterPlots())
+// TODO: Phase1 CvLuaMap::lGetLakePlots(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 MapInteger(GetLakePlots, GC.getMap().getLakePlots())
+// TODO: Phase1 CvLuaMap::lGetNumAreas(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 MapInteger(GetNumAreas, GC.getMap().getNumAreas())
+// TODO: Phase1 CvLuaMap::lGetNumLandAreas(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 MapInteger(GetNumLandAreas, GC.getMap().getNumLandAreas())
+// TODO: Phase1 CvLuaMap::lGetSeaLevel(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 MapInteger(GetSeaLevel, GC.getMap().getSeaLevel())
+// TODO: Phase1 CvLuaMap::lGetWorldSize(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 MapInteger(GetWorldSize, GC.getMap().getWorldSize())
+// TODO: Phase1 CvLuaMap::lMaxPlotDistance(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 MapInteger(MaxPlotDistance, GC.getMap().maxPlotDistance())
+// TODO: Phase1 CvLuaMap::lGetMapSeed(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 MapInteger(GetMapSeed, static_cast<int>(CvPreGame::mapRandomSeed()))
+// TODO: Phase1 CvLuaMap::lGetAIMapHint(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 MapInteger(GetAIMapHint, GC.getMap().GetAIMapHint())
 
 #undef MapInteger
 
+// TODO: Phase1 CvLuaMap::lGetFractalFlags(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lGetFractalFlags(lua_State* L)
 {
 	const int flags = GC.getMap().getMapFractalFlags();
@@ -166,6 +191,7 @@ int CvLuaMap::lGetFractalFlags(lua_State* L)
 	return 1;
 }
 
+// TODO: Phase1 CvLuaMap::lGetGridSize(lua_State*): MISMATCH; Mnemonic divergence at BE #9 cvtsi2sd, object #9 movsd; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lGetGridSize(lua_State* L)
 {
 	lua_pushinteger(L, GC.getMap().getGridWidth());
@@ -173,6 +199,7 @@ int CvLuaMap::lGetGridSize(lua_State* L)
 	return 2;
 }
 
+// TODO: Phase1 CvLuaMap::lGetNumResources(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lGetNumResources(lua_State* L)
 {
 	const ResourceTypes resource = static_cast<ResourceTypes>(luaL_checkinteger(L, 1));
@@ -180,6 +207,7 @@ int CvLuaMap::lGetNumResources(lua_State* L)
 	return 1;
 }
 
+// TODO: Phase1 CvLuaMap::lGetNumResourcesOnLand(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lGetNumResourcesOnLand(lua_State* L)
 {
 	const ResourceTypes resource = static_cast<ResourceTypes>(luaL_checkinteger(L, 1));
@@ -187,6 +215,7 @@ int CvLuaMap::lGetNumResourcesOnLand(lua_State* L)
 	return 1;
 }
 
+// TODO: Phase1 CvLuaMap::lGetRandomResourceQuantity(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lGetRandomResourceQuantity(lua_State* L)
 {
 	const ResourceTypes resource = static_cast<ResourceTypes>(luaL_checkinteger(L, 1));
@@ -194,6 +223,7 @@ int CvLuaMap::lGetRandomResourceQuantity(lua_State* L)
 	return 1;
 }
 
+// TODO: Phase1 CvLuaMap::lGetPlot(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lGetPlot(lua_State* L)
 {
 	const int x = lua_tointeger(L, 1);
@@ -204,6 +234,7 @@ int CvLuaMap::lGetPlot(lua_State* L)
 	return 1;
 }
 
+// TODO: Phase1 CvLuaMap::lGetPlotByIndex(lua_State*): MISMATCH; Non-padding instruction count: BE 37, object 39; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lGetPlotByIndex(lua_State* L)
 {
 	CvPlot* plot = GC.getMap().plotByIndex(lua_tointeger(L, 1));
@@ -212,6 +243,7 @@ int CvLuaMap::lGetPlotByIndex(lua_State* L)
 	return 1;
 }
 
+// TODO: Phase1 CvLuaMap::lGetPlotXY(lua_State*): MISMATCH; Non-padding instruction count: BE 174, object 85; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lGetPlotXY(lua_State* L)
 {
 	const bool offsetOnly = lua_gettop(L) == 2;
@@ -223,6 +255,7 @@ int CvLuaMap::lGetPlotXY(lua_State* L)
 	return 1;
 }
 
+// TODO: Phase1 CvLuaMap::lGetArea(lua_State*): MISMATCH; Non-padding instruction count: BE 35, object 37; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lGetArea(lua_State* L)
 {
 	CvArea* area = GC.getMap().getArea(lua_tointeger(L, 1));
@@ -231,6 +264,7 @@ int CvLuaMap::lGetArea(lua_State* L)
 	return 1;
 }
 
+// TODO: Phase1 CvLuaMap::lIsPlot(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lIsPlot(lua_State* L)
 {
 	const int x = lua_tointeger(L, 1);
@@ -239,18 +273,21 @@ int CvLuaMap::lIsPlot(lua_State* L)
 	return 1;
 }
 
+// TODO: Phase1 CvLuaMap::lIsWrapX(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lIsWrapX(lua_State* L)
 {
 	lua_pushboolean(L, GC.getMap().isWrapX());
 	return 1;
 }
 
+// TODO: Phase1 CvLuaMap::lIsWrapY(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lIsWrapY(lua_State* L)
 {
 	lua_pushboolean(L, GC.getMap().isWrapY());
 	return 1;
 }
 
+// TODO: Phase1 CvLuaMap::lRand(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lRand(lua_State* L)
 {
 	const int maximum = luaL_checkinteger(L, 1);
@@ -259,18 +296,21 @@ int CvLuaMap::lRand(lua_State* L)
 	return 1;
 }
 
+// TODO: Phase1 CvLuaMap::lCalculateAreas(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lCalculateAreas(lua_State*)
 {
 	GC.getMap().calculateAreas();
 	return 0;
 }
 
+// TODO: Phase1 CvLuaMap::lRecalculateAreas(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lRecalculateAreas(lua_State*)
 {
 	GC.getMap().recalculateAreas();
 	return 0;
 }
 
+// TODO: Phase1 CvLuaMap::lPlotDistance(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lPlotDistance(lua_State* L)
 {
 	const int x1 = lua_tointeger(L, 1);
@@ -281,6 +321,7 @@ int CvLuaMap::lPlotDistance(lua_State* L)
 	return 1;
 }
 
+// TODO: Phase1 CvLuaMap::lPlotXYWithRangeCheck(lua_State*): MISMATCH; Non-padding instruction count: BE 176, object 101; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lPlotXYWithRangeCheck(lua_State* L)
 {
 	const int x = lua_tointeger(L, 1);
@@ -293,6 +334,7 @@ int CvLuaMap::lPlotXYWithRangeCheck(lua_State* L)
 	return 1;
 }
 
+// TODO: Phase1 CvLuaMap::lPlotDirection(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lPlotDirection(lua_State* L)
 {
 	const int x = lua_tointeger(L, 1);
@@ -302,12 +344,14 @@ int CvLuaMap::lPlotDirection(lua_State* L)
 	return 1;
 }
 
+// TODO: Phase1 CvLuaMap::lDefaultContinentStamper(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lDefaultContinentStamper(lua_State*)
 {
 	GC.getMap().DefaultContinentStamper();
 	return 0;
 }
 
+// TODO: Phase1 CvLuaMap::lGetCustomOption(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lGetCustomOption(lua_State* L)
 {
 	const char* name = luaL_checkstring(L, 1);
@@ -317,12 +361,14 @@ int CvLuaMap::lGetCustomOption(lua_State* L)
 	return 1;
 }
 
+// TODO: Phase1 CvLuaMap::lUpdateDeferredFog(lua_State*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lUpdateDeferredFog(lua_State*)
 {
 	GC.getMap().updateDeferredFog();
 	return 0;
 }
 
+// TODO: Phase1 CvLuaMap::lChangeAIMapHint(lua_State*): MISMATCH; Non-padding instruction count: BE 24, object 26; Civ5 changed/new instruction count unverified.
 int CvLuaMap::lChangeAIMapHint(lua_State* L)
 {
 	GC.getMap().ChangeAIMapHint(lua_tointeger(L, 1));

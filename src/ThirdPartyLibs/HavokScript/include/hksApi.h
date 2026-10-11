@@ -18,10 +18,10 @@ namespace hks
 	{
 		if(idx > LUA_REGISTRYINDEX)
 			return idx > 0 ? L->m_apistack.base + idx - 1 : L->m_apistack.top + idx;
-		if(idx == LUA_GLOBALSINDEX)
-			return &L->globals;
 		if(idx == LUA_REGISTRYINDEX)
 			return &L->m_global->m_registry;
+		if(idx == LUA_GLOBALSINDEX)
+			return &L->globals;
 		if(idx == LUA_ENVIRONINDEX)
 		{
 			cclosure* closure = (L->m_apistack.base - 1)->v.cClosure;

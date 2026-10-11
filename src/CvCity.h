@@ -20,17 +20,12 @@ public:
 class CvPlayer;
 
 class CvCityStrategyAI;
+class CvCityReligions;
 class CvPlot;
 class CvCity;
 class CvCovertAgent;
 
-class CvCityCitizens
-{
-public:
-	bool IsWorkingPlot(const CvPlot*) const;
-	bool IsCanWork(CvPlot*) const;
-	CvPlot* GetCityPlotFromIndex(int) const;
-};
+#include "CvCityCitizens.h"
 
 class CvCityCovertOps
 {
@@ -55,15 +50,48 @@ public:
 	bool canConstruct(BuildingTypes eBuilding, bool bContinue = false, bool bTestVisible = false, bool bIgnoreCost = false, CvString* pFailureMessage = NULL) const;
 	bool canTrain(UnitTypes eUnit, bool bContinue = false, bool bTestVisible = false, bool bIgnoreCost = false, bool bIgnoreUniqueUnitStatus = false, CvString* pFailureMessage = NULL) const;
 	const CvPlayer* GetPlayer() const;
+	CvPlayer* GetPlayer();
+	int foodConsumption(bool bNoAngry = false, int iExtra = 0) const;
+	bool isCapital() const;
+	int GetFreeAssignableCitizens() const;
+	int GetCultureFromSpecialist(SpecialistTypes eSpecialist) const;
+	void processSpecialist(SpecialistTypes eSpecialist, int iChange);
+	void changePopulation(int iChange, bool bReassignPop = true);
+	void UpdateReligion(ReligionTypes eReligion);
+	void ChangeBaseYieldRateFromTerrain(YieldTypes eYield, int iChange);
+	void ChangeBaseHealthFromTerrain(int iChange);
+	void ChangeBaseUnhealthFromTerrain(int iChange);
+	void ChangeExtraHitPoints(int iChange);
 	CvCityBuildings* GetCityBuildings() const;
 	int GetMoveCityCostModifier() const;
 	int getProductionTurnsLeft(BuildingTypes eBuilding, int iNum) const;
 	int getProductionTurnsLeft(UnitTypes eUnit, int iNum) const;
 	int getProductionTurnsLeft(ProjectTypes eProject, int iNum) const;
 	virtual ~CvCity();
+	virtual void AI_init() = 0;
+	virtual void AI_reset() = 0;
+	virtual void AI_doTurn() = 0;
+	virtual void AI_chooseProduction(bool bInterruptWonders) = 0;
+	virtual bool AI_isChooseProductionDirty() = 0;
+	virtual void AI_setChooseProductionDirty(bool bNewValue) = 0;
+	virtual int AI_GetNumPlotsAcquiredByOtherPlayer(PlayerTypes ePlayer) const = 0;
+	virtual void AI_ChangeNumPlotsAcquiredByOtherPlayer(PlayerTypes ePlayer, int iChange) = 0;
+	virtual bool IsBuildingUnitForOperation() const;
+	int getArea() const;
+	BuildingTypes getProductionBuilding() const;
+	int getCurrentProductionDifference(bool bIgnoreFood, bool bOverflow) const;
+	int GetWonderProductionModifier() const;
+	bool isCoastal(int iMinWaterSize) const;
+	int getYieldRateModifier(YieldTypes eYield) const;
+	int GetYieldPerPopTimes100(YieldTypes eYield) const;
+	int GetYieldPerReligionTimes100(YieldTypes eYield) const;
+	CvCityReligions* GetCityReligions() const;
+	int getTotalYieldRateFromBuildings(YieldTypes eYield) const;
+	int GetFoodKeptPercentFromBuildings() const;
+	int getDomainFreeExperience(DomainTypes eDomain) const;
 	int GetID() const { return m_iID; }
 	PlayerTypes getOwner() const { return m_eOwner; }
-	bool isCitySelected() const;
+	bool isCitySelected();
 	int getX() const { return m_iX; }
 	int getY() const { return m_iY; }
 	int getPopulation() const;

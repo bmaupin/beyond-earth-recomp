@@ -1,11 +1,15 @@
 #pragma once
+#include "CvDllContextNativeContainers.h"
 class CvArea;
 class CvTeamTechs;
 enum UnitClassTypes : int;
 enum VoteSourceTypes : int;
 class CvTeam
 {
+	typedef FAllocArrayType<int, FAllocArrayType<bool, FAllocArrayType<bool, FAllocArrayType<bool, FAllocArrayType<bool, FAllocArrayType<int, FAllocArrayType<int, FAllocArrayType<int, FAllocArrayType<int, FAllocArrayType<int, FAllocArrayType<int, FAllocArrayType<int, FAllocArrayType<int, FAllocArrayType<int, FAllocArrayType<int, FAllocArray2DType<int, FAllocArray2DType<int, FAllocArray2DType<int, FAllocBase<0, 0, 0> > > > > > > > > > > > > > > > > > > CvTeamData;
 public:
+	virtual void Read(FDataStream&);
+	virtual void Write(FDataStream&) const;
 	void addTeam(TeamTypes eTeam);
 	bool canChangeWarPeace(TeamTypes eTeam) const;
 	bool canDeclareWar(TeamTypes eTeam) const;
@@ -135,5 +139,82 @@ public:
 	bool getQuestProjectAllowed(ProjectTypes eProject) const;
 	int GetTurnMadePeaceWithTeam(TeamTypes eTeam) const;
 	int getNumCities() const;
-	static CvTeam& getTeam(TeamTypes eTeam);
+	static CvTeam& getTeam(TeamTypes eTeam) { return m_aTeams[eTeam]; }
+protected:
+    TeamTypes m_eID;
+    static CvTeam *m_aTeams;
+    int m_iNumMembers;
+    int m_iAliveCount;
+    int m_iEverAliveCount;
+    int m_iNumCities;
+    int m_iTotalPopulation;
+    int m_iTotalLand;
+    int m_iNukeInterception;
+    int m_iExtraWaterSeeFromCount;
+    int m_iMapTradingCount;
+    int m_iTechTradingCount;
+    int m_iGoldTradingCount;
+    int m_iBridgeBuildingCount;
+    int m_iWaterWorkCount;
+    int m_iRiverTradeCount;
+    int m_iBorderObstacleCount;
+    int m_iVictoryPoints;
+    int m_iEmbarkedExtraMoves;
+    int m_iCanEmbarkCount;
+    int m_iDeepWaterCityMovementCount;
+    int m_iBestPossibleRoute;
+    int m_iNumMinorCivsAttacked;
+    bool m_bMapCentering;
+    bool m_bHasBrokenPeaceTreaty;
+    bool m_bHomeOfUnitedNations;
+    bool m_bHasTechForWorldCongress;
+    bool m_bBrokenMilitaryPromise;
+    bool m_bBrokenExpansionPromise;
+    bool m_bBrokenBorderPromise;
+    bool m_bBrokenCityStatePromise;
+    EraTypes m_eCurrentEra;
+    TeamTypes m_eLiberatedByTeam;
+    TeamTypes m_eKilledByTeam;
+    Firaxis::Array<int, 80> m_aiTechShareCount;
+    Firaxis::Array<int, 80> m_aiNumTurnsAtWar;
+    Firaxis::Array<int, 80> m_aiNumTurnsLockedIntoWar;
+    Firaxis::Array<int, 6> m_aiExtraMoves;
+    Firaxis::Array<int, 80> m_paiTurnMadePeaceTreatyWithTeam;
+    Firaxis::Array<int, 80> m_aiIgnoreWarningCount;
+    Firaxis::Array<bool, 80> m_abHasFoundPlayersTerritory;
+    Firaxis::Array<bool, 80> m_abHasMet;
+    Firaxis::Array<bool, 80> m_abAtWar;
+    Firaxis::Array<bool, 80> m_abPermanentWarPeace;
+    Firaxis::Array<bool, 80> m_abOpenBorders;
+    Firaxis::Array<bool, 80> m_abAlliance;
+    Firaxis::Array<bool, 80> m_abTradeAgreement;
+    Firaxis::Array<bool, 80> m_abForcePeace;
+    Firaxis::Array<int, 80> m_aiTurnTeamMet;
+    Firaxis::Array<bool, 80> m_abWarStarter;
+    CvTeamData m_BatchData;
+    int *m_aiForceTeamVoteEligibilityCount;
+    bool *m_abCanLaunch;
+    bool *m_abVictoryAchieved;
+    bool *m_questProjectsAllowed;
+    bool *m_abSmallAwardAchieved;
+    int *m_paiRouteChange;
+    int *m_paiBuildTimeChange;
+    int *m_paiProjectCount;
+    int *m_paiProjectDefaultArtTypes;
+    int *m_paiProjectMaking;
+    int *m_paiUnitClassCount;
+    int *m_paiBuildingClassCount;
+    int *m_paiObsoleteBuildingCount;
+    int *m_paiTerrainTradeCount;
+    int *m_aiVictoryCountdown;
+    int **m_ppaaiImprovementYieldChange;
+    int **m_ppaaiImprovementNoFreshWaterYieldChange;
+    int **m_ppaaiImprovementFreshWaterYieldChange;
+    std::vector<int, std::allocator<int> > *m_pavProjectArtTypes;
+    std::vector<ResourceTypes, std::allocator<ResourceTypes> > m_aeRevealedResources;
+    std::vector<ResourceTypes, std::allocator<ResourceTypes> > m_aeUIVisibleResources;
+    CvTeamTechs *m_pTeamTechs;
+
 };
+
+inline CvTeam& GET_TEAM(TeamTypes eTeam) { return CvTeam::getTeam(eTeam); }

@@ -39,14 +39,24 @@ public:
 	// iFracXExp should be 8 or less
 	// iFracYExp should be one less than iFracXExp for Civ3 worlds
 
+// TODO: Phase1 CvFractal::fracInit(int, int, int, CvRandom&, int, CvFractal*, int, int): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 	void fracInit(int iNewXs, int iNewYs, int iGrain, CvRandom& random, int iFlags, CvFractal* pRifts=NULL, int iFracXExp=DEFAULT_FRAC_X_EXP, int iFracYExp=DEFAULT_FRAC_Y_EXP);
+// TODO: Phase1 CvFractal::fracInitHinted(int, int, int, CvRandom&, unsigned char*, int, int, CvFractal*, int, int): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 	void fracInitHinted(int iNewXs, int iNewYs, int iGrain, CvRandom& random, byte* pbyHints, int iHintsLength, int iFlags, CvFractal* pRifts, int iFracXExp=DEFAULT_FRAC_X_EXP, int iFracYExp=DEFAULT_FRAC_Y_EXP);
 
+// TODO: Phase1 CvFractal::getHeight(int, int): MISMATCH; Non-padding instruction count: BE 91, object 101; Civ5 changed/new instruction count unverified.
 	int getHeight(int x, int y);
+// TODO: Phase1 CvFractal::getHeightFromPercent(int): MISMATCH; Non-padding instruction count: BE 94, object 85; Civ5 changed/new instruction count unverified.
 	int getHeightFromPercent(int iPercent);
 
+// TODO: Phase1 CvFractal::reset(): MISMATCH; Relocation-free operand/instruction difference; Civ5 changed/new instruction count unverified.
 	void reset();
+// TODO: Phase1 CvFractal::CvFractal(): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
+// TODO: Phase1 CvFractal::CvFractal(): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 	CvFractal();
+// TODO: Phase1 CvFractal::~CvFractal(): MISMATCH; Non-padding instruction count: BE 15, object 5; Civ5 changed/new instruction count unverified.
+// TODO: Phase1 CvFractal::~CvFractal(): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
+// TODO: Phase1 CvFractal::~CvFractal(): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 	virtual ~CvFractal();
 	void uninit();
 
@@ -58,6 +68,7 @@ public:
 	// The various settings in the fractal (for example, grain) can be used to modify the look.  The resulting fractal can be used in any of the
 	// ways that the fractal class could.
 	//
+// TODO: Phase1 CvFractal::ridgeBuilder(CvRandom&, int, int, int, int): MISMATCH; Non-padding instruction count: BE 306, object 272; Civ5 changed/new instruction count unverified.
 	// void CvFractal::ridgeBuilder(CvRandom& random, int iNumVoronoiSeeds, int iRidgeFlags, int iBlendRidge, int iBlendFract)
 	//
 	//	random is the random number generator used to build the Fractal.
@@ -91,7 +102,9 @@ protected:
 	int m_iYInc;
 
 	int m_aaiFrac[FRACTAL_MAX_DIMS+1][FRACTAL_MAX_DIMS+1]; //[FRAC_X + 1][FRAC_Y + 1];
+// TODO: Phase1 CvFractal::fracInitInternal(int, int, int, CvRandom&, unsigned char*, int, int, CvFractal*, int, int): MISMATCH; Non-padding instruction count: BE 682, object 571; Civ5 changed/new instruction count unverified.
 	void fracInitInternal(int iNewXs, int iNewYs, int iGrain, CvRandom& random, byte* pbyHints, int iHintsLength, int iFlags, CvFractal* pRifts, int iFracXExp, int iFracYExp);
+// TODO: Phase1 CvFractal::tectonicAction(CvFractal*): MISMATCH; Mnemonic divergence at BE #10 mov, object #10 imul; Civ5 changed/new instruction count unverified.
 	void tectonicAction(CvFractal* pRifts);
 	int yieldX(int iBadX);
 

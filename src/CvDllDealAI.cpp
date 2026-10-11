@@ -5,6 +5,11 @@
 #include "CvDllPlayer.h"
 #include "CvDealAI.h"
 
+// The native player wrapper retains allocation cleanup and terminating delete handlers.
+#ifndef __EXCEPTIONS
+#error CvDllDealAI.cpp requires exception handling to match the Beyond Earth binary.
+#endif
+
 CvDllDealAI::CvDllDealAI(CvDealAI* pDealAI)
 	: m_pDealAI(pDealAI)
 	, m_uiRefCount(1)

@@ -1,5 +1,5 @@
 /*	-------------------------------------------------------------------------------------------------------
-	© 1991-2012 Take-Two Interactive Software and its subsidiaries.  Developed by Firaxis Games.  
+	ï¿½ 1991-2012 Take-Two Interactive Software and its subsidiaries.  Developed by Firaxis Games.
 	Sid Meier's Civilization V, Civ, Civilization, 2K Games, Firaxis Games, Take-Two Interactive Software 
 	and their respective logos are all trademarks of Take-Two interactive Software, Inc.  
 	All other marks and trademarks are the property of their respective owners.  
@@ -11,6 +11,10 @@
 
 // include this after all other headers!
 #include "LintFree.h"
+
+#if !defined(NDEBUG) || !defined(__EXCEPTIONS)
+#error CvProcessProductionAI requires release assertions and exception handling to match the native binary.
+#endif
 
 /// Constructor
 CvProcessProductionAI::CvProcessProductionAI(CvCity* pCity):
@@ -66,7 +70,8 @@ void CvProcessProductionAI::Read(FDataStream& kStream)
 void CvProcessProductionAI::Write(FDataStream& kStream) const
 {
 	// Current version number
-	uint uiVersion = 1;
+	// Beyond Earth writes the version through the signed stream overload.
+	int uiVersion = 1;
 	kStream << uiVersion;
 
 	// Loop through writing each entry

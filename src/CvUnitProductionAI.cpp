@@ -6,9 +6,11 @@
 class CvQuest
 {
 public:
+// TODO(Phase1 audit): CvQuest::GetUnitAIWeight UNVERIFIED: CURRENT translation unit fails compilation: CvQuest redefinition and incompatible GetTechAIWeight declaration; no current object; BE instructions=unverified/no attributed target; Civ5 changed/new=UNVERIFIED.
 	int GetUnitAIWeight(UnitTypes eUnit) const;
 };
 
+// TODO(Phase1 audit): ::ScaleFlavorWeightByTime UNVERIFIED: CURRENT translation unit fails compilation; BE instructions=59; Civ5 changed/new=UNVERIFIED.
 int ScaleFlavorWeightByTime(FlavorTypes eFlavor)
 {
 	const int iGameTurn = GC.getGame().getGameTurn();
@@ -31,16 +33,19 @@ int ScaleFlavorWeightByTime(FlavorTypes eFlavor)
 	return 100;
 }
 
+// TODO(Phase1 audit): CvUnitProductionAI::CvUnitProductionAI UNVERIFIED: CURRENT translation unit fails compilation: CvQuest redefinition and incompatible GetTechAIWeight declaration; no current object; BE instructions=14; Civ5 changed/new=UNVERIFIED.
 CvUnitProductionAI::CvUnitProductionAI(CvCity* pCity, CvUnitXMLEntries* pUnits)
 	: m_pCity(pCity)
 	, m_pUnits(pUnits)
 {
 }
 
+// TODO(Phase1 audit): CvUnitProductionAI::~CvUnitProductionAI UNVERIFIED: CURRENT translation unit fails compilation: CvQuest redefinition and incompatible GetTechAIWeight declaration; no current object; BE instructions=17; Civ5 changed/new=UNVERIFIED.
 CvUnitProductionAI::~CvUnitProductionAI(void)
 {
 }
 
+// TODO(Phase1 audit): CvUnitProductionAI::Reset UNVERIFIED: CURRENT translation unit fails compilation: CvQuest redefinition and incompatible GetTechAIWeight declaration; no current object; BE instructions=37; Civ5 changed/new=UNVERIFIED.
 void CvUnitProductionAI::Reset()
 {
 	m_UnitAIWeights.clear();
@@ -51,6 +56,7 @@ void CvUnitProductionAI::Reset()
 	}
 }
 
+// TODO(Phase1 audit): CvUnitProductionAI::Read UNVERIFIED: CURRENT translation unit fails compilation: CvQuest redefinition and incompatible GetTechAIWeight declaration; no current object; BE instructions=107; Civ5 changed/new=UNVERIFIED.
 void CvUnitProductionAI::Read(FDataStream& kStream)
 {
 	uint uiVersion;
@@ -86,6 +92,7 @@ void CvUnitProductionAI::Read(FDataStream& kStream)
 	}
 }
 
+// TODO(Phase1 audit): CvUnitProductionAI::Write UNVERIFIED: CURRENT translation unit fails compilation: CvQuest redefinition and incompatible GetTechAIWeight declaration; no current object; BE instructions=109; Civ5 changed/new=UNVERIFIED.
 void CvUnitProductionAI::Write(FDataStream& kStream) const
 {
 	const uint uiVersion = 1;
@@ -109,6 +116,7 @@ void CvUnitProductionAI::Write(FDataStream& kStream) const
 	}
 }
 
+// TODO(Phase1 audit): CvUnitProductionAI::AddFlavorWeights UNVERIFIED: CURRENT translation unit fails compilation: CvQuest redefinition and incompatible GetTechAIWeight declaration; no current object; BE instructions=40; Civ5 changed/new=UNVERIFIED.
 void CvUnitProductionAI::AddFlavorWeights(FlavorTypes eFlavor, int iWeight)
 {
 	for(int i = 0; i < m_pUnits->GetNumUnits(); ++i)
@@ -119,6 +127,7 @@ void CvUnitProductionAI::AddFlavorWeights(FlavorTypes eFlavor, int iWeight)
 	}
 }
 
+// TODO(Phase1 audit): CvUnitProductionAI::AddQuestWeights UNVERIFIED: CURRENT translation unit fails compilation: CvQuest redefinition and incompatible GetTechAIWeight declaration; no current object; BE instructions=53; Civ5 changed/new=UNVERIFIED.
 void CvUnitProductionAI::AddQuestWeights()
 {
 	if(GC.getGame().getGameTurn() < 100 || !m_pCity)
@@ -135,11 +144,13 @@ void CvUnitProductionAI::AddQuestWeights()
 	}
 }
 
+// TODO(Phase1 audit): CvUnitProductionAI::GetWeight UNVERIFIED: CURRENT translation unit fails compilation: CvQuest redefinition and incompatible GetTechAIWeight declaration; no current object; BE instructions=5; Civ5 changed/new=UNVERIFIED.
 int CvUnitProductionAI::GetWeight(UnitTypes eUnit)
 {
 	return m_UnitAIWeights.GetWeight(eUnit);
 }
 
+// TODO(Phase1 audit): CvUnitProductionAI::RecommendUnit UNVERIFIED: CURRENT translation unit fails compilation: CvQuest redefinition and incompatible GetTechAIWeight declaration; no current object; BE instructions=101; Civ5 changed/new=UNVERIFIED.
 UnitTypes CvUnitProductionAI::RecommendUnit(UnitAITypes eUnitAIType)
 {
 	if(eUnitAIType < NO_UNITAI)
@@ -167,6 +178,7 @@ UnitTypes CvUnitProductionAI::RecommendUnit(UnitAITypes eUnitAIType)
 	return (UnitTypes)m_Buildables.GetElement(0);
 }
 
+// TODO(Phase1 audit): CvUnitProductionAI::LogPossibleBuilds UNVERIFIED: CURRENT translation unit fails compilation: CvQuest redefinition and incompatible GetTechAIWeight declaration; no current object; BE instructions=419; Civ5 changed/new=UNVERIFIED.
 void CvUnitProductionAI::LogPossibleBuilds(UnitAITypes eUnitAIType)
 {
 	if(!GC.getLogging() || !GC.getAILogging())

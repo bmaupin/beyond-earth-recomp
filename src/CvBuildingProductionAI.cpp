@@ -38,12 +38,14 @@ void CvBuildingProductionAI::Read(FDataStream& kStream)
 			m_BuildingAIWeights.push_back(i, 0);
 
 		int iNumEntries;
+		FStringFixedBuffer(sTemp, 64);
+		int iType;
 		kStream >> iNumEntries;
 
 		for(int i = 0; i < iNumEntries; i++)
 		{
 			bool bValid = true;
-			const int iType = CvInfosSerializationHelper::ReadHashed(kStream, &bValid);
+			iType = CvInfosSerializationHelper::ReadHashed(kStream, &bValid);
 			if(iType != NO_BUILDING || !bValid)
 			{
 				int iWeight;
@@ -64,7 +66,8 @@ void CvBuildingProductionAI::Read(FDataStream& kStream)
 
 void CvBuildingProductionAI::Write(FDataStream& kStream)
 {
-	uint uiVersion = 1;
+	// Beyond Earth writes the version through FDataStream::Write(const int&).
+	int uiVersion = 1;
 	kStream << uiVersion;
 
 	if(m_pCityBuildings)
@@ -149,8 +152,8 @@ void CvBuildingProductionAI::LogPossibleBuilds()
 				{
 					CvString strTemp;
 					strTemp.Format("Building, %s, %d", pBuilding->GetDescription(), m_Buildables.GetWeight(i));
-					const std::string strOutBuf = strBaseString + strTemp;
-					pLog->Msg(strOutBuf.c_str());
+					CvString strOutBuf = strBaseString + strTemp;
+					pLog->Msg(strOutBuf);
 				}
 			}
 		}

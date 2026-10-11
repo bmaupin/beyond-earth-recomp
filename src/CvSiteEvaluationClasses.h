@@ -26,6 +26,10 @@ protected:
 	virtual int ComputeAquaticFactor(const CvPlayer& player) const;
 };
 
+class CvSiteEvaluatorForSettler : public CvCitySiteEvaluator
+{
+};
+
 class CvSiteEvaluatorForStart : public CvCitySiteEvaluator
 {
 public:

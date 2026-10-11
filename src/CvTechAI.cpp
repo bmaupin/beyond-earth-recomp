@@ -8,10 +8,12 @@ CvTechAI::CvTechAI(CvPlayerTechs* currentTechs) : m_pCurrentTechs(currentTechs)
 {
 }
 
+// TODO(Phase1 audit): CvTechAI::~CvTechAI UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=17; Civ5 changed/new=UNVERIFIED.
 CvTechAI::~CvTechAI()
 {
 }
 
+// TODO(Phase1 audit): CvTechAI::Reset UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=41; Civ5 changed/new=UNVERIFIED.
 void CvTechAI::Reset()
 {
 	m_TechAIWeights.clear();
@@ -22,6 +24,7 @@ void CvTechAI::Reset()
 		m_TechAIWeights.push_back(i, 0);
 }
 
+// TODO(Phase1 audit): CvTechAI::Read UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=73; Civ5 changed/new=UNVERIFIED.
 void CvTechAI::Read(FDataStream& kStream)
 {
 	unsigned int uiVersion;
@@ -42,6 +45,7 @@ void CvTechAI::Read(FDataStream& kStream)
 	}
 }
 
+// TODO(Phase1 audit): CvTechAI::Write UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=47; Civ5 changed/new=UNVERIFIED.
 void CvTechAI::Write(FDataStream& kStream) const
 {
 	const unsigned int uiVersion = 1;
@@ -56,6 +60,7 @@ void CvTechAI::Write(FDataStream& kStream) const
 	}
 }
 
+// TODO(Phase1 audit): CvTechAI::GetQuestSpecificWeight UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=95; Civ5 changed/new=UNVERIFIED.
 int CvTechAI::GetQuestSpecificWeight(TechTypes eTech, int& iWeight, int& iPropagationPercent) const
 {
 	iWeight = 0;
@@ -81,6 +86,7 @@ int CvTechAI::GetQuestSpecificWeight(TechTypes eTech, int& iWeight, int& iPropag
 	return iWeight;
 }
 
+// TODO(Phase1 audit): CvTechAI::AddQuestWeights MISMATCH: Instruction 2 differs before first target reference: object [push   %ebx] vs BE [mov    %esp,%ebp]; BE instructions=133; Civ5 changed/new=UNVERIFIED.
 void CvTechAI::AddQuestWeights(int iWeight)
 {
 	if (!m_pCurrentTechs) return;
@@ -95,6 +101,7 @@ void CvTechAI::AddQuestWeights(int iWeight)
 	}
 }
 
+// TODO(Phase1 audit): CvTechAI::WeightConnections MISMATCH: Instruction 5 differs before first target reference: object [sub    $0x5c,%esp] vs BE [sub    $0xac,%esp]; BE instructions=256; Civ5 changed/new=UNVERIFIED.
 void CvTechAI::WeightConnections(int iTech, int iWeight, int iPropagationPercent, int iPropagationLevel)
 {
 	CvTechEntry* pSeed = m_pCurrentTechs->GetTechs()->GetEntry(iTech);
@@ -140,6 +147,7 @@ void CvTechAI::WeightConnections(int iTech, int iWeight, int iPropagationPercent
 	}
 }
 
+// TODO(Phase1 audit): CvTechAI::AddFlavorWeights MISMATCH: Instruction 2 differs before first target reference: object [push   %ebx] vs BE [mov    %esp,%ebp]; BE instructions=127; Civ5 changed/new=UNVERIFIED.
 void CvTechAI::AddFlavorWeights(FlavorTypes eFlavor, int iWeight, int iPropagationPercent)
 {
 	const int iCount = m_pCurrentTechs->GetTechs()->GetNumTechs();
@@ -153,6 +161,7 @@ void CvTechAI::AddFlavorWeights(FlavorTypes eFlavor, int iWeight, int iPropagati
 	}
 }
 
+// TODO(Phase1 audit): CvTechAI::ChooseNextTech UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=120; Civ5 changed/new=UNVERIFIED.
 TechTypes CvTechAI::ChooseNextTech(bool bFreeTech)
 {
 	m_ResearchableTechs.clear();
@@ -173,6 +182,7 @@ TechTypes CvTechAI::ChooseNextTech(bool bFreeTech)
 	return eTech;
 }
 
+// TODO(Phase1 audit): CvTechAI::ReweightByAffinity UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=84; Civ5 changed/new=UNVERIFIED.
 void CvTechAI::ReweightByAffinity()
 {
 	CvPlayer* pPlayer = m_pCurrentTechs->GetPlayer();
@@ -194,6 +204,7 @@ void CvTechAI::ReweightByAffinity()
 	}
 }
 
+// TODO(Phase1 audit): CvTechAI::ReweightByCost MISMATCH: Instruction 5 differs before first target reference: object [sub    $0x3c,%esp] vs BE [sub    $0x1c,%esp]; BE instructions=46; Civ5 changed/new=UNVERIFIED.
 void CvTechAI::ReweightByCost()
 {
 	for (int i = 0; i < m_ResearchableTechs.size(); ++i)
@@ -204,6 +215,7 @@ void CvTechAI::ReweightByCost()
 	}
 }
 
+// TODO(Phase1 audit): CvTechAI::ReweightByStrategy UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=75; Civ5 changed/new=UNVERIFIED.
 void CvTechAI::ReweightByStrategy()
 {
 	CvPlayer* pPlayer = m_pCurrentTechs->GetPlayer();
@@ -219,6 +231,7 @@ void CvTechAI::ReweightByStrategy()
 	}
 }
 
+// TODO(Phase1 audit): CvTechAI::LogPossibleResearch MISMATCH: Instruction 5 differs before first target reference: object [sub    $0x4c,%esp] vs BE [sub    $0x9c,%esp]; BE instructions=295; Civ5 changed/new=UNVERIFIED.
 void CvTechAI::LogPossibleResearch()
 {
 	if (!GC.getLogging() || !GC.getAILogging()) return;
@@ -231,6 +244,7 @@ void CvTechAI::LogPossibleResearch()
 	}
 }
 
+// TODO(Phase1 audit): CvTechAI::LogResearchChoice MISMATCH: Instruction 5 differs before first target reference: object [sub    $0x3c,%esp] vs BE [sub    $0x8c,%esp]; BE instructions=210; Civ5 changed/new=UNVERIFIED.
 void CvTechAI::LogResearchChoice(TechTypes eTech)
 {
 	if (!GC.getLogging() || !GC.getAILogging()) return;
@@ -239,6 +253,7 @@ void CvTechAI::LogResearchChoice(TechTypes eTech)
 	LOGFILEMGR.GetLog(GetLogFileName(playerName), FILogFile::kDontTimeStamp)->Msg("%03d, %s, CHOSEN, %s", GC.getGame().getElapsedGameTurns(), playerName.c_str(), pTech ? pTech->GetType() : "Unknown Tech");
 }
 
+// TODO(Phase1 audit): CvTechAI::RecommendNextTech MISMATCH: Instruction 5 differs before first target reference: object [sub    $0x2c,%esp] vs BE [sub    $0x1c,%esp]; BE instructions=85; Civ5 changed/new=UNVERIFIED.
 TechTypes CvTechAI::RecommendNextTech(TechTypes eIgnoreTech)
 {
 	m_ResearchableTechs.clear();
@@ -253,6 +268,7 @@ TechTypes CvTechAI::RecommendNextTech(TechTypes eIgnoreTech)
 	return eTech;
 }
 
+// TODO(Phase1 audit): CvTechAI::GetTechRatio MISMATCH: Instruction 5 differs before first target reference: object [sub    $0x3c,%esp] vs BE [sub    $0x5c,%esp]; BE instructions=151; Civ5 changed/new=UNVERIFIED.
 float CvTechAI::GetTechRatio()
 {
 	struct LeaderWithNumTechs
@@ -285,6 +301,7 @@ float CvTechAI::GetTechRatio()
 	return 0.0f;
 }
 
+// TODO(Phase1 audit): CvTechAI::IsAffinityMatch MISMATCH: Instruction 2 differs before first target reference: object [push   %edi] vs BE [push   %esi]; BE instructions=29; Civ5 changed/new=UNVERIFIED.
 bool CvTechAI::IsAffinityMatch(const CvPlayerAI& kPlayer, TechTypes eTech)
 {
 	const AffinityType eAffinity = kPlayer.GetGrandStrategyAI()->GetVictoryAffinityNeed(NULL);
@@ -292,6 +309,7 @@ bool CvTechAI::IsAffinityMatch(const CvPlayerAI& kPlayer, TechTypes eTech)
 	return eAffinity != NO_AFFINITY_TYPE && pTech && pTech->GetAffinityValue(eAffinity) > 0;
 }
 
+// TODO(Phase1 audit): CvTechAI::HasLeafAffinityMatch UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=67; Civ5 changed/new=UNVERIFIED.
 bool CvTechAI::HasLeafAffinityMatch(AffinityType eAffinity, TechTypes eTech, int* piWeight)
 {
 	if (eAffinity == NO_AFFINITY_TYPE) return false;
@@ -313,6 +331,7 @@ bool CvTechAI::HasLeafAffinityMatch(AffinityType eAffinity, TechTypes eTech, int
 	return false;
 }
 
+// TODO(Phase1 audit): CvTechAI::IsAffinityBooster UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=51; Civ5 changed/new=UNVERIFIED.
 bool CvTechAI::IsAffinityBooster(TechTypes eTech, AffinityType* peAffinity, int* piWeight)
 {
 	CvTechEntry* pTech = GC.getTechInfo(eTech);
@@ -330,12 +349,14 @@ bool CvTechAI::IsAffinityBooster(TechTypes eTech, AffinityType* peAffinity, int*
 	return false;
 }
 
+// TODO(Phase1 audit): CvTechAI::ShouldBoostNonChosenAffinity MISMATCH: Instruction 2 differs before first target reference: object [push   %edi] vs BE [sub    $0x8,%esp]; BE instructions=24; Civ5 changed/new=UNVERIFIED.
 bool CvTechAI::ShouldBoostNonChosenAffinity(const CvPlayerAI& kPlayer) const
 {
 	const AffinityType eAffinity = kPlayer.GetGrandStrategyAI()->GetVictoryAffinityNeed(NULL);
 	return eAffinity == NO_AFFINITY_TYPE || kPlayer.GetAffinities()->GetAffinityLevel(eAffinity) <= 9;
 }
 
+// TODO(Phase1 audit): CvTechAI::GetLogFileName MISMATCH: Instruction 2 differs before first target reference: object [push   %esi] vs BE [push   %edi]; BE instructions=83; Civ5 changed/new=UNVERIFIED.
 CvString CvTechAI::GetLogFileName(CvString& playerName) const
 {
 	if (!GC.getPlayerAndCityAILogSplit()) return CvString("TechAILog.csv");
@@ -344,6 +365,7 @@ CvString CvTechAI::GetLogFileName(CvString& playerName) const
 	return result;
 }
 
+// TODO(Phase1 audit): CvTechAI::GetWeight MISMATCH: First instruction opcode differs: object push, BE mov; BE instructions=5; Civ5 changed/new=UNVERIFIED.
 int CvTechAI::GetWeight(TechTypes eTech)
 {
 	return m_TechAIWeights.GetWeight(eTech);

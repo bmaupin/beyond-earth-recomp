@@ -124,16 +124,18 @@ TODO: Add examples of differences in the disassembly that would still be conside
    - This should be the case for all files except for files where there are functions that are not yet implemented
 
 1. Update the Progress in [docs/todo.md](../todo.md)
-   1. Calculate the number of recompiled functions
+   1. Calculate the number of recompiled functions of files that are finished
 
       ```
-      find src -type f -name '*.cpp' -print |
+      pushd src 2>/dev/null &&
+        cat ../docs/todo.md | grep '\[x\]' | awk '{print $3}' |
         ctags --quiet \
           --languages=C++ \
           --kinds-C++=f \
           -f - \
           -L - |
-        awk -F '\t' '$4 == "f" { count++ } END { print count + 0 }'
+        awk -F '\t' '$4 == "f" { count++ } END { print count + 0 }';
+        popd 2>/dev/null
       ```
 
    1. Update the text under the badge, e.g.

@@ -5,6 +5,11 @@
 #include "CvDllStrategicSite.h"
 #include "CvDllUnit.h"
 
+// The target retains constructor-failure cleanup and terminating delete handlers.
+#ifndef __EXCEPTIONS
+#error CvDllCombatInfo.cpp requires exception handling to match the Beyond Earth binary.
+#endif
+
 CvDllCombatInfo::CvDllCombatInfo(CvCombatInfo* pCombatInfo)
 	: m_pCombatInfo(pCombatInfo)
 	, m_uiRefCount(1)
@@ -71,6 +76,9 @@ ICvUnit1* CvDllCombatInfo::GetUnit(BattleUnitTypes unitType) const
 	return (NULL != pkUnit) ? new CvDllUnit(pkUnit) : NULL;
 }
 
+// NOTE: CvDllCombatInfo::GetCity does not exist in Beyond Earth.
+// ICvCity1* CvDllCombatInfo::GetCity(BattleUnitTypes unitType) const;
+// Beyond Earth replaces the city participant and wrapper with a strategic site.
 ICvStrategicSite1* CvDllCombatInfo::GetStrategicSite(BattleUnitTypes unitType) const
 {
 	CvStrategicSite* pkStrategicSite = m_pCombatInfo->getStrategicSite(unitType);
@@ -155,11 +163,13 @@ bool CvDllCombatInfo::GetDefenderCaptured() const
 	return m_pCombatInfo->getDefenderCaptured();
 }
 
+// Beyond Earth exposes whether this attack targets an orbital unit.
 bool CvDllCombatInfo::GetAttackIsAgainstOrbital() const
 {
 	return m_pCombatInfo->getAttackIsAttackOrbital();
 }
 
+// Beyond Earth exposes the combat visual-effect hash.
 unsigned int CvDllCombatInfo::GetVisFXHash() const
 {
 	return m_pCombatInfo->getVisFXHash();

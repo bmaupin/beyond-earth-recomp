@@ -9,11 +9,13 @@ namespace
 {
 	const int kPrecision = 1000;
 
+	// TODO: Phase1 Clamp: inlined helper; verify instructions at each caller, not a separately matched target export.
 	int Clamp(int value, int low, int high)
 	{
 		return std::max(low, std::min(value, high));
 	}
 
+	// TODO: Phase1 HexDistance: reconstructed inline helper; caller equality and Civ5 changed/new count unverified.
 	int HexDistance(int dx, int dy)
 	{
 		const int adx = abs(dx);
@@ -21,6 +23,7 @@ namespace
 		return (dx >= 0) == (dy >= 0) ? adx + ady : std::max(adx, ady);
 	}
 
+	// TODO: Phase1 HexX: reconstructed inline helper; verify coordinate conversion at each caller.
 	int HexX(int x, int y)
 	{
 		return x - (y >= 0 ? y >> 1 : (y - 1) / 2);
@@ -36,6 +39,8 @@ namespace
 	};
 }
 
+// TODO: Phase1 CvFractal::CvFractal(): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
+// TODO: Phase1 CvFractal::CvFractal(): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 CvFractal::CvFractal()
 {
 	m_iFracXExp = -1;
@@ -47,6 +52,9 @@ CvFractal::CvFractal()
 	m_iFracY = -1;
 }
 
+// TODO: Phase1 CvFractal::~CvFractal(): MISMATCH; Non-padding instruction count: BE 15, object 5; Civ5 changed/new instruction count unverified.
+// TODO: Phase1 CvFractal::~CvFractal(): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
+// TODO: Phase1 CvFractal::~CvFractal(): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 CvFractal::~CvFractal()
 {
 	uninit();
@@ -56,6 +64,7 @@ void CvFractal::uninit()
 {
 }
 
+// TODO: Phase1 CvFractal::reset(): MISMATCH; Relocation-free operand/instruction difference; Civ5 changed/new instruction count unverified.
 void CvFractal::reset()
 {
 	uninit();
@@ -68,16 +77,19 @@ void CvFractal::reset()
 	m_iFracYExp = -1;
 }
 
+// TODO: Phase1 CvFractal::fracInit(int, int, int, CvRandom&, int, CvFractal*, int, int): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 void CvFractal::fracInit(int iNewXs, int iNewYs, int iGrain, CvRandom& random, int iFlags, CvFractal* pRifts, int iFracXExp, int iFracYExp)
 {
 	fracInitInternal(iNewXs, iNewYs, iGrain, random, NULL, -1, iFlags, pRifts, iFracXExp, iFracYExp);
 }
 
+// TODO: Phase1 CvFractal::fracInitHinted(int, int, int, CvRandom&, unsigned char*, int, int, CvFractal*, int, int): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 void CvFractal::fracInitHinted(int iNewXs, int iNewYs, int iGrain, CvRandom& random, byte* pbyHints, int iHintsLength, int iFlags, CvFractal* pRifts, int iFracXExp, int iFracYExp)
 {
 	fracInitInternal(iNewXs, iNewYs, iGrain, random, pbyHints, iHintsLength, iFlags & ~FRAC_POLAR, pRifts, iFracXExp, iFracYExp);
 }
 
+// TODO: Phase1 CvFractal::fracInitInternal(int, int, int, CvRandom&, unsigned char*, int, int, CvFractal*, int, int): MISMATCH; Non-padding instruction count: BE 682, object 571; Civ5 changed/new instruction count unverified.
 void CvFractal::fracInitInternal(int iNewXs, int iNewYs, int iGrain, CvRandom& random, byte* pbyHints, int iHintsLength, int iFlags, CvFractal* pRifts, int iFracXExp, int iFracYExp)
 {
 	CvAssert(iNewXs > 0 && iNewXs < FRACTAL_MAX_DIMS);
@@ -181,6 +193,7 @@ void CvFractal::fracInitInternal(int iNewXs, int iNewYs, int iGrain, CvRandom& r
 				m_aaiFrac[x][y] = 255 - m_aaiFrac[x][y];
 }
 
+// TODO: Phase1 CvFractal::getHeight(int, int): MISMATCH; Non-padding instruction count: BE 91, object 101; Civ5 changed/new instruction count unverified.
 int CvFractal::getHeight(int x, int y)
 {
 	if(x < 0 || x >= m_iXs || y < 0 || y >= m_iYs) return 0;
@@ -193,6 +206,7 @@ int CvFractal::getHeight(int x, int y)
 	return (m_iFlags & FRAC_PERCENT) ? height * 100 / 256 : height;
 }
 
+// TODO: Phase1 CvFractal::getHeightFromPercent(int): MISMATCH; Non-padding instruction count: BE 94, object 85; Civ5 changed/new instruction count unverified.
 int CvFractal::getHeightFromPercent(int percent)
 {
 	percent = Clamp(percent, 0, 100);
@@ -212,6 +226,7 @@ int CvFractal::getHeightFromPercent(int percent)
 	return estimate;
 }
 
+// TODO: Phase1 CvFractal::tectonicAction(CvFractal*): MISMATCH; Mnemonic divergence at BE #10 mov, object #10 imul; Civ5 changed/new instruction count unverified.
 void CvFractal::tectonicAction(CvFractal* pRifts)
 {
 	const int riftX = m_iFracX * 3 / 4;
@@ -235,6 +250,7 @@ int CvFractal::yieldX(int x)
 	return x;
 }
 
+// TODO: Phase1 CvFractal::ridgeBuilder(CvRandom&, int, int, int, int): MISMATCH; Non-padding instruction count: BE 306, object 272; Civ5 changed/new instruction count unverified.
 void CvFractal::ridgeBuilder(CvRandom& random, int seedCount, int ridgeFlags, int ridgeBlend, int fractalBlend)
 {
 	seedCount = std::max(seedCount, 3);

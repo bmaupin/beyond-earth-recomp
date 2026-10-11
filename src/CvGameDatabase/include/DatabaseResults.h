@@ -19,6 +19,7 @@ namespace Database
 		int GetInt(int iColumn);
 		int GetInt(const char* szColumn);
 		bool GetBool(const char* szColumn);
+		float GetFloat(const char* szColumn);
 		void* operator new(size_t tSize);
 		void operator delete(void* pMem);
 

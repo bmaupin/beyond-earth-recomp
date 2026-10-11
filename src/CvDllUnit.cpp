@@ -6,6 +6,11 @@
 #include "CvDllUnitInfo.h"
 #include "CvUnit.h"
 
+// The native wrappers retain constructor-failure cleanup and terminating delete handlers.
+#ifndef __EXCEPTIONS
+#error CvDllUnit.cpp requires exception handling to match the Beyond Earth binary.
+#endif
+
 CvDllUnit::CvDllUnit(CvUnit* pUnit)
 	: m_uiRefCount(1)
 	, m_pUnit(pUnit)
@@ -79,6 +84,7 @@ CivilizationTypes CvDllUnit::GetCivilizationType() const { return m_pUnit->getCi
 TeamTypes CvDllUnit::GetTeam() const { return m_pUnit->getTeam(); }
 DomainTypes CvDllUnit::GetDomainType() const { return m_pUnit->getDomainType(); }
 bool CvDllUnit::IsCombatUnit() const { return m_pUnit->IsCombatUnit(); }
+// Beyond Earth replaces barbarian classification with alien classification.
 bool CvDllUnit::IsAlien() const { return m_pUnit->isAlien(); }
 bool CvDllUnit::IsHoveringUnit() const { return m_pUnit->IsHoveringUnit(); }
 bool CvDllUnit::IsAmphibiousUnit() const { return m_pUnit->IsAmphibiousUnit(); }
@@ -88,6 +94,7 @@ bool CvDllUnit::IsInvisible(TeamTypes eTeam, bool bDebug) const
 	return m_pUnit->isInvisible(eTeam, bDebug, true);
 }
 
+// Beyond Earth adds amphibious and orbital classification to the unit interface.
 bool CvDllUnit::IsOrbitalUnit() const { return m_pUnit->IsOrbitalUnit(); }
 bool CvDllUnit::IsInOrbit() const { return m_pUnit->IsInOrbit(); }
 bool CvDllUnit::CanMoveImpassable() const { return m_pUnit->canMoveImpassable(); }
@@ -152,11 +159,13 @@ UnitTypes CvDllUnit::GetUnitType() const { return m_pUnit->getUnitType(); }
 bool CvDllUnit::IsDelayedDeathExported() const { return m_pUnit->isDelayedDeathExported(); }
 bool CvDllUnit::IsBusy() const { return m_pUnit->IsBusy(); }
 
+// Beyond Earth supplies the additional graphical setup arguments.
 void CvDllUnit::SetupGraphical()
 {
 	m_pUnit->setupGraphical(false, -1);
 }
 
+// Beyond Earth adds an exported graphical-state reset.
 void CvDllUnit::ResetGraphical(int iState)
 {
 	m_pUnit->resetGraphical(iState);
@@ -164,6 +173,7 @@ void CvDllUnit::ResetGraphical(int iState)
 
 CvString CvDllUnit::GetName() const { return m_pUnit->getName(); }
 
+// Beyond Earth also exports the untranslated name key.
 CvString CvDllUnit::GetNameTextKey() const
 {
 	const char* szNameKey = m_pUnit->getNameKey();
@@ -200,4 +210,4 @@ bool CvDllUnit::CanWork() const { return m_pUnit->IsWork(); }
 bool CvDllUnit::CanFound() const { return m_pUnit->isFound(); }
 FAutoArchive& CvDllUnit::GetSyncArchive() { return m_pUnit->getSyncArchive(); }
 bool CvDllUnit::IsTrade() const { return m_pUnit->isTrade(); }
-bool CvDllUnit::IsWorker() const { return m_pUnit->IsWorker(); }
+bool CvDllUnit::IsWorker() const { return m_pUnit->isWorker(); }

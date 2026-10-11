@@ -5,6 +5,9 @@
 #include "CvInfosSerializationHelper.h"
 #include "ICvDLLUserInterface.h"
 
+// Clang 3.4 does not emit Beyond Earth's sized delete expression automatically.
+void operator delete(void*, size_t) noexcept;
+
 #include "LintFree.h"
 
 CvEmphasisEntry::CvEmphasisEntry() :
@@ -23,8 +26,10 @@ bool CvEmphasisEntry::CacheResults(Database::Results& kResults, CvDatabaseUtilit
 	if(!CvBaseInfo::CacheResults(kResults, kUtility))
 		return false;
 
+	// Beyond Earth omits the GreatPeople column and evaluates GetType first.
 	m_bAvoidGrowth = kResults.GetBool("AvoidGrowth");
-	kUtility.SetYields(m_piYieldModifiers, "EmphasizeInfo_Yields", "EmphasizeType", GetType());
+	const char* szEmphasizeType = GetType();
+	kUtility.SetYields(m_piYieldModifiers, "EmphasizeInfo_Yields", "EmphasizeType", szEmphasizeType);
 	return true;
 }
 
@@ -61,11 +66,14 @@ void CvEmphasisXMLEntries::DeleteArray()
 {
 	for(std::vector<CvEmphasisEntry*>::iterator it = m_paEmphasisEntries.begin(); it != m_paEmphasisEntries.end(); ++it)
 	{
-		if(*it)
+		// Beyond Earth uses sized deletion and clears even an already-null slot.
+		CvEmphasisEntry* pEntry = *it;
+		if(pEntry)
 		{
-			delete *it;
-			*it = NULL;
+			pEntry->~CvEmphasisEntry();
+			::operator delete(pEntry, sizeof(CvEmphasisEntry));
 		}
+		*it = NULL;
 	}
 	m_paEmphasisEntries.clear();
 }
@@ -104,7 +112,10 @@ void CvCityEmphases::Reset()
 	for(int iI = 0; iI < NUM_YIELD_TYPES; iI++)
 		m_aiEmphasizeYieldCount[iI] = 0;
 
-	m_pbEmphasize = FNEW(bool[GC.getNumEmphasisInfos()], c_eCiv5GameplayDLL, 0);
+	// Beyond Earth uses an unsigned allocation bound; retain its allocator provenance.
+#line 147 "../../../Civ5/Src/App/CvGameCoreDLL_Expansion1/CvEmphasisClasses.cpp"
+	m_pbEmphasize = FNEW(bool[static_cast<unsigned int>(GC.getNumEmphasisInfos())], c_eCiv5GameplayDLL, 0);
+#line 120 "src/CvEmphasisClasses.cpp"
 	for(int iI = 0; iI < GC.getNumEmphasisInfos(); iI++)
 		m_pbEmphasize[iI] = false;
 }
@@ -116,6 +127,7 @@ void CvCityEmphases::SetEmphasize(EmphasizeTypes eIndex, bool bNewValue)
 		m_pbEmphasize[eIndex] = bNewValue;
 
 		CvEmphasisEntry* pkEmphasis = GC.getEmphasisInfo(eIndex);
+		// Beyond Earth tolerates a missing entry and has no Great People counter.
 		if(!pkEmphasis)
 			return;
 
@@ -145,7 +157,8 @@ void CvCityEmphases::Read(FDataStream& kStream)
 
 void CvCityEmphases::Write(FDataStream& kStream)
 {
-	unsigned int uiVersion = 1;
+	// Beyond Earth writes the version through the signed stream overload.
+	int uiVersion = 1;
 	kStream << uiVersion;
 	kStream << m_iEmphasizeAvoidGrowthCount;
 	for(int iI = 0; iI < NUM_YIELD_TYPES; iI++)

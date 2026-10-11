@@ -6,10 +6,12 @@ CvPolicyAI::CvPolicyAI(CvPlayerPolicies* currentPolicies) : m_pCurrentPolicies(c
 {
 }
 
+// TODO(Phase1 audit): CvPolicyAI::~CvPolicyAI UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=17; Civ5 changed/new=UNVERIFIED.
 CvPolicyAI::~CvPolicyAI()
 {
 }
 
+// TODO(Phase1 audit): CvPolicyAI::Reset UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=44; Civ5 changed/new=UNVERIFIED.
 void CvPolicyAI::Reset()
 {
 	m_PolicyAIWeights.clear();
@@ -19,6 +21,7 @@ void CvPolicyAI::Reset()
 		m_PolicyAIWeights.push_back(i, 0);
 }
 
+// TODO(Phase1 audit): CvPolicyAI::Read UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=71; Civ5 changed/new=UNVERIFIED.
 void CvPolicyAI::Read(FDataStream& kStream)
 {
 	unsigned int uiVersion;
@@ -38,6 +41,7 @@ void CvPolicyAI::Read(FDataStream& kStream)
 	}
 }
 
+// TODO(Phase1 audit): CvPolicyAI::Write UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=57; Civ5 changed/new=UNVERIFIED.
 void CvPolicyAI::Write(FDataStream& kStream)
 {
 	const int iVersion = 1;
@@ -52,6 +56,7 @@ void CvPolicyAI::Write(FDataStream& kStream)
 	}
 }
 
+// TODO(Phase1 audit): CvPolicyAI::AddFlavorWeights UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=107; Civ5 changed/new=UNVERIFIED.
 void CvPolicyAI::AddFlavorWeights(FlavorTypes eFlavor, int iWeight, int iPropagationPercent)
 {
 	CvPolicyXMLEntries* pPolicies = m_pCurrentPolicies->GetPolicies();
@@ -65,12 +70,14 @@ void CvPolicyAI::AddFlavorWeights(FlavorTypes eFlavor, int iWeight, int iPropaga
 	for(int i = 0; i < pPolicies->GetNumPolicies(); ++i) m_PolicyAIWeights.IncreaseWeight(i, weights[i]);
 }
 
+// TODO(Phase1 audit): CvPolicyAI::WeightPrereqs UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=42; Civ5 changed/new=UNVERIFIED.
 void CvPolicyAI::WeightPrereqs(int* paiTempWeights, int iPropagationPercent)
 {
 	for(int i = 0; i < m_pCurrentPolicies->GetPolicies()->GetNumPolicies(); ++i)
 		if(paiTempWeights[i] > 0) PropagateWeights(i, paiTempWeights[i], iPropagationPercent, 0);
 }
 
+// TODO(Phase1 audit): CvPolicyAI::PropagateWeights UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=64; Civ5 changed/new=UNVERIFIED.
 void CvPolicyAI::PropagateWeights(int iPolicy, int iWeight, int iPropagationPercent, int iPropagationLevel)
 {
 	if(iPropagationLevel >= m_iPolicyWeightPropagationLevels) return;
@@ -86,6 +93,7 @@ void CvPolicyAI::PropagateWeights(int iPolicy, int iWeight, int iPropagationPerc
 	}
 }
 
+// TODO(Phase1 audit): CvPolicyAI::WeightKickers MISMATCH: Instruction 1 differs before first target reference: object [push   %ebp] vs BE [push   %ebx]; BE instructions=23; Civ5 changed/new=UNVERIFIED.
 int CvPolicyAI::WeightKickers(const std::vector<PolicyTypes>& kickers) const
 {
 	int iWeight = 0;
@@ -94,6 +102,7 @@ int CvPolicyAI::WeightKickers(const std::vector<PolicyTypes>& kickers) const
 	return iWeight;
 }
 
+// TODO(Phase1 audit): CvPolicyAI::ChooseNextVirtue MISMATCH: Instruction 5 differs before first target reference: object [sub    $0x5c,%esp] vs BE [sub    $0x4c,%esp]; BE instructions=174; Civ5 changed/new=UNVERIFIED.
 int CvPolicyAI::ChooseNextVirtue(CvPlayer*)
 {
 	RandomNumberDelegate rand(&GC.getGame(), &CvGame::getGameRandNum);
@@ -124,6 +133,7 @@ int CvPolicyAI::ChooseNextVirtue(CvPlayer*)
 	return iChoice;
 }
 
+// TODO(Phase1 audit): CvPolicyAI::ChooseNextPolicy MISMATCH: Instruction 5 differs before first target reference: object [sub    $0x5c,%esp] vs BE [sub    $0x6c,%esp]; BE instructions=503; Civ5 changed/new=UNVERIFIED.
 int CvPolicyAI::ChooseNextPolicy(CvPlayer* pPlayer)
 {
 	RandomNumberDelegate rand(&GC.getGame(), &CvGame::getGameRandNum);
@@ -196,6 +206,7 @@ int CvPolicyAI::ChooseNextPolicy(CvPlayer* pPlayer)
 	return iChoice;
 }
 
+// TODO(Phase1 audit): CvPolicyAI::IsBranchEffectiveInGame UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=63; Civ5 changed/new=UNVERIFIED.
 bool CvPolicyAI::IsBranchEffectiveInGame(PolicyBranchTypes eBranch)
 {
 	CvPolicyBranchEntry* pBranch = GC.getPolicyBranchInfo(eBranch);
@@ -207,6 +218,7 @@ bool CvPolicyAI::IsBranchEffectiveInGame(PolicyBranchTypes eBranch)
 	return true;
 }
 
+// TODO(Phase1 audit): CvPolicyAI::WeighBranch UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=24; Civ5 changed/new=UNVERIFIED.
 int CvPolicyAI::WeighBranch(PolicyBranchTypes eBranch)
 {
 	CvPolicyBranchEntry* pBranch = GC.getPolicyBranchInfo(eBranch);
@@ -221,6 +233,7 @@ void CvPolicyAI::DoConsiderIdeologySwitch(CvPlayer*)
 {
 }
 
+// TODO(Phase1 audit): CvPolicyAI::GetBranchBuildingHealth UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=99; Civ5 changed/new=UNVERIFIED.
 int CvPolicyAI::GetBranchBuildingHealth(CvPlayer* pPlayer, PolicyBranchTypes eBranch)
 {
 	int iHealth = 0;
@@ -241,6 +254,7 @@ int CvPolicyAI::GetBranchBuildingHealth(CvPlayer* pPlayer, PolicyBranchTypes eBr
 	return iHealth;
 }
 
+// TODO(Phase1 audit): CvPolicyAI::GetNumHealthPolicies UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=79; Civ5 changed/new=UNVERIFIED.
 int CvPolicyAI::GetNumHealthPolicies(CvPlayer* pPlayer, PolicyBranchTypes eBranch)
 {
 	int iCount = 0;
@@ -264,6 +278,7 @@ int CvPolicyAI::GetNumHealthPolicies(CvPlayer* pPlayer, PolicyBranchTypes eBranc
 	return iCount;
 }
 
+// TODO(Phase1 audit): CvPolicyAI::GetLogFileName UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=83; Civ5 changed/new=UNVERIFIED.
 CvString CvPolicyAI::GetLogFileName(CvString& playerName) const
 {
 	CvString filename;
@@ -272,6 +287,7 @@ CvString CvPolicyAI::GetLogFileName(CvString& playerName) const
 	return filename;
 }
 
+// TODO(Phase1 audit): CvPolicyAI::LogPossiblePolicies MISMATCH: Instruction 5 differs before first target reference: object [sub    $0x7c,%esp] vs BE [sub    $0x8c,%esp]; BE instructions=226; Civ5 changed/new=UNVERIFIED.
 void CvPolicyAI::LogPossiblePolicies()
 {
 	if(!GC.getLogging() || !GC.getAILogging()) return;
@@ -289,6 +305,7 @@ void CvPolicyAI::LogPossiblePolicies()
 	}
 }
 
+// TODO(Phase1 audit): CvPolicyAI::LogPolicyChoice MISMATCH: Instruction 5 differs before first target reference: object [sub    $0x4c,%esp] vs BE [sub    $0x8c,%esp]; BE instructions=210; Civ5 changed/new=UNVERIFIED.
 void CvPolicyAI::LogPolicyChoice(PolicyTypes ePolicy)
 {
 	if(!GC.getLogging() || !GC.getAILogging()) return;
@@ -300,6 +317,7 @@ void CvPolicyAI::LogPolicyChoice(PolicyTypes ePolicy)
 	pLog->Msg(message.c_str());
 }
 
+// TODO(Phase1 audit): CvPolicyAI::LogBranchChoice MISMATCH: Instruction 5 differs before first target reference: object [sub    $0x4c,%esp] vs BE [sub    $0x8c,%esp]; BE instructions=197; Civ5 changed/new=UNVERIFIED.
 void CvPolicyAI::LogBranchChoice(PolicyBranchTypes eBranch)
 {
 	if(!GC.getLogging() || !GC.getAILogging()) return;
@@ -310,6 +328,7 @@ void CvPolicyAI::LogBranchChoice(PolicyBranchTypes eBranch)
 	pLog->Msg(message.c_str());
 }
 
+// TODO(Phase1 audit): CvPolicyAI::LogIdeologyChoice MISMATCH: Instruction 5 differs before first target reference: object [sub    $0x5c,%esp] vs BE [sub    $0x8c,%esp]; BE instructions=208; Civ5 changed/new=UNVERIFIED.
 void CvPolicyAI::LogIdeologyChoice(CvString& strMessage, int iFreedom, int iOrder, int iAutocracy)
 {
 	if(!GC.getLogging() || !GC.getAILogging()) return;

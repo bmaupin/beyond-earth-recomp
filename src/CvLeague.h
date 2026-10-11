@@ -7,9 +7,9 @@
 enum LeagueProjectTypes { NO_LEAGUE_PROJECT = -1 };
 enum LeagueSpecialSessionTypes { NO_LEAGUE_SPECIAL_SESSION = -1 };
 enum ResolutionDecisionTypes { NO_RESOLUTION_DECISION = -1 };
-enum UnitClassTypes { NO_UNITCLASS = -1 };
+enum UnitClassTypes : int;
 
-namespace Localization { class String { public: CvString toUTF8() const; }; }
+#include "CvLocalization.h"
 
 class CvResolutionDecision { public: int GetDecision(); };
 class CvVoterDecision : public CvResolutionDecision {};

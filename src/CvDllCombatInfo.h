@@ -18,6 +18,9 @@ public:
 	static void* operator new(size_t bytes);
 
 	ICvUnit1* DLLCALL GetUnit(BattleUnitTypes unitType) const;
+	// NOTE: GetCity does not exist in Beyond Earth.
+	// ICvCity1* DLLCALL GetCity(BattleUnitTypes unitType) const;
+	// Beyond Earth replaces the Civ 5 city participant with a strategic site.
 	ICvStrategicSite1* DLLCALL GetStrategicSite(BattleUnitTypes unitType) const;
 	ICvPlot1* DLLCALL GetPlot() const;
 

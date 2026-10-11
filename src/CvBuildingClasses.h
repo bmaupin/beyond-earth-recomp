@@ -11,7 +11,10 @@ public:
 	const char* GetArtDefineTag() const;
 	const char* GetWonderSplashAudio() const;
 	int GetFlavorValue(int i) const;
+	int GetTechPrereq() const;
 	bool IsNoOccupiedUnhealth() const;
+	int GetSpecialistType() const;
+	int GetSpecialistCount() const;
 	// TODO: CvBuildingEntry (remaining SDK methods and Beyond Earth members).
 };
 

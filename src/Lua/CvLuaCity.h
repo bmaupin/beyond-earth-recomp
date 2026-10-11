@@ -1,9 +1,13 @@
 #pragma once
 
+#include "CvLuaScopedInstance.h"
+
 class CvCity;
 
-class CvLuaCity
+class CvLuaCity : public CvLuaScopedInstance<CvLuaCity, CvCity>
 {
 public:
-	static void Push(lua_State* L, CvCity* pCity);
+	static void PushMethods(lua_State* L, int t);
+	static void HandleMissingInstance(lua_State* L);
+	static const char* GetTypeName();
 };

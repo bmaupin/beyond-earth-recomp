@@ -2,16 +2,19 @@
 #include "CvAdvisorRecommender.h"
 #include <math.h>
 
+// TODO(Phase1 audit): CvAdvisorRecommender::CvAdvisorRecommender MISMATCH: Instruction 5 differs before first target reference: object [movl   $0xffffffff,0x4(%edx)] vs BE [movl   $0x0,0x4(%edx)]; BE instructions=41; Civ5 changed/new=UNVERIFIED.
 CvAdvisorRecommender::CvAdvisorRecommender()
 {
 	Init();
 }
 
+// TODO(Phase1 audit): CvAdvisorRecommender::~CvAdvisorRecommender UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=23; Civ5 changed/new=UNVERIFIED.
 CvAdvisorRecommender::~CvAdvisorRecommender()
 {
 	Uninit();
 }
 
+// TODO(Phase1 audit): CvAdvisorRecommender::Init MISMATCH: Instruction 1 differs before first target reference: object [mov    $0x8,%ecx] vs BE [mov    0x4(%esp),%eax]; BE instructions=17; Civ5 changed/new=UNVERIFIED.
 void CvAdvisorRecommender::Init()
 {
 	Reset();
@@ -21,12 +24,14 @@ void CvAdvisorRecommender::Uninit()
 {
 }
 
+// TODO(Phase1 audit): CvAdvisorRecommender::Reset MISMATCH: Instruction 1 differs before first target reference: object [mov    $0x8,%ecx] vs BE [mov    0x4(%esp),%eax]; BE instructions=17; Civ5 changed/new=UNVERIFIED.
 void CvAdvisorRecommender::Reset()
 {
 	ResetCity();
 	ResetTechs();
 }
 
+// TODO(Phase1 audit): CvAdvisorRecommender::ResetCity MISMATCH: Instruction 1 differs before first target reference: object [mov    $0x8,%ecx] vs BE [mov    0x4(%esp),%eax]; BE instructions=11; Civ5 changed/new=UNVERIFIED.
 void CvAdvisorRecommender::ResetCity()
 {
 	for (int i = 0; i < NUM_ADVISOR_TYPES; ++i)
@@ -43,6 +48,7 @@ void CvAdvisorRecommender::ResetTechs()
 	m_aFinalRoundTechs.clear();
 }
 
+// TODO(Phase1 audit): CvAdvisorRecommender::UpdateCityRecommendations UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=273; Civ5 changed/new=UNVERIFIED.
 void CvAdvisorRecommender::UpdateCityRecommendations(CvCity* pCity)
 {
 	ResetCity();
@@ -91,21 +97,25 @@ void CvAdvisorRecommender::UpdateCityRecommendations(CvCity* pCity)
 	}
 }
 
+// TODO(Phase1 audit): CvAdvisorRecommender::IsUnitRecommended UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=12; Civ5 changed/new=UNVERIFIED.
 bool CvAdvisorRecommender::IsUnitRecommended(UnitTypes eUnit, AdvisorTypes eAdvisor)
 {
 	return m_aRecommendedBuilds[eAdvisor].m_eBuildableType == CvCityBuildable::CITY_BUILDABLE_UNIT && m_aRecommendedBuilds[eAdvisor].m_iIndex == eUnit;
 }
 
+// TODO(Phase1 audit): CvAdvisorRecommender::IsBuildingRecommended UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=12; Civ5 changed/new=UNVERIFIED.
 bool CvAdvisorRecommender::IsBuildingRecommended(BuildingTypes eBuilding, AdvisorTypes eAdvisor)
 {
 	return m_aRecommendedBuilds[eAdvisor].m_eBuildableType == CvCityBuildable::CITY_BUILDABLE_BUILDING && m_aRecommendedBuilds[eAdvisor].m_iIndex == eBuilding;
 }
 
+// TODO(Phase1 audit): CvAdvisorRecommender::IsProjectRecommended UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=12; Civ5 changed/new=UNVERIFIED.
 bool CvAdvisorRecommender::IsProjectRecommended(ProjectTypes eProject, AdvisorTypes eAdvisor)
 {
 	return m_aRecommendedBuilds[eAdvisor].m_eBuildableType == CvCityBuildable::CITY_BUILDABLE_PROJECT && m_aRecommendedBuilds[eAdvisor].m_iIndex == eProject;
 }
 
+// TODO(Phase1 audit): CvAdvisorRecommender::UpdateTechRecommendations MISMATCH: Instruction 5 differs before first target reference: object [sub    $0x18c,%esp] vs BE [sub    $0x1403c,%esp]; BE instructions=196; Civ5 changed/new=UNVERIFIED.
 void CvAdvisorRecommender::UpdateTechRecommendations(PlayerTypes ePlayer)
 {
 	ResetTechs();
@@ -159,6 +169,7 @@ void CvAdvisorRecommender::UpdateTechRecommendations(PlayerTypes ePlayer)
 		if (assignments[bestMask][advisor] >= 0) m_aRecommendedTechs[advisor] = (TechTypes)m_aResearchableTechs.GetElement(assignments[bestMask][advisor]);
 }
 
+// TODO(Phase1 audit): CvAdvisorRecommender::AdvisorScoreForTech UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=46; Civ5 changed/new=UNVERIFIED.
 int CvAdvisorRecommender::AdvisorScoreForTech(AdvisorTypes eAdvisor, TechTypes eTech)
 {
 	CvTechEntry* pTech = GC.getTechInfo(eTech);
@@ -174,6 +185,7 @@ bool CvAdvisorRecommender::IsTechRecommended(TechTypes eTech, AdvisorTypes eAdvi
 	return m_aRecommendedTechs[eAdvisor] == eTech;
 }
 
+// TODO(Phase1 audit): CvAdvisorRecommender::AdvisorInterestInFlavor MISMATCH: Instruction 4 differs before first target reference: object [sub    $0x10,%esp] vs BE [sub    $0x20,%esp]; BE instructions=32; Civ5 changed/new=UNVERIFIED.
 int CvAdvisorRecommender::AdvisorInterestInFlavor(AdvisorTypes eAdvisor, FlavorTypes eFlavor)
 {
 	const char* name = GC.getFlavorTypes(eFlavor);
@@ -207,6 +219,7 @@ int CvAdvisorRecommender::AdvisorInterestInFlavor(AdvisorTypes eAdvisor, FlavorT
 	return 0;
 }
 
+// TODO(Phase1 audit): CvAdvisorRecommender::FindUnassignedAdvisorForTech UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=70; Civ5 changed/new=UNVERIFIED.
 AdvisorTypes CvAdvisorRecommender::FindUnassignedAdvisorForTech(PlayerTypes ePlayer, TechTypes eTech)
 {
 	CvTechEntry* pTech = GET_PLAYER(ePlayer).GetPlayerTechs()->GetTechs()->GetEntry(eTech);
@@ -219,6 +232,7 @@ AdvisorTypes CvAdvisorRecommender::FindUnassignedAdvisorForTech(PlayerTypes ePla
 	return result;
 }
 
+// TODO(Phase1 audit): CvAdvisorRecommender::FindUnassignedAdvisorForBuildable MISMATCH: Instruction 5 differs before first target reference: object [sub    $0x2c,%esp] vs BE [sub    $0x3c,%esp]; BE instructions=112; Civ5 changed/new=UNVERIFIED.
 AdvisorTypes CvAdvisorRecommender::FindUnassignedAdvisorForBuildable(PlayerTypes, CvCityBuildable& buildable)
 {
 	int scores[NUM_ADVISOR_TYPES] = {0};

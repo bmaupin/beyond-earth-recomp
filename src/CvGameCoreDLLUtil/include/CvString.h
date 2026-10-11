@@ -21,13 +21,15 @@ class CvString : public std::string
 {
 public:
 	CvString() {}
+	CvString(const std::string& s) : std::string(s) {}
 	CvString(const char* s) : std::string(s ? s : "") {CvAssertMsg(s != NULL, "Passing NULL to std::string; possible heap corruption!");}
 
 	~CvString() {}
 
 	// Beyond Earth's notification cache calls this SDK helper out of line.
 	__attribute__((noinline)) CvString& operator=(const char* s) { if(s) assign(s); else clear(); return *this; }
-	CvString& operator=(const std::string& s) { assign(s.c_str()); return *this; }
+	// Beyond Earth's production logger calls this SDK overload out of line.
+	__attribute__((noinline)) CvString& operator=(const std::string& s) { assign(s.c_str()); return *this; }
 	operator const char*() const { return c_str(); }
 	const char* GetCString() const { return c_str(); }
 	void Format(const char* lpszFormat, ...);

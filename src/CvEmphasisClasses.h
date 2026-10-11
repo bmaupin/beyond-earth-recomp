@@ -7,11 +7,14 @@ public:
 	~CvEmphasisEntry();
 	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
 	bool IsAvoidGrowth() const;
+	// NOTE: Great People emphasis does not exist in Beyond Earth.
+	// bool IsGreatPeople() const;
 	int GetYieldChange(int i) const;
 
 private:
 	bool m_bAvoidGrowth;
 	int* m_piYieldModifiers;
+	// Intentionally undefined, as in the SDK: entries are noncopyable.
 	CvEmphasisEntry(const CvEmphasisEntry&);
 	CvEmphasisEntry& operator=(const CvEmphasisEntry&);
 };
@@ -40,6 +43,9 @@ public:
 	void Reset();
 	int GetEmphasizeAvoidGrowthCount();
 	bool IsEmphasizeAvoidGrowth();
+	// NOTE: Great People emphasis does not exist in Beyond Earth.
+	// int GetEmphasizeGreatPeopleCount();
+	// bool IsEmphasizeGreatPeople();
 	int GetEmphasizeYieldCount(YieldTypes eIndex);
 	bool IsEmphasizeYield(YieldTypes eIndex);
 	bool IsEmphasize(EmphasizeTypes eIndex);
@@ -48,6 +54,7 @@ public:
 	void Write(FDataStream& kStream);
 
 private:
+	// Beyond Earth removes the SDK's Great People counter and entry flag.
 	int m_iEmphasizeAvoidGrowthCount;
 	int m_aiEmphasizeYieldCount[NUM_YIELD_TYPES];
 	bool* m_pbEmphasize;

@@ -4,15 +4,18 @@
 
 #include <cmath>
 
+// TODO(Phase1 audit): CvFlavorRecipient::CvFlavorRecipient UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=10; Civ5 changed/new=UNVERIFIED.
 CvFlavorRecipient::CvFlavorRecipient()
 	: m_bIsCity(false), m_piLatestFlavorValues(NULL)
 {
 }
 
+// TODO(Phase1 audit): CvFlavorRecipient::~CvFlavorRecipient MISMATCH: First instruction opcode differs: object ret, BE push; BE instructions=20; Civ5 changed/new=UNVERIFIED.
 CvFlavorRecipient::~CvFlavorRecipient()
 {
 }
 
+// TODO(Phase1 audit): CvFlavorRecipient::Init UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=37; Civ5 changed/new=UNVERIFIED.
 void CvFlavorRecipient::Init()
 {
 	const int iNumFlavors = GC.getNumFlavorTypes();
@@ -20,6 +23,7 @@ void CvFlavorRecipient::Init()
 	memset(m_piLatestFlavorValues, 0, iNumFlavors * sizeof(int));
 }
 
+// TODO(Phase1 audit): CvFlavorRecipient::Uninit UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=17; Civ5 changed/new=UNVERIFIED.
 void CvFlavorRecipient::Uninit()
 {
 	SAFE_DELETE_ARRAY(m_piLatestFlavorValues);
@@ -30,6 +34,7 @@ bool CvFlavorRecipient::IsCity()
 	return m_bIsCity;
 }
 
+// TODO(Phase1 audit): CvFlavorRecipient::SetFlavors UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=31; Civ5 changed/new=UNVERIFIED.
 void CvFlavorRecipient::SetFlavors(int* piUpdatedFlavorValues)
 {
 	CvAssertMsg(piUpdatedFlavorValues != NULL, "Invalid flavor values");
@@ -42,6 +47,7 @@ void CvFlavorRecipient::SetFlavors(int* piUpdatedFlavorValues)
 	FlavorUpdate();
 }
 
+// TODO(Phase1 audit): CvFlavorRecipient::ChangeFlavors UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=63; Civ5 changed/new=UNVERIFIED.
 void CvFlavorRecipient::ChangeFlavors(int* piDeltaFlavorValues, bool bDontLog)
 {
 	CvAssertMsg(piDeltaFlavorValues != NULL, "Invalid flavor deltas");
@@ -67,6 +73,7 @@ void CvFlavorRecipient::ChangeFlavors(int* piDeltaFlavorValues, bool bDontLog)
 	FlavorUpdate();
 }
 
+// TODO(Phase1 audit): CvFlavorRecipient::GetLatestFlavorValue MISMATCH: Reference-free full instruction streams differ in instructions/registers/constants/field offsets; BE instructions=11; Civ5 changed/new=UNVERIFIED.
 int CvFlavorRecipient::GetLatestFlavorValue(FlavorTypes eFlavor, bool bAllowNegative)
 {
 	CvAssertMsg(eFlavor >= 0 && eFlavor < GC.getNumFlavorTypes(), "Flavor index out of bounds");
@@ -74,16 +81,19 @@ int CvFlavorRecipient::GetLatestFlavorValue(FlavorTypes eFlavor, bool bAllowNega
 	return !bAllowNegative && iValue < 0 ? 0 : iValue;
 }
 
+// TODO(Phase1 audit): CvFlavorManager::CvFlavorManager MISMATCH: First instruction opcode differs: object push, BE mov; BE instructions=12; Civ5 changed/new=UNVERIFIED.
 CvFlavorManager::CvFlavorManager()
 	: m_piPersonalityFlavor(NULL), m_piActiveFlavor(NULL), m_pPlayer(NULL)
 {
 }
 
+// TODO(Phase1 audit): CvFlavorManager::~CvFlavorManager UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=19; Civ5 changed/new=UNVERIFIED.
 CvFlavorManager::~CvFlavorManager()
 {
 	Uninit();
 }
 
+// TODO(Phase1 audit): CvFlavorManager::Init UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=164; Civ5 changed/new=UNVERIFIED.
 void CvFlavorManager::Init(CvPlayer* pPlayer)
 {
 	m_pPlayer = pPlayer;
@@ -132,6 +142,7 @@ void CvFlavorManager::Init(CvPlayer* pPlayer)
 		LogFlavors();
 }
 
+// TODO(Phase1 audit): CvFlavorManager::Uninit MISMATCH: Instruction 3 differs before first target reference: object [push   %eax] vs BE [sub    $0x14,%esp]; BE instructions=29; Civ5 changed/new=UNVERIFIED.
 void CvFlavorManager::Uninit()
 {
 	SAFE_DELETE_ARRAY(m_piPersonalityFlavor);
@@ -139,6 +150,7 @@ void CvFlavorManager::Uninit()
 	m_FlavorTargetList.clear();
 }
 
+// TODO(Phase1 audit): CvFlavorManager::Reset UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=18; Civ5 changed/new=UNVERIFIED.
 void CvFlavorManager::Reset()
 {
 	for (int i = 0; i < GC.getNumFlavorTypes(); ++i)
@@ -148,6 +160,7 @@ void CvFlavorManager::Reset()
 	}
 }
 
+// TODO(Phase1 audit): CvFlavorManager::Read UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=45; Civ5 changed/new=UNVERIFIED.
 void CvFlavorManager::Read(FDataStream& kStream)
 {
 	uint uiVersion;
@@ -161,6 +174,7 @@ void CvFlavorManager::Read(FDataStream& kStream)
 	kStream >> active;
 }
 
+// TODO(Phase1 audit): CvFlavorManager::Write UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=51; Civ5 changed/new=UNVERIFIED.
 void CvFlavorManager::Write(FDataStream& kStream)
 {
 	const uint uiVersion = 2;
@@ -170,6 +184,7 @@ void CvFlavorManager::Write(FDataStream& kStream)
 	kStream << ArrayWrapper<int>(GC.getNumFlavorTypes(), m_piActiveFlavor);
 }
 
+// TODO(Phase1 audit): CvFlavorManager::AddFlavorRecipient MISMATCH: Instruction 1 differs before first target reference: object [push   %ebx] vs BE [push   %ebp]; BE instructions=34; Civ5 changed/new=UNVERIFIED.
 void CvFlavorManager::AddFlavorRecipient(CvFlavorRecipient* pTargetObject, bool bPropagateFlavorValues)
 {
 	m_FlavorTargetList.push_back(pTargetObject);
@@ -177,6 +192,7 @@ void CvFlavorManager::AddFlavorRecipient(CvFlavorRecipient* pTargetObject, bool 
 		pTargetObject->SetFlavors(m_piPersonalityFlavor);
 }
 
+// TODO(Phase1 audit): CvFlavorManager::RemoveFlavorRecipient MISMATCH: Instruction 5 differs before first target reference: object [sub    $0x1c,%esp] vs BE [sub    $0xc,%esp]; BE instructions=39; Civ5 changed/new=UNVERIFIED.
 void CvFlavorManager::RemoveFlavorRecipient(CvFlavorRecipient* pTargetObject)
 {
 	for (Flavor_List::iterator it = m_FlavorTargetList.begin(); it != m_FlavorTargetList.end(); ++it)
@@ -189,6 +205,7 @@ void CvFlavorManager::RemoveFlavorRecipient(CvFlavorRecipient* pTargetObject)
 	}
 }
 
+// TODO(Phase1 audit): CvFlavorManager::ChangeFlavors UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=62; Civ5 changed/new=UNVERIFIED.
 void CvFlavorManager::ChangeFlavors(int* piDeltaFlavorValues, bool bPlayerLevelUpdate)
 {
 	CvAssertMsg(piDeltaFlavorValues != NULL, "Invalid flavor deltas");
@@ -214,6 +231,7 @@ void CvFlavorManager::ChangeFlavors(int* piDeltaFlavorValues, bool bPlayerLevelU
 	BroadcastFlavors(piDeltaFlavorValues, bPlayerLevelUpdate);
 }
 
+// TODO(Phase1 audit): CvFlavorManager::ResetToBasePersonality UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=23; Civ5 changed/new=UNVERIFIED.
 void CvFlavorManager::ResetToBasePersonality()
 {
 	for (int i = 0; i < GC.getNumFlavorTypes(); ++i)
@@ -221,6 +239,7 @@ void CvFlavorManager::ResetToBasePersonality()
 	BroadcastBaseFlavors();
 }
 
+// TODO(Phase1 audit): CvFlavorManager::AdjustWeightsForMap UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=90; Civ5 changed/new=UNVERIFIED.
 void CvFlavorManager::AdjustWeightsForMap()
 {
 	const int iPlayers = GC.getGame().countMajorCivsAlive();
@@ -268,6 +287,7 @@ int* CvFlavorManager::GetAllPersonalityFlavors()
 	return m_piPersonalityFlavor;
 }
 
+// TODO(Phase1 audit): CvFlavorManager::RandomizeWeights MISMATCH: Instruction 5 differs before first target reference: object [sub    $0x1c,%esp] vs BE [sub    $0x2c,%esp]; BE instructions=59; Civ5 changed/new=UNVERIFIED.
 void CvFlavorManager::RandomizeWeights()
 {
 	const int iMin = GC.getPERSONALITY_FLAVOR_MIN_VALUE();
@@ -278,6 +298,7 @@ void CvFlavorManager::RandomizeWeights()
 			m_piPersonalityFlavor[i] = GetAdjustedValue(m_piPersonalityFlavor[i], iRange, iMin, iMax);
 }
 
+// TODO(Phase1 audit): CvFlavorManager::GetAdjustedValue UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=35; Civ5 changed/new=UNVERIFIED.
 int CvFlavorManager::GetAdjustedValue(int iOriginalValue, int iPlusMinus, int iMin, int iMax)
 {
 	int iValue = iOriginalValue + GC.getGame().getJonRandNum(iPlusMinus * 2 + 1, "Adjusting Personality Flavor") - iPlusMinus;
@@ -288,6 +309,7 @@ int CvFlavorManager::GetAdjustedValue(int iOriginalValue, int iPlusMinus, int iM
 	return iValue;
 }
 
+// TODO(Phase1 audit): CvFlavorManager::BroadcastFlavors UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=44; Civ5 changed/new=UNVERIFIED.
 void CvFlavorManager::BroadcastFlavors(int* piDeltaFlavorValues, bool bPlayerLevelUpdate)
 {
 	for (Flavor_List::iterator it = m_FlavorTargetList.begin(); it != m_FlavorTargetList.end(); ++it)
@@ -297,12 +319,14 @@ void CvFlavorManager::BroadcastFlavors(int* piDeltaFlavorValues, bool bPlayerLev
 	}
 }
 
+// TODO(Phase1 audit): CvFlavorManager::BroadcastBaseFlavors UNVERIFIED: Full target-preserving relocation/PIC/branch comparison not established; equal counts/first opcode are not match evidence; BE instructions=27; Civ5 changed/new=UNVERIFIED.
 void CvFlavorManager::BroadcastBaseFlavors()
 {
 	for (Flavor_List::iterator it = m_FlavorTargetList.begin(); it != m_FlavorTargetList.end(); ++it)
 		(*it)->SetFlavors(m_piPersonalityFlavor);
 }
 
+// TODO(Phase1 audit): CvFlavorManager::LogFlavors MISMATCH: Instruction 5 differs before first target reference: object [sub    $0x9c,%esp] vs BE [sub    $0xbc,%esp]; BE instructions=329; Civ5 changed/new=UNVERIFIED.
 void CvFlavorManager::LogFlavors(FlavorTypes eFlavor)
 {
 	if (!GC.getLogging() || !GC.getAILogging())

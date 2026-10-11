@@ -6,6 +6,7 @@
 #include <algorithm>
 #include "EventSystem/FastDelegate.h"
 #include "FFastVector.h"
+#include "ASLSort.h"
 
 // Functor for random number callback routine
 typedef fastdelegate::FastDelegate2<int, const char *, int> RandomNumberDelegate;
@@ -87,7 +88,11 @@ public:
 	/// Number of items
 	int size () const { return m_pItems.size(); };
 	/// Sort this stuff from highest to lowest
-	void SortItems () { std::sort(m_pItems.begin(), m_pItems.end()); }
+	void SortItems ()
+	{
+		// Beyond Earth uses the ASL iterator sort instead of the SDK's std::sort.
+		ASL::StdLib::Sort::_Sort(m_pItems.begin(), m_pItems.end(), m_pItems.end() - m_pItems.begin());
+	}
 	int GetTotalWeight() const
 	{
 		int iTotal = 0;

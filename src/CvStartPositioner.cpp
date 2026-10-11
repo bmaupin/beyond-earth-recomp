@@ -1,3 +1,18 @@
+// TODO: Phase1 std::__1::__vector_base_common<true>::__throw_length_error() const: MISMATCH; complete export comparison pending (see docs/ai/phase1-lua-map-audit.md).
+// TODO: Phase1 std::__1::__basic_string_common<true>::__throw_length_error() const: MISMATCH; complete export comparison pending (see docs/ai/phase1-lua-map-audit.md).
+// TODO: Phase1 std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::__init(char const*, unsigned int): UNVERIFIED; complete export comparison pending (see docs/ai/phase1-lua-map-audit.md).
+// TODO: Phase1 std::__1::__vector_base<CvContinent, std::__1::allocator<CvContinent> >::~__vector_base(): UNVERIFIED; complete export comparison pending (see docs/ai/phase1-lua-map-audit.md).
+// TODO: Phase1 std::__1::__vector_base<CvStartRegion, std::__1::allocator<CvStartRegion> >::~__vector_base(): UNVERIFIED; complete export comparison pending (see docs/ai/phase1-lua-map-audit.md).
+// TODO: Phase1 std::__1::__vector_base<CvPlayerStartRank, std::__1::allocator<CvPlayerStartRank> >::~__vector_base(): UNVERIFIED; complete export comparison pending (see docs/ai/phase1-lua-map-audit.md).
+// TODO: Phase1 std::__1::__split_buffer<CvContinent, std::__1::allocator<CvContinent>&>::~__split_buffer(): UNVERIFIED; complete export comparison pending (see docs/ai/phase1-lua-map-audit.md).
+// TODO: Phase1 std::__1::__split_buffer<CvStartRegion, std::__1::allocator<CvStartRegion>&>::~__split_buffer(): UNVERIFIED; complete export comparison pending (see docs/ai/phase1-lua-map-audit.md).
+// TODO: Phase1 std::__1::__split_buffer<CvPlayerStartRank, std::__1::allocator<CvPlayerStartRank>&>::~__split_buffer(): UNVERIFIED; complete export comparison pending (see docs/ai/phase1-lua-map-audit.md).
+// TODO: Phase1 void std::__1::vector<CvContinent, std::__1::allocator<CvContinent> >::__push_back_slow_path<CvContinent const&>(CvContinent const&): UNVERIFIED; complete export comparison pending (see docs/ai/phase1-lua-map-audit.md).
+// TODO: Phase1 std::__1::vector<CvContinent, std::__1::allocator<CvContinent> >::__swap_out_circular_buffer(std::__1::__split_buffer<CvContinent, std::__1::allocator<CvContinent>&>&): MISMATCH; complete export comparison pending (see docs/ai/phase1-lua-map-audit.md).
+// TODO: Phase1 void std::__1::vector<CvStartRegion, std::__1::allocator<CvStartRegion> >::__push_back_slow_path<CvStartRegion const&>(CvStartRegion const&): UNVERIFIED; complete export comparison pending (see docs/ai/phase1-lua-map-audit.md).
+// TODO: Phase1 std::__1::vector<CvStartRegion, std::__1::allocator<CvStartRegion> >::__swap_out_circular_buffer(std::__1::__split_buffer<CvStartRegion, std::__1::allocator<CvStartRegion>&>&): MISMATCH; complete export comparison pending (see docs/ai/phase1-lua-map-audit.md).
+// TODO: Phase1 void std::__1::vector<CvPlayerStartRank, std::__1::allocator<CvPlayerStartRank> >::__push_back_slow_path<CvPlayerStartRank const&>(CvPlayerStartRank const&): UNVERIFIED; complete export comparison pending (see docs/ai/phase1-lua-map-audit.md).
+// TODO: Phase1 std::__1::vector<CvPlayerStartRank, std::__1::allocator<CvPlayerStartRank> >::__swap_out_circular_buffer(std::__1::__split_buffer<CvPlayerStartRank, std::__1::allocator<CvPlayerStartRank>&>&): MISMATCH; complete export comparison pending (see docs/ai/phase1-lua-map-audit.md).
 #include "CvGameCoreDLLPCH.h"
 #include "CvStartPositioner.h"
 #include "CvSiteEvaluationClasses.h"
@@ -13,34 +28,43 @@ extern CvPlayerAI* startPlayers asm("_ZN10CvPlayerAI10m_aPlayersE");
 
 namespace
 {
+	// TODO: Phase1 StartPlayer: hardcoded 0xf598 player stride is prohibited; recover CvPlayerAI storage/layout before claiming a match.
 	CvPlayer& StartPlayer(int index)
 	{
 		return *reinterpret_cast<CvPlayer*>(reinterpret_cast<char*>(startPlayers) + index * 0xf598);
 	}
 
+	// TODO: Phase1 SortStartData: inlined template; referenced ASL sort target and all caller instructions require comparison.
 	template<class T> void SortStartData(std::vector<T>& values)
 	{
 		ASL::StdLib::Sort::_Sort(values.begin(), values.end(), static_cast<int>(values.size()));
 	}
 
 	// Player storage is incomplete; these flags are verified target fields.
+	// TODO: Phase1 PlayerFlag: raw 0x858/0x864 flag offsets are prohibited; recover named CvPlayer members/accessors.
 	bool PlayerFlag(const CvPlayer& player, unsigned int offset)
 	{
 		return *reinterpret_cast<const bool*>(reinterpret_cast<const char*>(&player) + offset);
 	}
+	// TODO: Phase1 StartPlayerTeam: raw player ID offset 0x28 is prohibited; recover the named field/accessor.
 	TeamTypes StartPlayerTeam(const CvPlayer& player)
 	{
 		const int id = *reinterpret_cast<const int*>(reinterpret_cast<const char*>(&player) + 0x28);
 		return static_cast<unsigned int>(id) < 64 ? (*CvPreGame::sr_TeamTypes)[id] : NO_TEAM;
 	}
+	// TODO: Phase1 StartPlotX: raw coordinate reinterpretation is prohibited; use a verified named CvPlot field/accessor.
 	int StartPlotX(const CvPlot* plot) { return *reinterpret_cast<const short*>(plot); }
+	// TODO: Phase1 StartPlotY: hardcoded short-array coordinate slot is prohibited; use a verified named CvPlot field/accessor.
 	int StartPlotY(const CvPlot* plot) { return reinterpret_cast<const short*>(plot)[1]; }
+	// TODO: Phase1 StartAreaID: raw area ID offset 4 is prohibited; recover the named CvArea field/accessor.
 	int StartAreaID(const CvArea* area)
 	{
 		return *reinterpret_cast<const int*>(reinterpret_cast<const char*>(area) + 4);
 	}
 }
 
+// TODO: Phase1 CvStartPositioner::CvStartPositioner(): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
+// TODO: Phase1 CvStartPositioner::CvStartPositioner(): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 CvStartPositioner::CvStartPositioner()
 {
 	m_PlayerOrderIter = m_PlayerOrder.begin();
@@ -48,10 +72,13 @@ CvStartPositioner::CvStartPositioner()
 	m_iRequiredSeparation = 0;
 }
 
+// TODO: Phase1 CvStartPositioner::~CvStartPositioner(): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
+// TODO: Phase1 CvStartPositioner::~CvStartPositioner(): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 CvStartPositioner::~CvStartPositioner()
 {
 }
 
+// TODO: Phase1 CvStartPositioner::Init(CvSiteEvaluatorForStart*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 void CvStartPositioner::Init(CvSiteEvaluatorForStart* pSiteEvaluator)
 {
 	if(!pSiteEvaluator) return;
@@ -59,6 +86,7 @@ void CvStartPositioner::Init(CvSiteEvaluatorForStart* pSiteEvaluator)
 	m_pSiteEvaluator->ComputeFlavorMultipliers(NULL);
 }
 
+// TODO: Phase1 CvStartPositioner::DivideMapIntoRegions(int): MISMATCH; Non-padding instruction count: BE 165, object 151; Civ5 changed/new instruction count unverified.
 void CvStartPositioner::DivideMapIntoRegions(int iNumRegions)
 {
 	m_ContinentVector.clear();
@@ -88,6 +116,7 @@ void CvStartPositioner::DivideMapIntoRegions(int iNumRegions)
 	SortStartData(m_StartRegionVector);
 }
 
+// TODO: Phase1 CvStartPositioner::ComputeTileFertilityValues(): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 void CvStartPositioner::ComputeTileFertilityValues()
 {
 	int iterator;
@@ -107,6 +136,7 @@ void CvStartPositioner::ComputeTileFertilityValues()
 	}
 }
 
+// TODO: Phase1 CvStartPositioner::DivideContinentIntoRegions(CvContinent): MISMATCH; Non-padding instruction count: BE 80, object 76; Civ5 changed/new instruction count unverified.
 void CvStartPositioner::DivideContinentIntoRegions(CvContinent continent)
 {
 	CvStartRegion region;
@@ -122,6 +152,7 @@ void CvStartPositioner::DivideContinentIntoRegions(CvContinent continent)
 	}
 }
 
+// TODO: Phase1 CvStartPositioner::ComputeFoundValues(): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 void CvStartPositioner::ComputeFoundValues()
 {
 	for(int i = 0; i < GC.getMap().numPlots(); ++i)
@@ -134,6 +165,7 @@ void CvStartPositioner::ComputeFoundValues()
 	}
 }
 
+// TODO: Phase1 CvStartPositioner::RankPlayerStartOrder(): MISMATCH; Non-padding instruction count: BE 103, object 102; Civ5 changed/new instruction count unverified.
 void CvStartPositioner::RankPlayerStartOrder()
 {
 	m_PlayerOrder.clear();
@@ -155,6 +187,7 @@ void CvStartPositioner::RankPlayerStartOrder()
 	SortStartData(m_PlayerOrder);
 }
 
+// TODO: Phase1 CvStartPositioner::AssignStartingLocations(): MISMATCH; Non-padding instruction count: BE 579, object 546; Civ5 changed/new instruction count unverified.
 void CvStartPositioner::AssignStartingLocations()
 {
 	CvString message;
@@ -238,6 +271,7 @@ void CvStartPositioner::AssignStartingLocations()
 	}
 }
 
+// TODO: Phase1 CvStartPositioner::StartingPlotRange() const: UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 int CvStartPositioner::StartingPlotRange() const
 {
 	int range = (GC.getMap().maxPlotDistance() + 10) * GC.getSTARTING_DISTANCE_PERCENT() / 100;
@@ -248,12 +282,14 @@ int CvStartPositioner::StartingPlotRange() const
 	return std::max(range, GC.getMIN_CIV_STARTING_DISTANCE());
 }
 
+// TODO: Phase1 CvStartPositioner::LogStartPositionMessage(CvString): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 void CvStartPositioner::LogStartPositionMessage(CvString strMsg)
 {
 	if(GC.getLogging() && GC.getAILogging())
 		LOGFILEMGR.GetLog("StartPositionLog.csv", FILogFile::kDontTimeStamp)->Msg(strMsg.c_str());
 }
 
+// TODO: Phase1 CvStartPositioner::AddCivToRegion(int, CvStartRegion, bool): MISMATCH; Non-padding instruction count: BE 325, object 320; Civ5 changed/new instruction count unverified.
 bool CvStartPositioner::AddCivToRegion(int iPlayerIndex, CvStartRegion region, bool bRelaxFoodReq)
 {
 	CvString message;
@@ -304,6 +340,7 @@ int CvStartPositioner::GetRegion(int iX, int iY)
 	return -1;
 }
 
+// TODO: Phase1 CvStartPositioner::SubdivideRegion(CvStartRegion, int): MISMATCH; Non-padding instruction count: BE 183, object 169; Civ5 changed/new instruction count unverified.
 void CvStartPositioner::SubdivideRegion(CvStartRegion region, int iNumDivisions)
 {
 	if(iNumDivisions == 1)
@@ -334,6 +371,7 @@ void CvStartPositioner::SubdivideRegion(CvStartRegion region, int iNumDivisions)
 	}
 }
 
+// TODO: Phase1 CvStartPositioner::ChopIntoTwoRegions(bool, CvStartRegion*, CvStartRegion*, int): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 void CvStartPositioner::ChopIntoTwoRegions(bool bTaller, CvStartRegion* region, CvStartRegion* secondRegion, int iChopPercent)
 {
 	if(!region || !secondRegion) return;
@@ -374,6 +412,7 @@ void CvStartPositioner::ChopIntoTwoRegions(bool bTaller, CvStartRegion* region, 
 	region->m_uiFertility = fertility;
 }
 
+// TODO: Phase1 CvStartPositioner::ChopIntoThreeRegions(bool, CvStartRegion*, CvStartRegion*, CvStartRegion*): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 void CvStartPositioner::ChopIntoThreeRegions(bool bTaller, CvStartRegion* region, CvStartRegion* secondRegion, CvStartRegion* thirdRegion)
 {
 	if(!region || !secondRegion || !thirdRegion) return;
@@ -381,6 +420,7 @@ void CvStartPositioner::ChopIntoThreeRegions(bool bTaller, CvStartRegion* region
 	ChopIntoTwoRegions(bTaller, secondRegion, thirdRegion, 50);
 }
 
+// TODO: Phase1 CvStartPositioner::ComputeRowFertility(int, int, int, int, int): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 int CvStartPositioner::ComputeRowFertility(int iAreaID, int xMin, int xMax, int yMin, int yMax)
 {
 	int fertility = 0;
@@ -393,6 +433,7 @@ int CvStartPositioner::ComputeRowFertility(int iAreaID, int xMin, int xMax, int 
 	return fertility;
 }
 
+// TODO: Phase1 CvStartPositioner::MeetsFoodRequirement(CvPlot*, TeamTypes, int): UNVERIFIED; Relocation-aware full equality not established; Civ5 changed/new instruction count unverified.
 bool CvStartPositioner::MeetsFoodRequirement(CvPlot* pPlot, TeamTypes eTeam, int iFoodRequirement)
 {
 	if(!pPlot) return false;
@@ -405,6 +446,7 @@ bool CvStartPositioner::MeetsFoodRequirement(CvPlot* pPlot, TeamTypes eTeam, int
 	return false;
 }
 
+// TODO: Phase1 CvStartPositioner::TooCloseToAnotherCiv(CvPlot*): MISMATCH; Non-padding instruction count: BE 254, object 146; Civ5 changed/new instruction count unverified.
 bool CvStartPositioner::TooCloseToAnotherCiv(CvPlot* pPlot)
 {
 	if(!pPlot) return false;

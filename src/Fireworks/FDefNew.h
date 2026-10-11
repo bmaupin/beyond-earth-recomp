@@ -9,6 +9,7 @@ namespace Platform
 	int GetMemBlockType();
 }
 
+void* operator new(unsigned int size, int blockType, const char* file, int line, int mpool, int tag);
 void* operator new[](unsigned int size, int blockType, const char* file, int line, int mpool, int tag);
 
 // Firaxis memory macros.  Always use these to allocate/free memory.

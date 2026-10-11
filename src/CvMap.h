@@ -7,7 +7,7 @@
 class CvArea;
 class CvWorldInfo;
 struct CvMapInitData;
-enum MapRegionTypes { NO_MAP_REGION = -1 };
+#include "CvGameCoreDLLUtil/CvEnums.h"
 
 struct CvMapRegionData
 {

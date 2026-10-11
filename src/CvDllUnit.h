@@ -27,6 +27,8 @@ public:
 	TeamTypes DLLCALL GetTeam() const;
 	DomainTypes DLLCALL GetDomainType() const;
 	bool DLLCALL IsCombatUnit() const;
+	// NOTE: IsBarbarian does not exist in Beyond Earth; the interface exposes IsAlien instead.
+	// bool DLLCALL IsBarbarian() const;
 	bool DLLCALL IsAlien() const;
 	bool DLLCALL IsHoveringUnit() const;
 	bool DLLCALL IsAmphibiousUnit() const;

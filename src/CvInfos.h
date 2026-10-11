@@ -57,6 +57,7 @@ public:
 	{
 		return m_strType.c_str();
 	}
+	int GetID() const { return m_iID; }
 	const char* GetText() const;
 	const char* GetTextKey() const;
 	const char* GetDescriptionKey() const
@@ -75,6 +76,23 @@ private:
 	CvString m_strTextKey;
 	CvString m_strText;
 	// TODO: CvBaseInfo (remaining SDK methods).
+};
+
+class CvSpecialistInfo : public CvBaseInfo
+{
+public:
+	int getYieldChange(int iYield) const;
+};
+
+class CvAIGrandStrategyXMLEntry : public CvBaseInfo
+{
+public:
+	int GetFlavorValue(int iFlavor) const;
+	int GetSpecializationBoost(YieldTypes eYield) const;
+};
+
+class CvYieldInfo : public CvBaseInfo
+{
 };
 
 // Partial SDK civilization declarations; native getters remain external.
@@ -123,6 +141,10 @@ public:
 	const char* getArtStyleSuffix() const;
 	const char* GetDawnOfManAudio() const;
 	int getCivilizationBuildings(int i) const;
+	int getCivilizationUnits(int i) const;
+	bool isCivilizationBuildingOverridden(int i) const;
+	bool isCivilizationUnitOverridden(int i) const;
+	bool isCivilizationDisableTechs(int i) const;
 	bool isLeaders(int i) const;
 	const char* getCityNames(int i) const;
 	const char* getSoundtrackKey() const;
@@ -148,6 +170,7 @@ class CvWorldInfo : public CvBaseInfo
 public:
 	CvWorldInfo();
 	int getTargetNumCities() const;
+	int GetNumCitiesTechCostMod() const;
 	int getDefaultPlayers() const;
 	int getGridWidth() const;
 	int getGridHeight() const;
@@ -273,6 +296,7 @@ public:
 
 	// Beyond Earth adds turn thresholds exposed by the DLL wrapper.
 	int getCreatePercent() const;
+	int getResearchPercent() const;
 	int getMidGameTurn() const;
 	int getLateGameTurn() const;
 	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
@@ -287,6 +311,7 @@ public:
 
 	// Beyond Earth replaces getBarbSpawnMod with getAlienSpawnMod.
 	int getAlienSpawnMod() const;
+	int getResearchPercent() const;
 	int getAIWorldCreatePercent() const;
 	int getAICreatePercent() const;
 	int GetAITechNumOptions() const;
@@ -403,8 +428,10 @@ public:
 	virtual ~CvBuildInfo();
 
 	int getImprovement() const { return m_iImprovement; }
+	int getTechPrereq() const { return m_iTechPrereq; }
 	int getRoute() const { return m_iRoute; }
 	int getEntityEvent() const { return m_iEntityEvent; }
+	bool isFeatureRemove(int iFeature) const;
 
 	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
 
