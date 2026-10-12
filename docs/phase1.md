@@ -1,8 +1,8 @@
-# Phase 1: Reconstruct source with limited changes
+# Phase 1: Reconstruct source
 
 ## Goal
 
-The goal of this phase is to reconstruct as much of the Beyond Earth game core source from the Civ 5 game source where possible while only introducing limited changes.
+The goal of this phase is to reconstruct the Beyond Earth game core source from the Civ 5 game source.
 
 - The primary goal is the compiled source code should result in machine code that matches the Beyond Earth game core binary after normalising relocation-dependent addresses and symbol references
   - Normalisation must preserve referenced targets and must not hide differences in instructions, control flow, constants, or field offsets
@@ -14,6 +14,11 @@ The goal of this phase is to reconstruct as much of the Beyond Earth game core s
 TODO: Add examples of differences in the disassembly that would still be considered a match
 
 ## Steps
+
+1. Decide in advance what level of source to reconstruct
+   - _Only identical code_: Source code copied from Civ 5 without modifications that results in matching Beyond Earth game core machine code
+   - _Limited modifications_: Source code copied from Civ 5 with limited modifications that results in matching Beyond Earth game core machine code
+   - _All source_: Source code copied from Civ 5 and modified as necessary or generated from scratch that results in matching Beyond Earth game core machine code
 
 1. For each source file, get a list of function names from the Beyond Earth game core binary, e.g.
 
@@ -60,31 +65,42 @@ TODO: Add examples of differences in the disassembly that would still be conside
 
    1. If the functions match, copy the function from the Civ 5 game core source to an identically named file in [`src/`](../../src/)
 
-1. If the functions do not match, or the functions only exist in Beyond Earth and not Civ 5
-   1. If the changed or new regions for a function contain more than 100 machine instructions in total that need to be implemented (excluding alignment padding), do not implement the function but add a TODO with the function name and number of new or changed instructions, e.g.
+1. If the functions do not match, or the functions only exist in Beyond Earth and not Civ 5, take action depending on the level of source to reconstruct that was decided above
+   - _Only identical code_:
+     - Do not implement the function
 
-      ```c++
-      // TODO: CvPlayerManager::RefreshDangerPlots() (127 changed instructions)
-      ```
+   - _All source_:
+     - On the first pass, if there are any functions that do not generate matching source code as per the definition listed above under [Goal](#goal), determine the number of total total instructions and new or changed instructions
+     - Then decide in which order to implement the functions based on number of instructions to implement
 
-      Then skip the steps below and instead move to the next function
+   - _Limited modifications_:
+     - If the changed or new regions for a function or other construct contain more than 10 machine instructions in total that need to be implemented (excluding alignment padding), do not implement it
 
-   1. Otherwise, implement the function and add a comment indicating an overview of the differences, e.g. if the difference is in the function:
+1. Then make the changes
+   - If a function or other construct does not match and is not yet to be implemented, add a TODO with the declaration and number of total instructions and new or changed instructions:
 
-      ```c++
-      // Beyond Earth's replay format starts at version 1; Civ 5 returns 2.
-      return 1;
-      ```
+     ```c++
+     // TODO: CvPlayerManager::RefreshDangerPlots() (137 total instructions, 101 new or changed)
+     ```
 
-      Or if the function only exists in Beyond Earth:
+     Then skip the steps below and instead move to the next function
 
-      ```c++
-      // Beyond Earth exposes mid- and late-game turns instead of barbarian scaling.
-      int CvDllGameSpeedInfo::GetMidGameTurn()
-      {
-      ```
+   - When implementing a function that differs, add a comment indicating an overview of the differences, e.g. if the difference is in the function:
 
-      - Decompiled code from Ghidra may be helpful in reconstructing missing source code
+     ```c++
+     // Beyond Earth's replay format starts at version 1; Civ 5 returns 2.
+     return 1;
+     ```
+
+     Or if the function only exists in Beyond Earth:
+
+     ```c++
+     // Beyond Earth exposes mid- and late-game turns instead of barbarian scaling.
+     int CvDllGameSpeedInfo::GetMidGameTurn()
+     {
+     ```
+
+   - Decompiled code from Ghidra may be helpful in reconstructing missing source code
 
 1. Also copy any necessary supporting structures from the Civ 5 game core source `.h` files into matching files in [`src/`](../../src/)
    - Keep the source as close as possible to the Civ 5 game core; use the same file layout, include headers, comments, etc.
@@ -156,13 +172,15 @@ TODO: Add examples of differences in the disassembly that would still be conside
 
       (`%25` is URL-encoded `%`)
       - Once progress is > 1%, only show whole numbers
-      - Once progress is > 10%, change the colour to orange and move the badge to README.md in the root of the repository
+      - Once progress is > 10%, change the colour to orange
       - Once progress is > 50%, change the colour to yellow
       - Once progress is > 99%, change the colour to green
 
    1. Update the number of total functions recompiled
       - Increment for every function that exists in Beyond Earth but not in Civ 5
       - Decrement for every function that exists in Civ 5 but not in Beyond Earth
+
+   1. Do not make other modifications to docs/todo.md
 
 1. If an AI agent is performing these steps, provide a minimal summary at the end or a document in `docs/ai` containing:
    - A table with a row for the `.cpp` file as well as its corresponding `.h` file with these columns:
@@ -174,4 +192,5 @@ TODO: Add examples of differences in the disassembly that would still be conside
      - The name of the file
      - The name of the function
      - How many instructions the function has including how many changed/new
+   - Do not include other information in the file
    - If a file is created, provide a link
