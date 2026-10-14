@@ -57,7 +57,6 @@ public:
 	{
 		return m_strType.c_str();
 	}
-	int GetID() const { return m_iID; }
 	const char* GetText() const;
 	const char* GetTextKey() const;
 	const char* GetDescriptionKey() const
@@ -78,45 +77,7 @@ private:
 	// TODO: CvBaseInfo (remaining SDK methods).
 };
 
-class CvSpecialistInfo : public CvBaseInfo
-{
-public:
-	int getYieldChange(int iYield) const;
-};
-
-class CvAIGrandStrategyXMLEntry : public CvBaseInfo
-{
-public:
-	int GetFlavorValue(int iFlavor) const;
-	int GetSpecializationBoost(YieldTypes eYield) const;
-};
-
-class CvYieldInfo : public CvBaseInfo
-{
-};
-
 // Partial SDK civilization declarations; native getters remain external.
-class CvProcessInfo : public CvBaseInfo
-{
-public:
-	CvProcessInfo();
-	virtual ~CvProcessInfo();
-
-	int getTechPrereq() const;
-	int getProductionToYieldModifier(int i) const;
-	int GetFlavorValue(int i) const;
-	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
-
-protected:
-	int m_iTechPrereq;
-	int* m_paiProductionToYieldModifier;
-	int* m_paiFlavorValue;
-
-private:
-	CvProcessInfo(const CvProcessInfo&);
-	CvProcessInfo& operator=(const CvProcessInfo&);
-};
-
 class CvCivilizationBaseInfo : public CvBaseInfo
 {
 public:
@@ -141,10 +102,6 @@ public:
 	const char* getArtStyleSuffix() const;
 	const char* GetDawnOfManAudio() const;
 	int getCivilizationBuildings(int i) const;
-	int getCivilizationUnits(int i) const;
-	bool isCivilizationBuildingOverridden(int i) const;
-	bool isCivilizationUnitOverridden(int i) const;
-	bool isCivilizationDisableTechs(int i) const;
 	bool isLeaders(int i) const;
 	const char* getCityNames(int i) const;
 	const char* getSoundtrackKey() const;
@@ -169,8 +126,6 @@ class CvWorldInfo : public CvBaseInfo
 {
 public:
 	CvWorldInfo();
-	int getTargetNumCities() const;
-	int GetNumCitiesTechCostMod() const;
 	int getDefaultPlayers() const;
 	int getGridWidth() const;
 	int getGridHeight() const;
@@ -238,24 +193,6 @@ public:
 	// TODO: CvTerrainInfo (remaining SDK methods and Beyond Earth members).
 };
 
-class CvMinorCivInfo : public CvBaseInfo
-{
-public:
-	CvMinorCivInfo();
-	virtual ~CvMinorCivInfo();
-	int GetMinorCivTrait() const;
-
-	int getDefaultPlayerColor() const;
-	int getArtStyleType() const;
-	int getNumCityNames() const;
-	const char* getArtStylePrefix() const;
-	const char* getArtStyleSuffix() const;
-	const CvString& getCityNames(int i) const;
-	int getFlavorValue(int i) const;
-
-	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
-};
-
 class CvPlayerColorInfo : public CvBaseInfo
 {
 public:
@@ -296,7 +233,6 @@ public:
 
 	// Beyond Earth adds turn thresholds exposed by the DLL wrapper.
 	int getCreatePercent() const;
-	int getResearchPercent() const;
 	int getMidGameTurn() const;
 	int getLateGameTurn() const;
 	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
@@ -311,11 +247,8 @@ public:
 
 	// Beyond Earth replaces getBarbSpawnMod with getAlienSpawnMod.
 	int getAlienSpawnMod() const;
-	int getResearchPercent() const;
 	int getAIWorldCreatePercent() const;
 	int getAICreatePercent() const;
-	int GetAITechNumOptions() const;
-	int GetAIVirtueNumOptions() const;
 	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
 	// TODO: CvHandicapInfo (remaining SDK methods and Beyond Earth members).
 };
@@ -428,10 +361,8 @@ public:
 	virtual ~CvBuildInfo();
 
 	int getImprovement() const { return m_iImprovement; }
-	int getTechPrereq() const { return m_iTechPrereq; }
 	int getRoute() const { return m_iRoute; }
 	int getEntityEvent() const { return m_iEntityEvent; }
-	bool isFeatureRemove(int iFeature) const;
 
 	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
 
@@ -465,7 +396,6 @@ public:
 	virtual ~CvLeaderHeadInfo();
 
 	const char* getArtDefineTag() const;
-	int getFlavorValue(int i) const;
 
 	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
 	// TODO: CvLeaderHeadInfo (remaining SDK methods and Beyond Earth members).

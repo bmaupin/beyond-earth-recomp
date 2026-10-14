@@ -6,107 +6,9 @@
 
 // SDK archaeology types retained in Beyond Earth's native plot layout.
 enum GreatWorkArtifactClass { NO_GREAT_WORK_ARTIFACT_CLASS = 0 };
-enum GreatWorkSlotType { NO_GREAT_WORK_SLOT = -1 };
 enum GreatWorkType { NO_GREAT_WORK = -1 };
 #ifndef CVENUMS_H
 #define CVENUMS_H
-
-enum PromotionTypes { NO_PROMOTION = -1 };
-enum StationTypes { NO_STATION = -1 };
-enum QuestTypes { NO_QUEST = -1 };
-enum OrbitalUnitTypes { NO_ORBITALUNIT = -1 };
-
-enum GameTypes : int
-{
-	GAME_TYPE_NONE = -1,
-	GAME_SINGLE_PLAYER,
-	GAME_NETWORK_MULTIPLAYER,
-	GAME_HOTSEAT_MULTIPLAYER,
-	GAME_EMAIL_MULTIPLAYER,
-};
-
-enum GameStartTypes : int
-{
-	GAME_NEW,
-	GAME_LOADED,
-};
-
-enum SlotClaim : int
-{
-	SLOTCLAIM_UNASSIGNED,
-	SLOTCLAIM_RESERVED,
-	SLOTCLAIM_ASSIGNED,
-	NUM_SLOTCLAIMS
-};
-
-enum BandwidthType : int
-{
-	BANDWIDTH_MODEM,
-	BANDWIDTH_BROADBAND,
-	NO_BANDWIDTH
-};
-
-enum BattleUnitTypes
-{
-	BATTLE_UNIT_ATTACKER,
-	BATTLE_UNIT_DEFENDER,
-	BATTLE_UNIT_INTERCEPTOR,
-	BATTLE_UNIT_COUNT
-};
-
-enum InterfaceModeTypes
-{
-	NO_INTERFACEMODE = -1,
-};
-
-enum InterfaceDirtyBits
-{
-	SelectionButtons_DIRTY_BIT = 6,
-	GameData_DIRTY_BIT = 11,
-	Score_DIRTY_BIT = 12,
-	CityInfo_DIRTY_BIT = 18,
-	CityScreen_DIRTY_BIT = 21,
-	ColoredPlots_DIRTY_BIT = 24,
-};
-
-enum CivilizationTypes
-{
-	NO_CIVILIZATION = -1,
-};
-
-enum EmphasizeTypes
-{
-	NO_EMPHASIZE = -1,
-};
-
-enum ProcessTypes
-{
-	NO_PROCESS = -1,
-};
-
-enum UnitClassTypes : int { NO_UNITCLASS = -1 };
-static const int MAX_PLAYERS = 64;
-static const int NUM_CITY_PLOTS = 37;
-
-enum DomainTypes
-{
-	NO_DOMAIN = -1,
-	DOMAIN_LAND = 2,
-	NUM_DOMAIN_TYPES = 6,
-};
-
-enum CitySpecializationTypes { NO_CITY_SPECIALIZATION = -1 };
-enum EconomicAIStrategyTypes { NO_ECONOMICAISTRATEGY = -1 };
-enum SpecialistTypes : int { NO_SPECIALIST = -1 };
-enum ReligionTypes : int;
-enum CityUpdateTypes { CITY_UPDATE_TYPE_SPECIALISTS = 1 };
-enum MapRegionTypes { NO_MAP_REGION = -1 };
-enum PlotVisibilityChangeResult { VISIBILTY_CHANGE_NONE, VISIBILITY_CHANGE_TO_INVISIBLE, VISIBILITY_CHANGE_TO_VISIBLE };
-enum ResourceLayers { NO_RESOURCELAYER = -1, RESOURCELAYER_PRIMARY, RESOURCELAYER_SECONDARY, NUM_RESOURCELAYER_TYPES };
-enum MilitaryAIStrategyTypes { NO_MILITARYAISTRATEGY = -1 };
-enum AICityStrategyTypes { NO_AICITYSTRATEGY = -1 };
-enum MajorCivApproachTypes { NO_MAJOR_CIV_APPROACH = -1, MAJOR_CIV_APPROACH_WAR = 0 };
-enum MissionAITypes { NO_MISSIONAI = -1 };
 
 // If you want the game to work correctly, be careful when you modify ButtonPopupTypes.
 // They are directly tied into playing sounds, so if you add, remove, or (God forbid) replace one of these,
@@ -245,16 +147,6 @@ enum VictoryTypes
 };
 
 // Beyond Earth's affinity identifiers are data-driven.
-enum AdvisorTypes
-{
-	NO_ADVISOR_TYPE = -1,
-	ADVISOR_MILITARY,
-	ADVISOR_ECONOMIC,
-	ADVISOR_FOREIGN,
-	ADVISOR_SCIENCE,
-	NUM_ADVISOR_TYPES
-};
-
 enum AffinityType
 {
 	NO_AFFINITY_TYPE = -1
@@ -668,15 +560,6 @@ enum PersonalityTraitTypes
 	NO_PERSONALITY_TRAIT = -1
 };
 
-enum LeaderHeadTypes { NO_LEADER = -1 };
-enum ArtStyleTypes { NO_ARTSTYLE = -1 };
-enum PlayerColorTypes { NO_PLAYERCOLOR = -1 };
-enum MinorCivTypes { NO_MINORCIV = -1 };
-enum DiploStatementTypes { NO_DIPLO_STATEMENT_TYPE = -1 };
-enum DiploMessageTypes { NO_DIPLO_MESSAGE_TYPE = -1 };
-// Signed sentinel plus unsigned 32-bit hashes make this a 64-bit enum on i386.
-enum NotificationTypes : long long { NO_NOTIFICATION_TYPE = -1 };
-
 enum PlayerOptionTypes
 {
 	NO_PLAYEROPTION = -1,
@@ -778,11 +661,6 @@ enum UnitTypes
 	NO_UNIT = -1
 };
 
-enum UnitAITypes
-{
-	NO_UNITAI = -1
-};
-
 enum UnitUpgradeMode
 {
 	UNITUPGRADE_ADD,
@@ -799,10 +677,6 @@ enum FlavorTypes
 {
 	NO_FLAVOR = -1,
 };
-
-enum PolicyTypes { NO_POLICY = -1 };
-enum PolicyBranchTypes { NO_POLICY_BRANCH_TYPE = -1 };
-enum AIGrandStrategyTypes { NO_AIGRANDSTRATEGY = -1 };
 
 enum ActionSubTypes
 {
@@ -931,11 +805,6 @@ enum ImprovementUsageTypes
 	NUM_IMPROVEMENTUSAGE_TYPES
 };
 
-enum UnitCombatTypes
-{
-	NO_UNITCOMBAT = -1,
-};
-
 enum EraTypes
 {
 	NO_ERA = -1,
@@ -951,7 +820,6 @@ enum GameStateTypes
 enum GameOptionTypes
 {
 	NO_GAMEOPTION = -1,
-	GAMEOPTION_NO_HEALTH = 14,
 	// TODO: GameOptionTypes (remaining Beyond Earth values).
 };
 

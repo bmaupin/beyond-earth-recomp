@@ -4,35 +4,7 @@
 #include "CvPlot.h"
 #include <climits>
 
-class CvArea;
-class CvWorldInfo;
 struct CvMapInitData;
-#include "CvGameCoreDLLUtil/CvEnums.h"
-
-struct CvMapRegionData
-{
-	int m_iIndex;
-	MapRegionTypes m_eType;
-	float m_fCentroidX;
-	float m_fCentroidY;
-	int m_iUnknown10;
-	int m_iUnknown14;
-
-	CvMapRegionData(MapRegionTypes eType, int iIndex);
-};
-
-class CvMapRegionLayout
-{
-public:
-	CvMapRegionData* GetRegionByIndex(int iIndex) const;
-	int GetNumRegions() const { return static_cast<int>(m_vRegions.size()); }
-
-private:
-	float m_fMapWidth;
-	float m_fMapHeight;
-	std::vector<CvMapRegionData> m_vRegions;
-};
-
 class CvCity;
 class FDataStream;
 
@@ -72,32 +44,6 @@ public:
 		TeamTypes eTeam = NO_TEAM, bool bSameArea = true, bool bCoastalOnly = false,
 		TeamTypes eTeamAtWarWith = NO_TEAM, DirectionTypes eDirection = NO_DIRECTION,
 		const CvCity* pSkipCity = NULL);
-	const CvWorldInfo& getWorldInfo() const;
-	int getLandPlots() const;
-	int getWaterPlots() const;
-	int getLakePlots() const;
-	CvArea* firstArea(int* pIterator, bool bRev = false);
-	CvArea* nextArea(int* pIterator, bool bRev = false);
-	CvArea* findBiggestArea(bool bWater);
-	CvArea* getArea(int iID);
-	bool findWater(CvPlot* pPlot, int iRange, bool bFreshWater);
-	CvPlot* findNearestStartPlot(int iX, int iY, PlayerTypes& ePlayer);
-	ClimateTypes getClimate();
-	SeaLevelTypes getSeaLevel();
-	WorldSizeTypes getWorldSize();
-	int getMapFractalFlags();
-	int getNumResources(ResourceTypes eResource);
-	int getNumResourcesOnLand(ResourceTypes eResource);
-	int getRandomResourceQuantity(ResourceTypes eResource);
-	int getIndexAfterLastArea();
-	int getNumAreas();
-	int getNumLandAreas();
-	int maxPlotDistance();
-	void calculateAreas();
-	void recalculateAreas();
-	void DefaultContinentStamper();
-	void ChangeAIMapHint(int iHint);
-	int GetAIMapHint();
 	inline int numPlots() const { return m_iGridSize; }
 	inline int plotNum(int iX, int iY) const { return ((iY * getGridWidth()) + iX); }
 	inline bool isPlot(int iX, int iY) const
@@ -121,8 +67,6 @@ public:
 		return ((isPlot(iMapX, iMapY)) ? &(m_pMapPlots[plotNum(iMapX, iMapY)]) : NULL);
 	}
 	void recalculateLandmasses();
-	void CalculateRegionLayout(float fMapWidth, float fMapHeight, std::vector<CvMapRegionData>&& vMapRegions);
-	const CvMapRegionLayout& GetMapRegionLayout() const { return m_kMapRegionLayout; }
 	void Read(FDataStream& kStream);
 	void Write(FDataStream& kStream) const;
 	int Validate();
@@ -142,7 +86,5 @@ protected:
 	int* m_paiNumResource;
 	int* m_paiNumResourceOnLand;
 	CvPlot* m_pMapPlots;
-	char m_regionLayoutPadding[0x94];
-	CvMapRegionLayout m_kMapRegionLayout;
 	// TODO: CvMap (remaining members).
 };

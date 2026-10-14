@@ -34,7 +34,7 @@ CvProjectEntry::~CvProjectEntry(void)
 	SAFE_DELETE_ARRAY(m_piFlavorValue);
 }
 
-// TODO: Match target stack-slot lifetimes and register allocation in the victory-threshold loop.
+// TODO: Match CacheResults register allocation and exception cleanup (354 target instructions).
 // Beyond Earth replaces nuclear/space flags with plot-project and affinity prerequisites.
 bool CvProjectEntry::CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility)
 {
@@ -52,9 +52,10 @@ bool CvProjectEntry::CacheResults(Database::Results& kResults, CvDatabaseUtility
 	m_onlyAllowedByQuest = kResults.GetBool("OnlyAllowedByQuest");
 	m_strMovieArtDef = kResults.GetText("MovieDefineTag");
 
-	const char* szImprovementType = kResults.GetText("PartialImprovement");
-	m_constructionImprovementType = (ImprovementTypes)GC.getInfoTypeForString(szImprovementType, true);
-	m_completeImprovementType = (ImprovementTypes)GC.getInfoTypeForString(kResults.GetText("CompleteImprovement"), true);
+	const char* szPartialImprovement = kResults.GetText("PartialImprovement");
+	m_constructionImprovementType = (ImprovementTypes)GC.getInfoTypeForString(szPartialImprovement, true);
+	const char* szCompleteImprovement = kResults.GetText("CompleteImprovement");
+	m_completeImprovementType = (ImprovementTypes)GC.getInfoTypeForString(szCompleteImprovement, true);
 	const char* szObsoleteProject = kResults.GetText("ObsoleteProject");
 	m_obsoleteProject = (ProjectTypes)GC.getInfoTypeForString(szObsoleteProject, true);
 	const char* szVictoryPrereq = kResults.GetText("VictoryPrereq");
@@ -87,10 +88,8 @@ bool CvProjectEntry::CacheResults(Database::Results& kResults, CvDatabaseUtility
 			{
 				const char* szVictoryType = kDBResults.GetText("VictoryType");
 				const int idx = GC.getInfoTypeForString(szVictoryType, true);
-
 				const int iThreshold = kDBResults.GetInt("Threshold");
 				const int iMinThreshold = kDBResults.GetInt("MinThreshold");
-
 				m_piVictoryThreshold[idx] = iThreshold;
 				m_piVictoryMinThreshold[idx] = iMinThreshold;
 			}
@@ -286,8 +285,8 @@ int CvProjectEntry::GetProjectsNeeded(int i) const
 	return 0;
 }
 
-// TODO: Match after CvPlayer::GetPlayerPerks can inline its authentic m_pPlayerPerks member.
-//       Target loads it at CvPlayer + 0xf4bc; reconstruct the real CvPlayer prefix rather than using padding.
+// TODO: Match after restoring the two inline perks accessors declared in CvPlayer.h.
+//       We need to implement as much of the relevant code in CvPlayer.h as possible and then compile again and see if it fixes this
 int CvProjectHelpers::GetSpecialProductionCost(const CvCity* pCity, ProjectTypes eProject)
 {
 	CvProjectEntry* pProject = GC.getProjectInfo(eProject);

@@ -18,10 +18,10 @@ namespace hks
 	{
 		if(idx > LUA_REGISTRYINDEX)
 			return idx > 0 ? L->m_apistack.base + idx - 1 : L->m_apistack.top + idx;
-		if(idx == LUA_REGISTRYINDEX)
-			return &L->m_global->m_registry;
 		if(idx == LUA_GLOBALSINDEX)
 			return &L->globals;
+		if(idx == LUA_REGISTRYINDEX)
+			return &L->m_global->m_registry;
 		if(idx == LUA_ENVIRONINDEX)
 		{
 			cclosure* closure = (L->m_apistack.base - 1)->v.cClosure;
@@ -113,41 +113,8 @@ inline void lua_pushboolean(lua_State* L, int value)
 
 #define lua_newtable(L) lua_createtable(L, 0, 0)
 #define lua_setglobal(L,s) lua_setfield(L, LUA_GLOBALSINDEX, (s))
-#define LUA_TNIL TNIL
-#define LUA_TBOOLEAN TBOOLEAN
-#define LUA_TNUMBER TNUMBER
-#define LUA_TFUNCTION TFUNCTION
 #define LUA_TTABLE TTABLE
 #define LUA_TUSERDATA TUSERDATA
-#define LUA_GCCOLLECT 2
-
-inline int lua_type(lua_State* L, int idx)
-{
-	HksObject* obj = hks::indexToObject(L, idx);
-	return obj < L->m_apistack.top ? (obj->t & 15) : TNONE;
-}
-#define lua_isfunction(L,n) (lua_type((L), (n)) == TFUNCTION || lua_type((L), (n)) == TIFUNCTION || lua_type((L), (n)) == TCFUNCTION)
-#define lua_istable(L,n) (lua_type((L), (n)) == TTABLE)
-#define lua_isnumber(L,n) (lua_type((L), (n)) == TNUMBER)
-#define lua_isboolean(L,n) (lua_type((L), (n)) == TBOOLEAN)
-#define lua_isnoneornil(L,n) (lua_type((L), (n)) <= TNIL)
-inline void lua_pushnil(lua_State* L) { L->m_apistack.top->t = TNIL; ++L->m_apistack.top; }
-void hks_obj_next(lua_State* L, const HksObject* table, HksObject* key, HksObject* value);
-inline int lua_next(lua_State* L, int idx)
-{
-	HksObject* key = L->m_apistack.top - 1;
-	HksObject value;
-	hks_obj_next(L, hks::indexToObject(L, idx), key, &value);
-	if((key->t & 15) == TNIL)
-	{
-		--L->m_apistack.top;
-		return 0;
-	}
-	*L->m_apistack.top++ = value;
-	return 1;
-}
-int lua_gc(lua_State* L, int what, int data);
-void lua_call(lua_State* L, int nargs, int nresults);
 
 inline void lua_settop(lua_State* L, int idx);
 #define lua_pop(L,n) lua_settop(L, -(n)-1)

@@ -27,9 +27,6 @@ public:
 		m_vec.clear();
 		m_uiSize = 0;
 	};
-	void Reserve(unsigned int uiCapacity);
-	unsigned int Alloc(const T& value);
-	void FreeIfDeleted(unsigned int ui);
 
 protected:
 	unsigned int m_uiFirstEmpty;

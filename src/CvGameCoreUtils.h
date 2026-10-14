@@ -3,24 +3,8 @@
 #include <cstdlib>
 
 class CvPlot;
-class CvAStar;
-class CvAStarNode;
-
-int PathDestValid(int, int, const void*, CvAStar*);
-int PathValid(CvAStarNode*, CvAStarNode*, int, const void*, CvAStar*);
-int PathAdd(CvAStarNode*, CvAStarNode*, int, const void*, CvAStar*);
-int UIPathValid(CvAStarNode*, CvAStarNode*, int, const void*, CvAStar*);
-int UIPathAdd(CvAStarNode*, CvAStarNode*, int, const void*, CvAStar*);
-int AttackPathAdd(CvAStarNode*, CvAStarNode*, int, const void*, CvAStar*);
-
-CvPlot* plotDirection(int iX, int iY, DirectionTypes eDirection);
-CvPlot* plotCity(int iX, int iY, int iIndex);
-class CvCity;
-int plotCityXY(const CvCity* pCity, const CvPlot* pPlot);
-DirectionTypes directionXY(const CvPlot* pFromPlot, const CvPlot* pToPlot);
 
 bool isWorldProject(ProjectTypes eProject);
-void getUnitAIString(CvString& strString, UnitAITypes eUnitAI);
 
 // Beyond Earth adds a plot-pointer overload of the distance utility.
 int plotDistance(const CvPlot* pPlot1, const CvPlot* pPlot2);

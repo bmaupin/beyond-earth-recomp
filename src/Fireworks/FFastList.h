@@ -131,8 +131,6 @@ protected:
 	explicit FCustomList_Core(unsigned int uiCapacity)
 		: TAIL(uiCapacity), m_uiSize(0), m_uiFirst(ANCHOR_NODE_INDEX), m_uiLast(ANCHOR_NODE_INDEX) {};
 	unsigned int m_uiSize, m_uiFirst, m_uiLast;
-	void push_back_existing(unsigned int uiNode);
-	void UnLink(unsigned int uiNode, unsigned int uiPrevious);
 	// TODO: FCustomList_Core mutation, copy, and remaining SDK methods.
 };
 
@@ -185,10 +183,6 @@ public:
 	const_iterator end() const { return const_iterator(ANCHOR_NODE_INDEX, this); };
 	const_iterator begin_const() const { return const_iterator(this->m_uiFirst, this); };
 	const_iterator end_const() const { return const_iterator(ANCHOR_NODE_INDEX, this); };
-	void Reserve(unsigned int uiCapacity) { BASE_TYPE::get_allocator().Reserve(uiCapacity); };
-	void push_back(const T& value);
-	void erase(iterator it);
-	void clear();
 	// TODO: FFastList mutation, copy, and remaining SDK methods.
 };
 

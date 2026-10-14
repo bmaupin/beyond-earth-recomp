@@ -1,52 +1,13 @@
 #pragma once
 
-#include <vector>
-#include "CvRandom.h"
-#include "CvDllContextNativeContainers.h"
-#include "CvStructs.h"
-
 class CvRandom;
 class CvGameSpeedInfo;
 class CvHandicapInfo;
-class CvGameDeals;
-class CvSiteEvaluatorForSettler;
-class CvGameVictories;
-class CvTacticalAnalysisMap
-{
-public:
-	void Init(int iNumPlots);
-};
-class CvUnit;
-class CvPlot;
-class CvCity;
-class CvGameMinorPowers;
-class CvGameTrade;
-class CvPartnerApp;
-class CvGameInitialItemsOverrides
-{
-public:
-	bool GrantInitialFreeTechsPerTeam[REALLY_MAX_TEAMS];
-	bool GrantInitialGoldPerPlayer[MAX_MAJOR_CIVS];
-	bool GrantInitialCulturePerPlayer[MAX_MAJOR_CIVS];
-	bool ClearResearchQueuePerPlayer[MAX_MAJOR_CIVS];
-	bool GrantInitialUnitsPerPlayer[MAX_MAJOR_CIVS];
-};
-
 class CvGame
 {
 public:
 	int getElapsedGameTurns() const;
-	int countMajorCivsAlive() const;
-	int countCivPlayersAlive() const;
-	int countHumanPlayersAlive() const;
-	int countNumHumanGameTurnActive();
-	int getJonRandNum(int iNum, const char* pszLog);
-	int getGameRandNum(int iNum, const char* pszLog);
-	int GetNumMinorCivsEver();
 	CvRandom& getMapRand();
-	int getMapRandNum(int iNum, const char* pszLog);
-	CvRandom& getJonRand() { return m_syncRand; }
-	int getDefaultEstimateEndTurn() const;
 	PlayerTypes getActivePlayer() const;
 	TeamTypes getActiveTeam();
 	int getGameTurn() const;
@@ -54,14 +15,13 @@ public:
 	CvGameSpeedInfo& getGameSpeedInfo() const;
 	CvHandicapInfo& getHandicapInfo() const;
 	GameStateTypes getGameState();
+	// Beyond Earth exposes whether the game has ever been extended.
 	bool hasGameEverBeenExtended();
 	HandicapTypes getHandicapType() const;
 	int IsAction(int iKeyStroke, bool bAlt, bool bShift, bool bCtrl);
-	int GetAction(int iKeyStroke, bool bAlt, bool bShift, bool bCtrl);
 	bool isDebugMode() const;
 	bool isFinalInitialized() const;
 	bool isGameMultiPlayer() const;
-	bool getFOW();
 	bool isHotSeat() const;
 	bool isMPOption(MultiplayerOptionTypes eIndex) const;
 	bool isNetworkMultiPlayer() const;
@@ -70,165 +30,5 @@ public:
 	bool isPbem() const;
 	bool isTeamGame() const;
 	bool TunerEverConnected() const;
-	void InitFromLoad();
-	void changeNumGameTurnActive(int iChange, const std::string& why);
-	bool cyclePlotUnits(CvPlot* pPlot, bool bForward, bool bAuto, int iCount);
-	void cycleUnits(bool bClear, bool bForward, bool bWorkers);
-	void DoGameStarted();
-	void endTurnTimerReset();
-	void endTurnTimerSemaphoreDecrement();
-	void endTurnTimerSemaphoreIncrement();
-	CvGameDeals* GetGameDeals();
-	CvSiteEvaluatorForSettler* GetSettlerSiteEvaluator();
-	CvGameVictories* GetGameVictories();
-	int getMaxTurns() const;
-	int getNumGameTurnActive();
-	PlayerTypes getPausePlayer();
-	bool getPbemTurnSent() const;
-	CvUnit* getPlotUnit(CvPlot* pPlot, int iIndex);
-	VictoryTypes getVictory() const;
-	int GetVotesNeededForDiploVictory() const;
-	TeamTypes getWinner() const;
-	int GetWinningTurn() const;
-	void handleAction(int iAction);
-	bool hasTurnTimerExpired(PlayerTypes playerID);
-	void TurnTimerSync(float fCurTurnTime, float fTurnStartTime);
-	void GetTurnTimerData(float& fCurTurnTime, float& fTurnStartTime);
-	void init(HandicapTypes eHandicap);
-	bool init2();
-	void initScoreCalculation();
-	CvTacticalAnalysisMap* GetTacticalAnalysisMap();
-	bool IsCityScreenBlocked();
-	bool CanOpenCityScreen(PlayerTypes eOpener, CvCity* pCity);
-	void LogGameState(bool bLogHeaders);
-	void resetTurnTimer(bool bResetGameTurn = false);
-	void selectAll(CvPlot* pPlot);
-	void selectGroup(CvUnit* pUnit, bool bShift, bool bCtrl, bool bAlt);
-	bool selectionListIgnoreBuildingDefense();
-	void selectionListMove(CvPlot* pPlot, bool bShift);
-	void selectPlot(CvPlot* pPlot);
-	void SelectSettler();
-	void selectUnit(CvUnit* pUnit, bool bClear, bool bToggle, bool bSound);
-	void sendPlayerOptions(bool bForce);
-	void setDebugMode(bool bDebugMode);
-	void setFinalInitialized(bool bNewValue);
-	void setInitialTime(unsigned int uiNewValue);
-	void setMPOption(MultiplayerOptionTypes eIndex, bool bEnabled);
-	void setPausePlayer(PlayerTypes eNewValue);
-	CalendarTypes getCalendar() const;
-	int getStartYear() const;
-	void uninit();
-	void unitIsMoving();
-	void update(float fDeltaTime);
-	void updateSelectionList();
-	void updateTestEndTurn();
-	void Read(FDataStream& kStream);
-	void Write(FDataStream& kStream) const;
-	void ReadSupportingClassData(FDataStream& kStream);
-	void WriteSupportingClassData(FDataStream& kStream) const;
-	void writeReplay(FDataStream& kStream) const;
-	void NetMessageStaticsReset();
-	void SetInitialAICivsFinished();
-	void SetNextSequentialPlayerTurnActive(PlayerTypes ePlayer);
-	bool IsQueueGameCoreMessageFrame();
-	int GetTurnOrder(PlayerTypes ePlayer) const;
-	PlayerTypes GetPlayerIDForTurnOrder(int iTurnOrder) const;
-	bool GetUnitEntryBasedOnUpgrades(const char* szUnitType, int iUnitTier, UnitUpgradeTypes eUpgrade, CvString& strUnitEntry);
-	void setAIAutoPlay(int iNumTurns, PlayerTypes ePlayer);
-	CvGameMinorPowers* GetGameMinorPowers() const;
-	CvGameTrade* GetGameTrade();
-	CvPartnerApp* GetPartnerApp();
-protected:
-
-    int m_iEndTurnMessagesSent;
-    int m_iElapsedGameTurns;
-    int m_iStartTurn;
-    int m_iWinningTurn;
-    int m_iStartYear;
-    int m_iEstimateEndTurn;
-    int m_iDefaultEstimateEndTurn;
-    int m_iTurnSlice;
-    int m_iCutoffSlice;
-    int m_iNumCities;
-    int m_iTotalPopulation;
-    int m_iNoNukesCount;
-    int m_iNukesExploded;
-    int m_iMaxPopulation;
-    int m_iUnused1;
-    int m_iUnused2;
-    int m_iUnused3;
-    int m_iInitPopulation;
-    int m_iInitLand;
-    int m_iInitTech;
-    int m_iInitWonders;
-    int m_iAIAutoPlay;
-    int m_iTotalReligionTechCost;
-    int m_iCachedWorldReligionTechProgress;
-    int m_iUnitedNationsCountdown;
-    int m_iNumVictoryVotesTallied;
-    int m_iNumVictoryVotesExpected;
-    int m_iVotesNeededForDiploVictory;
-    int m_iMapScoreMod;
-    int m_turnOrder[64];
-    unsigned int m_uiInitialTime;
-    bool m_bScoreDirty;
-    bool m_bCircumnavigated;
-    bool m_bDebugMode;
-    bool m_bDebugModeCache;
-    bool m_bFinalInitialized;
-    bool m_bPbemTurnSent;
-    bool m_bHotPbemBetweenTurns;
-    bool m_bPlayerOptionsSent;
-    bool m_bNukesValid;
-    bool m_bEndGameTechResearched;
-    bool m_bTunerEverConnected;
-    bool m_bDynamicTurnsSimultMode;
-    PlayerTypes m_eWaitDiploPlayer;
-    bool m_bFOW;
-    bool m_bStaticTutorialActive;
-    bool m_bTutorialEverAttacked;
-    bool m_bEverRightClickMoved;
-    bool m_bCombatWarned;
-    ASL::StdLib::UnorderedSet::unordered_set<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, ASL::StdLib::UnorderedSet::hash<std::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::equal_to<std::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::basic_string<char, std::char_traits<char>, std::allocator<char> > > > m_AdvisorMessagesViewed;
-    ASL::StdLib::HashMap::unordered_map<PlayerTypes, int, ASL::StdLib::HashMap::hash<PlayerTypes>, std::equal_to<PlayerTypes>, std::allocator<std::pair<PlayerTypes const, int> > > m_staggeredStartTimers;
-    HandicapTypes m_eHandicap;
-    PlayerTypes m_ePausePlayer;
-    PlayerTypes m_eAIAutoPlayReturnPlayer;
-    UnitTypes m_eBestLandUnit;
-    TeamTypes m_eWinner;
-    VictoryTypes m_eVictory;
-    GameStateTypes m_eGameState;
-    PlayerTypes m_eEventPlayer;
-    PlayerTypes m_eBestWondersPlayer;
-    PlayerTypes m_eBestPoliciesPlayer;
-    TechTypes m_eReligionTech;
-    RouteTypes m_eIndustrialRoute;
-    bool m_bArchaeologyTriggered;
-    CvString m_strScriptData;
-    int *m_aiEndTurnMessagesReceived;
-    int *m_aiRankPlayer;
-    int *m_aiPlayerRank;
-    int *m_aiPlayerScore;
-    int *m_aiRankTeam;
-    int *m_aiTeamRank;
-    int *m_aiTeamScore;
-    int *m_paiUnitCreatedCount;
-    int *m_paiUnitClassCreatedCount;
-    int *m_paiBuildingClassCreatedCount;
-    int *m_paiProjectCreatedCount;
-    PlayerVoteTypes *m_paiVoteOutcome;
-    int *m_aiSecretaryGeneralTimer;
-    int *m_aiVoteTimer;
-    int *m_aiDiploVote;
-    int *m_aiVotesCast;
-    int *m_aiPreviousVotesCast;
-    int *m_aiNumVotesForTeam;
-    bool *m_pabSpecialUnitValid;
-    int **m_apaiPlayerVote;
-    int **m_ppaaiTeamVictoryRank;
-    std::vector<CvString, std::allocator<CvString> > m_aszDestroyedCities;
-    FFreeListTrashArray<VoteSelectionData> m_voteSelections;
-    FFreeListTrashArray<VoteTriggeredData> m_votesTriggered;
-	CvRandom m_mapRand;
-	CvRandom m_syncRand;
+	// TODO: CvGame (remaining members).
 };

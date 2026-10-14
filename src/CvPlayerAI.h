@@ -2,28 +2,14 @@
 
 #include "CvPlayer.h"
 
-class CvQuestAI;
-class CvStationAI;
-class CvUnitUpgradeAI;
-class CvArtifactAI;
-class CvAIFactManager;
-
 class CvPlayerAI : public CvPlayer
 {
 public:
-	static CvPlayerAI& getPlayer(PlayerTypes ePlayer)
-	{
-		return m_aPlayers[ePlayer];
-	}
-	// TODO(Phase1): CvPlayerAI (remaining method declarations and implementations).
+	// TODO: CvPlayerAI::getPlayer(PlayerTypes) (restore SDK array indexing after reconstructing the real player size).
+	static CvPlayerAI& getPlayer(PlayerTypes ePlayer);
+	// TODO: CvPlayerAI (remaining members).
 private:
 	static CvPlayerAI* m_aPlayers;
-	CvQuestAI* m_pQuestAI;
-	CvStationAI* m_pStationAI;
-	CvUnitUpgradeAI* m_pUpgradeAI;
-	CvArtifactAI* m_pArtifactAI;
-	CvAIFactManager* m_pAIFactManager;
-	AffinityType m_affinityChoice;
 };
 
 #define GET_PLAYER CvPlayerAI::getPlayer

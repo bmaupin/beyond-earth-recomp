@@ -1,15 +1,9 @@
 #pragma once
 #include "CvPoint.h"
 #include <map>
-#include <memory>
-
-class CvCity;
-class ICvCity1;
 
 // Forward declaration retained from CvGlobals.h for CvBuildingClassInfo users.
 class CvBuildingClassInfo;
-class CvBuildingEntry;
-class CvBuildingXMLEntries;
 class CvPolicyEntry;
 class CvProjectXMLEntries;
 class CvProjectEntry;
@@ -17,7 +11,6 @@ class CvGame;
 class CvRandom;
 class CvActionInfo;
 class CvEntityEventInfo;
-class CvEmphasisEntry;
 class CvDeal;
 class ICvDeal1;
 class CvMap;
@@ -26,7 +19,6 @@ class CvIgnoreUnitsPathFinder;
 class CvStepPathFinder;
 class CvAStar;
 class ICvDLLDatabaseUtility1;
-class ICvUserInterface1;
 class CvInterfaceModeInfo;
 namespace Database { class Connection; }
 
@@ -84,22 +76,11 @@ class CvStageEntry;
 class CvTerrainInfo;
 class CvTopicEntry;
 class CvUnitClassInfo;
-class CvUnitEntry;
-class CvUnitXMLEntries;
-class CvTechEntry;
 class CvUnitPassiveAbilityEntry;
 class CvVictoryInfo;
 class CvVoteInfo;
 class CvVoteSourceInfo;
 class CvYieldInfo;
-class CvAffinityEntry;
-class CvAffinityLevelEntry;
-class CvCovertOperationEntry;
-class CvUnitUpgradeEntry;
-class CvOrbitalUnitEntry;
-class CvStationEntry;
-class CvNotificationXMLEntries;
-class CvPromotionEntry;
 
 // Partial SDK declaration.
 // TODO: CvGlobals (remaining members).
@@ -111,121 +92,20 @@ public:
 	const InfosMap& GetInfoTypes() const;
 	std::vector<CvActionInfo*>& getActionInfo();
 	int getNumTechInfos();
-	int getNumSpecialistInfos();
-	int getNumBuildingInfos();
-	CvSpecialistInfo* getSpecialistInfo(SpecialistTypes eSpecialist);
-	CvBuildInfo* getBuildInfo(BuildTypes eBuild);
-	class CvImprovementEntry* getImprovementInfo(ImprovementTypes eImprovement);
-	std::auto_ptr<ICvCity1> WrapCityPointer(CvCity* pCity);
-	int getAI_CITIZEN_VALUE_FOOD() const { return m_iAI_CITIZEN_VALUE_FOOD; }
-	int getAI_CITIZEN_VALUE_PRODUCTION() const { return m_iAI_CITIZEN_VALUE_PRODUCTION; }
-	int getAI_CITIZEN_VALUE_ENERGY() const { return m_iAI_CITIZEN_VALUE_ENERGY; }
-	int getAI_CITIZEN_VALUE_SCIENCE() const { return m_iAI_CITIZEN_VALUE_SCIENCE; }
-	int getAI_CITIZEN_VALUE_CULTURE() const { return m_iAI_CITIZEN_VALUE_CULTURE; }
-	int getAI_CITIZEN_VALUE_FAITH() const { return m_iAI_CITIZEN_VALUE_FAITH; }
-	int getDEFAULT_SPECIALIST() const { return m_iDEFAULT_SPECIALIST; }
-	int getMAX_SPECIALISTS_FROM_BUILDING() const { return m_iMAX_SPECIALISTS_FROM_BUILDING; }
-	int getUNHEALTH_TO_FORCE_AVOIDGROWTH() const { return m_iUNHEALTH_TO_FORCE_AVOIDGROWTH; }
-	int getGREAT_PERSON_THRESHOLD_BASE() const { return m_iGREAT_PERSON_THRESHOLD_BASE; }
-	int getNumAIGrandStrategyInfos();
-	class CvAIGrandStrategyXMLEntry* getAIGrandStrategyInfo(AIGrandStrategyTypes eStrategy);
-	int getNumCitySpecializationInfos();
-	class CvCitySpecializationXMLEntry* getCitySpecializationInfo(CitySpecializationTypes eSpecialization);
-	class CvCitySpecializationXMLEntries* GetGameCitySpecializations() const;
-	CvYieldInfo* getYieldInfo(YieldTypes eYield);
-	int getAI_CITY_SPECIALIZATION_EARLIEST_TURN() const { return m_iAI_CITY_SPECIALIZATION_EARLIEST_TURN; }
-	int getAI_CITY_SPECIALIZATION_REEVALUATION_INTERVAL() const { return m_iAI_CITY_SPECIALIZATION_REEVALUATION_INTERVAL; }
-	int getAI_CITY_SPECIALIZATION_GENERAL_ECONOMIC_WEIGHT() const { return m_iAI_CITY_SPECIALIZATION_GENERAL_ECONOMIC_WEIGHT; }
-	int getAI_CITY_SPECIALIZATION_FOOD_WEIGHT_FLAVOR_EXPANSION() const { return m_iAI_CITY_SPECIALIZATION_FOOD_WEIGHT_FLAVOR_EXPANSION; }
-	int getAI_CITY_SPECIALIZATION_FOOD_WEIGHT_PERCENT_CONTINENT_UNOWNED() const { return m_iAI_CITY_SPECIALIZATION_FOOD_WEIGHT_PERCENT_CONTINENT_UNOWNED; }
-	int getAI_CITY_SPECIALIZATION_FOOD_WEIGHT_NUM_CITIES() const { return m_iAI_CITY_SPECIALIZATION_FOOD_WEIGHT_NUM_CITIES; }
-	int getAI_CITY_SPECIALIZATION_FOOD_WEIGHT_NUM_SETTLERS() const { return m_iAI_CITY_SPECIALIZATION_FOOD_WEIGHT_NUM_SETTLERS; }
-	int getAI_CITY_SPECIALIZATION_FOOD_WEIGHT_EARLY_EXPANSION() const { return m_iAI_CITY_SPECIALIZATION_FOOD_WEIGHT_EARLY_EXPANSION; }
-	int getAI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_OPERATIONAL_UNITS_REQUESTED() const { return m_iAI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_OPERATIONAL_UNITS_REQUESTED; }
-	int getAI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_CIVS_AT_WAR_WITH() const { return m_iAI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_CIVS_AT_WAR_WITH; }
-	int getAI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_WAR_MOBILIZATION() const { return m_iAI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_WAR_MOBILIZATION; }
-	int getAI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_EMPIRE_DEFENSE() const { return m_iAI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_EMPIRE_DEFENSE; }
-	int getAI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_EMPIRE_DEFENSE_CRITICAL() const { return m_iAI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_EMPIRE_DEFENSE_CRITICAL; }
-	int getAI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_CAPITAL_THREAT() const { return m_iAI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_CAPITAL_THREAT; }
-	int getAI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_NEED_NAVAL_UNITS() const { return m_iAI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_NEED_NAVAL_UNITS; }
-	int getAI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_NEED_NAVAL_UNITS_CRITICAL() const { return m_iAI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_NEED_NAVAL_UNITS_CRITICAL; }
-	int getAI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_FLAVOR_WONDER() const { return m_iAI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_FLAVOR_WONDER; }
-	int getAI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_FLAVOR_SPACESHIP() const { return m_iAI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_FLAVOR_SPACESHIP; }
-	int getAI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_SUPREMACY_GATE() const { return m_iAI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_SUPREMACY_GATE; }
-	int getAI_CITY_SPECIALIZATION_PRODUCTION_TRAINING_PER_OFFENSE() const { return m_iAI_CITY_SPECIALIZATION_PRODUCTION_TRAINING_PER_OFFENSE; }
-	int getAI_CITY_SPECIALIZATION_PRODUCTION_TRAINING_PER_PERSONALITY() const { return m_iAI_CITY_SPECIALIZATION_PRODUCTION_TRAINING_PER_PERSONALITY; }
-	int getAI_CITY_SPECIALIZATION_ENERGY_WEIGHT_FLAVOR_GOLD() const { return m_iAI_CITY_SPECIALIZATION_ENERGY_WEIGHT_FLAVOR_GOLD; }
-	int getAI_CITY_SPECIALIZATION_ENERGY_WEIGHT_LAND_DISPUTE() const { return m_iAI_CITY_SPECIALIZATION_ENERGY_WEIGHT_LAND_DISPUTE; }
-	int getAI_CITY_SPECIALIZATION_SCIENCE_WEIGHT_FLAVOR_SCIENCE() const { return m_iAI_CITY_SPECIALIZATION_SCIENCE_WEIGHT_FLAVOR_SCIENCE; }
-	int getAI_CITY_SPECIALIZATION_SCIENCE_WEIGHT_FLAVOR_SPACESHIP() const { return m_iAI_CITY_SPECIALIZATION_SCIENCE_WEIGHT_FLAVOR_SPACESHIP; }
-	int getAI_CITY_SPECIALIZATION_YIELD_WEIGHT_FIRST_RING() const { return m_iAI_CITY_SPECIALIZATION_YIELD_WEIGHT_FIRST_RING; }
-	int getAI_CITY_SPECIALIZATION_YIELD_WEIGHT_SECOND_RING() const { return m_iAI_CITY_SPECIALIZATION_YIELD_WEIGHT_SECOND_RING; }
-	int getAI_CITY_SPECIALIZATION_YIELD_WEIGHT_THIRD_RING() const { return m_iAI_CITY_SPECIALIZATION_YIELD_WEIGHT_THIRD_RING; }
-	int getAI_CITY_SPECIALIZATION_YIELD_NUM_TILES_CONSIDERED() const { return m_iAI_CITY_SPECIALIZATION_YIELD_NUM_TILES_CONSIDERED; }
-	float getAI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_NEXT_WONDER() const { return m_fAI_CITY_SPECIALIZATION_PRODUCTION_WEIGHT_NEXT_WONDER; }
-	int getSETTLER_EVALUATION_DISTANCE() const { return m_iSETTLER_EVALUATION_DISTANCE; }
-	ProjectTypes getPROJECT_SUPREMACY_GATE() const { return m_iPROJECT_SUPREMACY_GATE; }
 	int getNumResourceInfos();
 	int getNumVictoryInfos();
 	int getNumProjectInfos();
-	int getNumProcessInfos();
-	std::vector<CvProcessInfo*>& getProcessInfo();
-	CvProcessInfo* getProcessInfo(ProcessTypes eProcess);
 	int getNumAffinityInfos();
 	int getNumFlavorTypes() const
 	{
 		return m_iNumFlavorTypes;
 	}
-	int getNumEmphasisInfos();
-	CvLeaderHeadInfo* getLeaderHeadInfo(LeaderHeadTypes eLeader);
-	CvLeaderHeadInfo* getLeaderHeadInfo(int eLeader) { return getLeaderHeadInfo(static_cast<LeaderHeadTypes>(eLeader)); }
-	CvMinorCivInfo* getMinorCivInfo(MinorCivTypes eMinor);
-	CvMinorCivInfo* getMinorCivInfo(int eMinor) { return getMinorCivInfo(static_cast<MinorCivTypes>(eMinor)); }
-	int getSTARTING_DISTANCE_PERCENT() const { return m_iSTARTING_DISTANCE_PERCENT; }
-	int getMIN_CIV_STARTING_DISTANCE() const { return m_iMIN_CIV_STARTING_DISTANCE; }
-	int getMIN_START_AREA_TILES() const { return m_iMIN_START_AREA_TILES; }
-	int getMIN_DISTANCE_OTHER_AREA_PERCENT() const { return m_iMIN_DISTANCE_OTHER_AREA_PERCENT; }
-	int getMINOR_CIV_FOOD_REQUIREMENT() const { return m_iMINOR_CIV_FOOD_REQUIREMENT; }
-	int getMAJOR_CIV_FOOD_REQUIREMENT() const { return m_iMAJOR_CIV_FOOD_REQUIREMENT; }
-	int getMIN_START_FOUND_VALUE_AS_PERCENT_OF_BEST() const { return m_iMIN_START_FOUND_VALUE_AS_PERCENT_OF_BEST; }
-	int getLAKE_MAX_AREA_SIZE() const { return m_iLAKE_MAX_AREA_SIZE; }
-	int getDEFAULT_FLAVOR_VALUE() const { return m_iDEFAULT_FLAVOR_VALUE; }
-	int getPERSONALITY_FLAVOR_MAX_VALUE() const { return m_iPERSONALITY_FLAVOR_MAX_VALUE; }
-	int getPERSONALITY_FLAVOR_MIN_VALUE() const { return m_iPERSONALITY_FLAVOR_MIN_VALUE; }
-	int getFLAVOR_MIN_VALUE() const { return m_iFLAVOR_MIN_VALUE; }
-	int getFLAVOR_MAX_VALUE() const { return m_iFLAVOR_MAX_VALUE; }
-	int getFLAVOR_RANDOMIZATION_RANGE() const { return m_iFLAVOR_RANDOMIZATION_RANGE; }
-	int getFLAVOR_EXPANDGROW_COEFFICIENT() const { return m_iFLAVOR_EXPANDGROW_COEFFICIENT; }
-	float getFLAVOR_STANDARD_LOG10_TILES_PER_PLAYER() const { return m_fFLAVOR_STANDARD_LOG10_TILES_PER_PLAYER; }
-	bool getPlayerAndCityAILogSplit();
-	_Ret_maybenull_ CvEmphasisEntry* getEmphasisInfo(EmphasizeTypes eEmphasisNum);
 	_Ret_maybenull_ CvEntityEventInfo* getEntityEventInfo(EntityEventTypes e);
 
 	CvDeal* UnwrapDealPointer(ICvDeal1* pDeal);
 	CvRandom* UnwrapRandomPointer(ICvRandom1* pRandom);
-	CvPlot* UnwrapPlotPointer(ICvPlot1* pPlot);
-	CvUnit* UnwrapUnitPointer(ICvUnit1* pUnit);
-	CvTwoLayerPathFinder& getInterfacePathFinder();
 	CvProjectXMLEntries* GetGameProjects() const;
 	CvProjectEntry* getProjectInfo(ProjectTypes eProject);
-	CvBuildingXMLEntries* GetGameBuildings() const;
-	CvBuildingEntry* getBuildingInfo(BuildingTypes eBuilding);
-	int getNumBuildingClassInfos();
-	CvBuildingClassInfo* getBuildingClassInfo(BuildingClassTypes eBuildingClass);
-	CvUnitXMLEntries* GetGameUnits() const;
-	CvUnitEntry* getUnitInfo(UnitTypes eUnit);
-	CvTechEntry* getTechInfo(TechTypes eTech);
-	int getNumPolicyInfos();
-	CvPolicyEntry* getPolicyInfo(PolicyTypes ePolicy);
-	int getNumPolicyBranchInfos();
-	class CvPolicyBranchEntry* getPolicyBranchInfo(PolicyBranchTypes eBranch);
-	int getPOLICY_WEIGHT_PROPAGATION_LEVELS() const { return m_iPOLICY_WEIGHT_PROPAGATION_LEVELS; }
-	int getPOLICY_WEIGHT_PERCENT_DROP_NEW_BRANCH() const { return m_iPOLICY_WEIGHT_PERCENT_DROP_NEW_BRANCH; }
-	int getNUM_OR_TECH_PREREQS() const { return m_iNUM_OR_TECH_PREREQS; }
-	const char* getFlavorTypes(int iFlavor) const { return m_paszFlavorTypes[iFlavor].c_str(); }
-	const char* getFlavorTypes(FlavorTypes eFlavor) const { return getFlavorTypes(static_cast<int>(eFlavor)); }
-	float getAI_RESEARCH_WEIGHT_MOD_PER_TURN_LEFT() const;
-	float getAI_RESEARCH_WEIGHT_BASE_MOD() const;
 	int getPROJECT_MOVE_CITY() const
 	{
 		return m_iPROJECT_MOVE_CITY;
@@ -238,12 +118,8 @@ public:
 	{
 		return m_iHIDDEN_START_TURN_OFFSET;
 	}
-	int getTRADE_ROUTE_BASE_ENERGY() const { return m_iTRADE_ROUTE_BASE_ENERGY; }
-	int getTRADE_ROUTE_CAPITAL_POP_ENERGY_MULTIPLIER() const { return m_iTRADE_ROUTE_CAPITAL_POP_ENERGY_MULTIPLIER; }
-	int getTRADE_ROUTE_CITY_POP_ENERGY_MULTIPLIER() const { return m_iTRADE_ROUTE_CITY_POP_ENERGY_MULTIPLIER; }
 	bool getLogging();
 	bool getAILogging();
-	void LogMessage(const char* szMessage);
 	int getInfoTypeForString(const char* szType, bool hideAssert = false) const;
 	Database::Connection* GetGameDatabase()
 	{
@@ -266,163 +142,7 @@ public:
 	{
 		return static_cast<ICvEngineUtility4*>(m_pDLL);
 	}
-	int* getPlotDirectionX() { return m_aiPlotDirectionX; }
-	int* getPlotDirectionY() { return m_aiPlotDirectionY; }
-	int* getCityPlotX() { return m_aiCityPlotX; }
-	int* getCityPlotY() { return m_aiCityPlotY; }
-	void setDLLIFace(ICvEngineUtility1* pDLL) { m_pDLL = pDLL; }
-	void SetEngineUserInterface(ICvUserInterface1* pUI) { m_pEngineUI = pUI; }
-	ICvUserInterface1* GetEngineUserInterface()
-	{
-		return m_pEngineUI;
-	}
 
-    void init();
-    void uninit();
-    CvMap* getMapPointer() { return m_map; }
-    CvGame* getGamePointer() { return m_game; }
-    class ICvDLLDatabaseUtility1 * getDatabaseLoadUtility();
-    class std::__1::vector<CvInterfaceModeInfo*, std::__1::allocator<CvInterfaceModeInfo*> > & getInterfaceModeInfo();
-    class CvInterfaceModeInfo * getInterfaceModeInfo(enum InterfaceModeTypes);
-    void setLogging(bool);
-    int getRandLogging();
-    void setRandLogging(int);
-    void setAILogging(bool);
-    bool getAIPerfLogging();
-    void setAIPerfLogging(bool);
-    bool GetBuilderAILogging();
-    void SetBuilderAILogging(bool);
-    bool GetBuilderAIYieldLogging();
-    void SetBuilderAIYieldLogging(bool);
-    void setPlayerAndCityAILogSplit(bool);
-    bool GetTutorialLogging();
-    void SetTutorialLogging(bool);
-    bool GetTutorialDebugging();
-    void SetTutorialDebugging(bool);
-    bool GetAllowRClickMovementWhileScrolling();
-    void SetAllowRClickMovementWhileScrolling(bool);
-    bool GetPostTurnAutosaves();
-    void SetPostTurnAutosaves(bool);
-    void SetGameDatabase(class Database::Connection *);
-    int getInfoTypeForHash(uint, bool) const;
-    int getNumWorldInfos();
-    int getNumClimateInfos();
-    int getNumSeaLevelInfos();
-    int GetNumColorInfos();
-    class std::__1::vector<CvColorInfo*, std::__1::allocator<CvColorInfo*> > & GetColorInfo();
-    class CvColorInfo * GetColorInfo(enum ColorTypes);
-    int GetNumPlayerColorInfos();
-    class std::__1::vector<CvPlayerColorInfo*, std::__1::allocator<CvPlayerColorInfo*> > & GetPlayerColorInfo();
-    class CvPlayerColorInfo * GetPlayerColorInfo(enum PlayerColorTypes);
-    int getNumTerrainInfos();
-    class std::__1::vector<CvTerrainInfo*, std::__1::allocator<CvTerrainInfo*> > & getTerrainInfo();
-    class CvTerrainInfo * getTerrainInfo(enum TerrainTypes);
-    class std::__1::vector<CvResourceInfo*, std::__1::allocator<CvResourceInfo*> > & getResourceInfo();
-    class CvResourceInfo * getResourceInfo(enum ResourceTypes);
-    int getNumFeatureInfos();
-    class std::__1::vector<CvFeatureInfo*, std::__1::allocator<CvFeatureInfo*> > & getFeatureInfo();
-    class CvFeatureInfo * getFeatureInfo(enum FeatureTypes);
-    int & getNumPlayableCivilizationInfos();
-    int & getNumAIPlayableCivilizationInfos();
-    int getNumCivilizationInfos();
-    class std::__1::vector<CvCivilizationInfo*, std::__1::allocator<CvCivilizationInfo*> > & getCivilizationInfo();
-    class CvCivilizationInfo * getCivilizationInfo(enum CivilizationTypes);
-    enum CivilizationTypes getCivilizationInfoIndex(const char *);
-    int getNumMinorCivInfos();
-    int GetNumPlayableMinorCivs() const;
-    int getNumLeaderHeadInfos();
-    int getNumUnitInfos();
-    int getNumUnitCombatClassInfos();
-    class std::__1::vector<CvBaseInfo*, std::__1::allocator<CvBaseInfo*> > & getUnitCombatClassInfo();
-    class CvBaseInfo * getUnitCombatClassInfo(enum UnitCombatTypes);
-    int getNumGameOptionInfos();
-    class std::__1::vector<CvGameOptionInfo*, std::__1::allocator<CvGameOptionInfo*> > & getGameOptionInfo();
-    class CvGameOptionInfo * getGameOptionInfo(enum GameOptionTypes);
-    class std::__1::vector<CvPlayerOptionInfo*, std::__1::allocator<CvPlayerOptionInfo*> > & getPlayerOptionInfo();
-    class CvPlayerOptionInfo * getPlayerOptionInfo(enum PlayerOptionTypes);
-    int getNumImprovementInfos();
-    int getNumBuildInfos();
-    int getNumUnitClassInfos();
-    int getTECH_PRIORITY_UNIQUE_ITEM() const { return m_iTECH_PRIORITY_UNIQUE_ITEM; }
-    int getTECH_WEIGHT_PROPAGATION_PERCENT() const { return m_iTECH_WEIGHT_PROPAGATION_PERCENT; }
-    int getTECH_COST_EXTRA_TEAM_MEMBER_MODIFIER() const { return m_iTECH_COST_EXTRA_TEAM_MEMBER_MODIFIER; }
-    int getNumHandicapInfos();
-    class std::__1::vector<CvHandicapInfo*, std::__1::allocator<CvHandicapInfo*> > & getHandicapInfo();
-    class CvHandicapInfo * getHandicapInfo(enum HandicapTypes);
-    int getNumGameSpeedInfos();
-    class std::__1::vector<CvGameSpeedInfo*, std::__1::allocator<CvGameSpeedInfo*> > & getGameSpeedInfo();
-    class CvGameSpeedInfo * getGameSpeedInfo(enum GameSpeedTypes);
-    class std::__1::vector<CvMissionInfo*, std::__1::allocator<CvMissionInfo*> > & getMissionInfo();
-    class CvMissionInfo * getMissionInfo(enum MissionTypes);
-    int getNumPromotionInfos();
-    class std::__1::vector<CvPromotionEntry*, std::__1::allocator<CvPromotionEntry*> > & getPromotionInfo();
-    class CvPromotionEntry * getPromotionInfo(PromotionTypes);
-    int getNumColonistInfos();
-    int getNumSpacecraftInfos();
-    int getNumCargoInfos();
-    int getNumStationInfos();
-    class std::__1::vector<CvStationEntry*, std::__1::allocator<CvStationEntry*> > & getStationInfo();
-    class CvStationEntry * getStationInfo(enum StationTypes);
-    int getNumPlanetInfos();
-    class std::__1::vector<CvPlanetInfo*, std::__1::allocator<CvPlanetInfo*> > & getPlanetInfo();
-    class CvPlanetInfo * getPlanetInfo(enum PlanetTypes);
-    const int getNumHeroLandmarkInfos() const;
-    class std::__1::vector<CvHeroLandmarkInfo*, std::__1::allocator<CvHeroLandmarkInfo*> > & getHeroLandmarkInfo();
-    class CvHeroLandmarkInfo * getHeroLandmarkInfo(enum HeroLandmarkTypes) const;
-    int getNumEraInfos();
-    class std::__1::vector<CvEraInfo*, std::__1::allocator<CvEraInfo*> > & getEraInfo();
-    class CvEraInfo * getEraInfo(enum EraTypes);
-    class std::__1::vector<CvVictoryInfo*, std::__1::allocator<CvVictoryInfo*> > & getVictoryInfo();
-    class CvVictoryInfo * getVictoryInfo(enum VictoryTypes);
-    int getNumUnitUpgradeInfos();
-    class CvUnitUpgradeEntry * getUnitUpgradeInfo(enum UnitUpgradeTypes);
-    class CvOrbitalUnitEntry * getOrbitalUnitInfo(enum OrbitalUnitTypes);
-    class CvAffinityEntry * getAffinityInfo(enum AffinityType);
-    class CvAffinityLevelEntry * getAffinityLevelInfo(int);
-    int getNumCovertOperationInfos();
-    class CvCovertOperationEntry * getCovertOperationInfo(enum CovertOperationTypes);
-    class CvNotificationXMLEntries * GetNotificationEntries();
-    const char ** GetHexDebugLayerNames();
-    float GetHexDebugLayerScale(const char *);
-    bool GetHexDebugLayerString(class CvPlot *, const char *, enum PlayerTypes, char *, unsigned int);
-    class CvString getDefineSTRING(const char *, bool);
-    int getALIEN_HANDICAP() { return m_iBARBARIAN_HANDICAP; }
-    bool IsGraphicsInitialized() const;
-    void SetGraphicsInitialized(bool);
-    void setOutOfSyncDebuggingEnabled(bool);
-    int getMOVE_DENOMINATOR() { return m_iMOVE_DENOMINATOR; }
-    int getDEFICIT_UNIT_DISBANDING_THRESHOLD() { return m_iDEFICIT_UNIT_DISBANDING_THRESHOLD; }
-    int getMAX_CITY_HIT_POINTS() { return m_iMAX_CITY_HIT_POINTS; }
-    int getHEAVY_RESOURCE_THRESHOLD() { return m_iHEAVY_RESOURCE_THRESHOLD; }
-    float getCITY_ZOOM_OFFSET() { return m_fCITY_ZOOM_OFFSET; }
-    float getORBITAL_ZOOM_DELTA() { return m_fORBITAL_ZOOM_DELTA; }
-    int getSHALLOW_WATER_TERRAIN() { return m_iSHALLOW_WATER_TERRAIN; }
-    int getRUINS_IMPROVEMENT() { return m_iRUINS_IMPROVEMENT; }
-    int getWATER_RUINS_IMPROVEMENT() { return m_iWATER_RUINS_IMPROVEMENT; }
-    int getSTANDARD_HANDICAP() { return m_iSTANDARD_HANDICAP; }
-    int getSTANDARD_GAMESPEED() { return m_iSTANDARD_GAMESPEED; }
-    int getLAST_EMBARK_ART_ERA() { return m_iLAST_EMBARK_ART_ERA; }
-    int getLAST_UNIT_ART_ERA() { return m_iLAST_UNIT_ART_ERA; }
-    int getLAST_BRIDGE_ART_ERA() { return m_iLAST_BRIDGE_ART_ERA; }
-    int getALIEN_CIVILIZATION() { return m_iALIEN_CIVILIZATION; }
-    int getALIEN_LEADER() { return m_iALIEN_LEADER; }
-    int getMINOR_CIV_HANDICAP() { return m_iMINOR_CIV_HANDICAP; }
-    int getMINOR_CIVILIZATION() { return m_iMINOR_CIVILIZATION; }
-    int getAI_HANDICAP() { return m_iAI_HANDICAP; }
-    FeatureTypes getFEATURE_FLOOD_PLAINS_ID() const { return m_eFEATURE_FLOOD_PLAINS_ID; }
-    FeatureTypes getFEATURE_FOREST_ID() const { return m_eFEATURE_FOREST_ID; }
-    FeatureTypes getFEATURE_ICE_ID() const { return m_eFEATURE_ICE_ID; }
-    FeatureTypes getFEATURE_MARSH_ID() const { return m_eFEATURE_MARSH_ID; }
-    FeatureTypes getFEATURE_MIASMA_ID() const { return m_eFEATURE_MIASMA_ID; }
-    FeatureTypes getFEATURE_REEF_ID() const { return m_eFEATURE_REEF_ID; }
-    FeatureTypes getFEATURE_BUBBLES_ID() const { return m_eFEATURE_BUBBLES_ID; }
-    FeatureTypes getFEATURE_TRENCH_BUBBLES_ID() const { return m_eFEATURE_TRENCH_BUBBLES_ID; }
-    const char * getAMPHIBIOUS_UNIT_WATER_EXTENSION() const { return m_szAMPHIBIOUS_UNIT_WATER_EXTENSION.c_str(); }
-    const char * getAMPHIBIOUS_UNIT_LAND_EXTENSION() const { return m_szAMPHIBIOUS_UNIT_LAND_EXTENSION.c_str(); }
-
-    float getCITY_ZOOM_LEVEL_1() { return m_fCITY_ZOOM_LEVEL_1; }
-    float getCITY_ZOOM_LEVEL_2() { return m_fCITY_ZOOM_LEVEL_2; }
-    float getCITY_ZOOM_LEVEL_3() { return m_fCITY_ZOOM_LEVEL_3; }
 protected:
 	// Real Beyond Earth prefix, verified against DWARF (m_game at +0x30).
 	bool m_bGraphicsInitialized;
@@ -2461,7 +2181,7 @@ protected:
 	CvString m_szAMPHIBIOUS_UNIT_WATER_EXTENSION;
 	CvString m_szAMPHIBIOUS_UNIT_LAND_EXTENSION;
 	class ICvEngineUtility1 *m_pDLL;
-	ICvUserInterface1* m_pEngineUI;
+	// TODO: CvGlobals (remaining data members after m_pDLL).
 };
 
 extern CvGlobals gGlobals;
