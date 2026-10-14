@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
 
+# Given the name of a source file, compares the functions in that file between the Beyond
+# Earth game core and Civ 5 game cores to determine how close they are before any
+# additional changes are made.
+
 civbe_gamecore=private/beyond-earth/libCvGameCoreDLL_Expansion1.so
 civ5_gamecore=private/civ5/libCvGameCoreDLL.so
 civ5_exp1_gamecore=private/civ5/libCvGameCoreDLL_Expansion1.so
 civ5_exp2_gamecore=private/civ5/libCvGameCoreDLL_Expansion2.so
 
 if [ -z "${1}" ]; then
-    echo "Error: Provide a file to compare" >&2
+    echo "Error: Provide a source file name (without path) to compare" >&2
     exit 1
 fi
 file_name="${1}"
