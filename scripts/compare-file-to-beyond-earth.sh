@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
 # Compare an object file against the Beyond Earth game core binary. This is used to
-# validate that the source code matches the binary.
+# validate that the source code matches the binary. e.g.
 
 civbe_gamecore=private/beyond-earth/libCvGameCoreDLL_Expansion1.so
 
 if [ -z "${1}" ]; then
-    echo "Error: Provide an object file to compare" >&2
+    echo "Error: Provide an object file to compare, for example:" >&2
+    echo "    ${0} private/build/CvGameCoreEnumSerialization.o" >&2
     exit 1
 fi
 file_name="${1}"
@@ -81,21 +82,18 @@ compare_functions() {
         exit 1
     fi
 
-    # Write just that function to an assembly file; asm-differ can't compare object files directly to .so files
-    private/tools/asmdiffer/bin/asm-differ \
-        -e "${mangled_function_name}" 0 \
-        --write-asm /tmp/libCvGameCoreDLL_Expansion1.so.asm >/dev/null
-
     # Uncomment for debugging
     # echo $mangled_function_name
     # echo $function_start_address
     # echo $function_stop_address
+    # echo private/tools/asmdiffer/bin/asm-differ \-e "${mangled_function_name}" 0 \--write-asm /tmp/libCvGameCoreDLL_Expansion1.so.asm
     # echo private/tools/asmdiffer/bin/asm-differ -o \--file "${source_binary}" \--ref-file "${target_binary}" \--base-asm /tmp/libCvGameCoreDLL_Expansion1.so.asm \--no-pager \--stop-at-ret "${mangled_function_name}"
     # exit 1
 
-    # echo "${function_name} ${source_binary} ********"
-    # private/tools/asmdiffer/bin/asm-differ --no-pager -e "${mangled_function_name}" "0x${function_start_address}" "0x${function_stop_address}"
-    # echo
+    # Write just that function to an assembly file; asm-differ can't compare object files directly to .so files
+    objdump --no-show-raw-insn -m i386 -d -rz -j .text --disassemble="${mangled_function_name}" \
+        --line-numbers "${target_binary}" |
+        tail -n +7 > /tmp/libCvGameCoreDLL_Expansion1.so.asm
 
     score=$(private/tools/asmdiffer/bin/asm-differ --format json -o --file "${source_binary}" --ref-file "${target_binary}" --base-asm /tmp/libCvGameCoreDLL_Expansion1.so.asm --no-pager --stop-at-ret "${mangled_function_name}" |
         jq '((.max_score - .current_score) / .max_score * 100) | round * 100 / 100'
@@ -105,6 +103,7 @@ compare_functions() {
     )
 
     echo "${function_name}: ${score}% (${source_binary})"
+    # TODO: how can this be fixed?
     if [[ "$score" -lt 0 ]]; then
         echo private/tools/asmdiffer/bin/asm-differ -o \--file "${source_binary}" \--ref-file "${target_binary}" \--base-asm /tmp/libCvGameCoreDLL_Expansion1.so.asm \--no-pager \--stop-at-ret "${mangled_function_name}"
         exit 1
@@ -112,8 +111,10 @@ compare_functions() {
 }
 
 # Store the result of the command in an array
+# - 'T': Filter out global function symbols
+# - 't': local text symbols, but filter out if they start with '.L', e.g. '.LBB2_2'
 mapfile -t functions < <( nm --defined-only --demangle "${file_name}" |
-    awk '$2 ~ /^[Tt]$/ { $1 = ""; $2 = ""; sub(/^  */, ""); print }' |
+    awk '($2 == "T" || $2 == "t") && $3 !~ /^\.L/ { $1 = ""; $2 = ""; sub(/^  */, ""); print }' |
     uniq )
 
 for function in "${functions[@]}"; do
