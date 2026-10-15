@@ -17,6 +17,8 @@ compare_functions() {
     target_binary="${2}"
     function_name="${3}"
 
+    tmp_asm_file=/tmp/libCvGameCoreDLL_Expansion1.so.asm
+
     # "grep -F" matches the string as a literal string (function names can contain asterisks)
     # ":" matches the function declaration
     # "@plt"
@@ -83,30 +85,29 @@ compare_functions() {
     fi
 
     # Uncomment for debugging
+    # echo $function_name
     # echo $mangled_function_name
     # echo $function_start_address
     # echo $function_stop_address
-    # echo private/tools/asmdiffer/bin/asm-differ \-e "${mangled_function_name}" 0 \--write-asm /tmp/libCvGameCoreDLL_Expansion1.so.asm
-    # echo private/tools/asmdiffer/bin/asm-differ -o \--file "${source_binary}" \--ref-file "${target_binary}" \--base-asm /tmp/libCvGameCoreDLL_Expansion1.so.asm \--no-pager \--stop-at-ret "${mangled_function_name}"
+    # echo private/tools/asmdiffer/bin/asm-differ -o \--file "${source_binary}" \--ref-file "${target_binary}" \--base-asm "${tmp_asm_file}" \--no-pager \--stop-at-ret "${mangled_function_name}"
     # exit 1
 
     # Write just that function to an assembly file; asm-differ can't compare object files directly to .so files
     objdump --no-show-raw-insn -m i386 -d -rz -j .text --disassemble="${mangled_function_name}" \
         --line-numbers "${target_binary}" |
-        tail -n +7 > /tmp/libCvGameCoreDLL_Expansion1.so.asm
+        tail -n +7 > "${tmp_asm_file}"
 
-    score=$(private/tools/asmdiffer/bin/asm-differ --format json -o --file "${source_binary}" --ref-file "${target_binary}" --base-asm /tmp/libCvGameCoreDLL_Expansion1.so.asm --no-pager --stop-at-ret "${mangled_function_name}" |
-        jq '((.max_score - .current_score) / .max_score * 100) | round * 100 / 100'
+    score=$(private/tools/asmdiffer/bin/asm-differ --format json -o --file "${source_binary}" --ref-file "${target_binary}" --base-asm "${tmp_asm_file}" --no-pager --stop-at-ret "${mangled_function_name}" |
+        jq '((.max_score - .current_score) / .max_score * 100) | round'
         # jq '{current_score}' |
         # A score of zero means an identical match, although this is rare
         # grep '"current_score": 0' >/dev/null
     )
 
-    echo "${function_name}: ${score}% (${source_binary})"
-    # TODO: how can this be fixed?
-    if [[ "$score" -lt 0 ]]; then
-        echo private/tools/asmdiffer/bin/asm-differ -o \--file "${source_binary}" \--ref-file "${target_binary}" \--base-asm /tmp/libCvGameCoreDLL_Expansion1.so.asm \--no-pager \--stop-at-ret "${mangled_function_name}"
-        exit 1
+    echo "${function_name}: ${score}%"
+    # NOTE: Scores under 0 can result if source function has more instructions than source
+    if [[ "$score" -lt 95 ]]; then
+        echo "    objdump --no-show-raw-insn -m i386 -d -rz -j .text --disassemble=${mangled_function_name} --line-numbers ${target_binary} | tail -n +7 > ${tmp_asm_file}; private/tools/asmdiffer/bin/asm-differ" -o \--file "${source_binary}" \--ref-file "${target_binary}" \--base-asm "${tmp_asm_file}" \--no-pager \--stop-at-ret "${mangled_function_name}"
     fi
 }
 
