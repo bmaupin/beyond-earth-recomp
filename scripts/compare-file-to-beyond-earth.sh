@@ -12,6 +12,9 @@ if [ -z "${1}" ]; then
 fi
 file_name="${1}"
 
+total_current_score=0
+total_max_score=0
+
 compare_functions() {
     source_binary="${1}"
     target_binary="${2}"
@@ -25,17 +28,16 @@ compare_functions() {
     function_name_matches=$(objdump -d --demangle "${source_binary}" | grep -F "${function_name}" | grep ">:" | egrep -v "@plt")
 
     if [[ "$function_name_matches" = *$'\n'* ]]; then
-        echo "Error: More than one match found in the Civ 5 game core" >&2
+        echo "Error: More than one match found in the object file" >&2
         echo "${function_name_matches}" >&2
         exit 1
     fi
 
     function_start_address=$(echo ${function_name_matches} | awk '{print $1}')
 
-    # If the function isn't in the Civ 5 binary, skip silently
     if [ -z "${function_start_address}" ]; then
-        echo "Function not found in Civ 5 game cores: ${function_name}"
-        return 1
+        echo "Error: Function not found in object file: ${function_name}" >&2
+        exit 1
     fi
 
     # Gets all addresses from the binary and then returns the address of the next function
@@ -97,12 +99,16 @@ compare_functions() {
         --line-numbers "${target_binary}" |
         tail -n +7 > "${tmp_asm_file}"
 
-    score=$(private/tools/asmdiffer/bin/asm-differ --format json -o --file "${source_binary}" --ref-file "${target_binary}" --base-asm "${tmp_asm_file}" --no-pager --stop-at-ret "${mangled_function_name}" |
-        jq '((.max_score - .current_score) / .max_score * 100) | round'
-        # jq '{current_score}' |
-        # A score of zero means an identical match, although this is rare
-        # grep '"current_score": 0' >/dev/null
+    raw_score=$(private/tools/asmdiffer/bin/asm-differ --format json -o --file "${source_binary}" --ref-file "${target_binary}" --base-asm "${tmp_asm_file}" --no-pager --stop-at-ret "${mangled_function_name}" |
+        jq | grep score
     )
+    current_score=$(echo "${raw_score}" | grep current_score | awk '{print $2}' | sed 's/[^0-9]*//g')
+    max_score=$(echo "${raw_score}" | grep max_score | awk '{print $2}' | sed 's/[^0-9]*//g')
+    total_current_score=$((total_current_score+$current_score))
+    total_max_score=$((total_max_score+$max_score))
+
+    # A score of zero means an identical match
+    score=$(((max_score - current_score) * 100 / max_score))
 
     echo "${function_name}: ${score}%"
     # NOTE: Scores under 0 can result if source function has more instructions than source
@@ -121,3 +127,8 @@ mapfile -t functions < <( nm --defined-only --demangle "${file_name}" |
 for function in "${functions[@]}"; do
     compare_functions "${file_name}" "${civbe_gamecore}" "${function}"
 done
+
+total_score=$(((total_max_score - total_current_score) * 100 / total_max_score))
+
+echo
+echo "${file_name}: ${total_score}%"
