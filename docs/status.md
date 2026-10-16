@@ -171,7 +171,7 @@
 | CvGameCoreDLL_Expansion1/CvPlotManager.h                                   |                         | 90            |
 | CvGameCoreDLL_Expansion1/CvPolicyAI.cpp                                    |                         | 8621          |
 | CvGameCoreDLL_Expansion1/CvPolicyClasses.cpp                               |                         | 35819         |
-| CvGameCoreDLL_Expansion1/CvPopupInfoSerialization.cpp                      | 93%                     | 578           |
+| CvGameCoreDLL_Expansion1/CvPopupInfoSerialization.cpp                      | 98%                     | 578           |
 | CvGameCoreDLL_Expansion1/CvPopupReturn.cpp                                 | 87%                     | 5196          |
 | CvGameCoreDLL_Expansion1/CvPreGame.cpp                                     |                         | 48265         |
 | CvGameCoreDLL_Expansion1/CvProcessProductionAI.cpp                         | 99%                     | 2461          |
@@ -191,7 +191,7 @@
 | CvGameCoreDLL_Expansion1/CvStationAI.cpp                                   |                         | 6626          |
 | CvGameCoreDLL_Expansion1/CvStation.cpp                                     |                         | 11696         |
 | CvGameCoreDLL_Expansion1/CvStation.h                                       |                         | 32            |
-| CvGameCoreDLL_Expansion1/cvStopWatch.cpp                                   |                         | 793           |
+| CvGameCoreDLL_Expansion1/cvStopWatch.cpp                                   | 98%                     | 793           |
 | CvGameCoreDLL_Expansion1/CvStrategicSite.cpp                               |                         | 15570         |
 | CvGameCoreDLL_Expansion1/CvStrategicSite.h                                 |                         | 32            |
 | CvGameCoreDLL_Expansion1/CvStructs.cpp                                     |                         | 4873          |
@@ -236,7 +236,7 @@
 | CvGameCoreDLL_Expansion1/Lua/CvLuaAIOperation.cpp                          |                         | 4363          |
 | CvGameCoreDLL_Expansion1/Lua/CvLuaAliens.cpp                               |                         | 5305          |
 | CvGameCoreDLL_Expansion1/Lua/CvLuaArea.cpp                                 | 98%                     | 4401          |
-| CvGameCoreDLL_Expansion1/Lua/CvLuaArgsHandle.cpp                           | 95%                     | 430           |
+| CvGameCoreDLL_Expansion1/Lua/CvLuaArgsHandle.cpp                           | 99%                     | 430           |
 | CvGameCoreDLL_Expansion1/Lua/CvLuaCity.cpp                                 |                         | 68237         |
 | CvGameCoreDLL_Expansion1/Lua/CvLuaCommuniqueRecord.cpp                     |                         | 710           |
 | CvGameCoreDLL_Expansion1/Lua/CvLuaConversation.cpp                         |                         | 1295          |
