@@ -105,7 +105,7 @@ compare_functions() {
         # grep '"current_score": 0' >/dev/null
     )
 
-    echo "${function_name}: ${score}% (${source_binary})"
+    echo "${function_name} (${source_binary}): ${score}%"
     if [[ "$score" -lt 99 ]]; then
         return 1
     fi
@@ -130,7 +130,7 @@ mapfile -t functions < <( nm --defined-only "${civbe_gamecore}" |
     awk '$2 ~ /^[Tt]$/ { print "0x" $1 }' |
     addr2line -f -C -e "${civbe_gamecore}" |
     awk -v file_name="$file_name" 'NR % 2 { name = $0; next } index($0, file_name) { print name }' |
-    sort -u )
+    uniq )
 
 for function in "${functions[@]}"; do
     compare_functions_across_civ5_game_cores "${function}"

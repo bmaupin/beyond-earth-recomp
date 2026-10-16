@@ -11,3 +11,4 @@
 - Never remove files or directories. Tell me what needs to be removed and I will do it.
 - On Linux, prefer commands directly in the shell and not custom code (e.g. Perl, Python) nor shell scripts in files
 - Do not write unit tests; the measure of success is if the machine code matches the Beyond Earth game core binary
+- Do not run scripts in scripts/

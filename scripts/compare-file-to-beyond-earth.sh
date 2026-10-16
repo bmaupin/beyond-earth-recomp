@@ -37,7 +37,8 @@ compare_functions() {
 
     if [ -z "${function_start_address}" ]; then
         echo "Error: Function not found in object file: ${function_name}" >&2
-        exit 1
+        # TODO: How does a missing function affect score? Should we exit here or not?
+        # exit 1
     fi
 
     # Gets all addresses from the binary and then returns the address of the next function

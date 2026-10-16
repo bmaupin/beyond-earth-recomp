@@ -18,7 +18,7 @@ public:
 	// File IO
 	virtual bool LoadFile(lua_State* L, const char* szFilename) = 0;
 
-	// TODO: This unknown slot preserves Beyond Earth's script-system vtable layout.
+	// TODO: Identify Beyond Earth's additional virtual method before CreateArgs.
 	virtual void UnknownBeyondEarthMethod() = 0;
 
 	//Arguments
