@@ -62,11 +62,12 @@ compare_functions() {
     civbe_function_start_address=$(nm --defined-only "${target_binary}" |
         # -F allows for function names that contain asterisks
         c++filt | grep -F "${function_name}" |
+        egrep -v "::ms_nestingOffset" |
         uniq |
         awk '{print $1}');
 
     if [[ "$civbe_function_start_address" = *$'\n'* ]]; then
-        echo "Error: More than one match found in the Beyond Earth game core" >&2
+        echo "Error: More than one match found in the Beyond Earth game core for function ${function_name}" >&2
         echo "$civbe_function_start_address" >&2
         exit 1
     fi
@@ -119,7 +120,7 @@ compare_functions() {
     current_score=$(echo "${raw_score}" | grep current_score | awk '{print $2}' | sed 's/[^0-9]*//g')
     # The last function in the file doesn't need the adjustment as the file ends so
     # asm-differ calculates the score correctly
-    if [[ "${function_name}" != "${last_function_in_file}" ]]; then
+    if [[ "${function_name}" != "${last_function_in_file}" && "$current_score" -ge 100 ]]; then
         # Using --max-lines automatically increases current_score by 100, so adjust
         current_score=$((current_score - 100))
     fi
@@ -132,7 +133,7 @@ compare_functions() {
 
     echo "${function_name}: ${score}%"
     # NOTE: Scores under 0 can result if source function has more instructions than source
-    if [[ "$score" -lt 95 ]]; then
+    if [[ "$score" -lt 95 || "$score" -gt 100 ]]; then
         echo "    objdump --no-show-raw-insn -m i386 -d -rz -j .text --disassemble=${mangled_function_name} --line-numbers ${target_binary} | tail -n +7 > ${tmp_asm_file}; private/tools/asmdiffer/bin/asm-differ" -o \--file "${source_binary}" \--ref-file "${target_binary}" \--base-asm "${tmp_asm_file}" \--no-pager \--max-lines "${max_lines}" "${mangled_function_name}"
     fi
 }
