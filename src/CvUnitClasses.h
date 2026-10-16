@@ -9,6 +9,8 @@ public:
 	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
 	int GetCombat() const;
 	int GetDomainType() const;
+	int GetFlavorValue(int i) const;
+	bool GetUnitAIType(int i) const;
 	UnitMoveRate GetMoveRate(int numHexes) const;
 	const char* GetUnitArtInfoTag() const;
 	const bool GetUnitArtInfoCulturalVariation() const;
@@ -22,4 +24,17 @@ public:
 	// TODO: CvUnitEntry (remaining SDK methods and Beyond Earth members).
 };
 
-// TODO: CvUnitXMLEntries.
+class CvUnitXMLEntries
+{
+public:
+	CvUnitXMLEntries(void);
+	~CvUnitXMLEntries(void);
+
+	std::vector<CvUnitEntry*>& GetUnitEntries();
+	int GetNumUnits();
+	CvUnitEntry* GetEntry(int index);
+	void DeleteArray();
+
+private:
+	std::vector<CvUnitEntry*> m_paUnitEntries;
+};

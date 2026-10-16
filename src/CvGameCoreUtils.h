@@ -1,5 +1,7 @@
 #pragma once
 
+void getUnitAIString(CvString& szString, UnitAITypes eUnitAI);
+
 #include <cstdlib>
 
 class CvPlot;

@@ -105,6 +105,8 @@ public:
 	CvDeal* UnwrapDealPointer(ICvDeal1* pDeal);
 	CvRandom* UnwrapRandomPointer(ICvRandom1* pRandom);
 	CvProjectXMLEntries* GetGameProjects() const;
+	class CvUnitXMLEntries* GetGameUnits() const;
+	class CvUnitEntry* getUnitInfo(UnitTypes eUnitNum);
 	CvProjectEntry* getProjectInfo(ProjectTypes eProject);
 	int getPROJECT_MOVE_CITY() const
 	{
@@ -120,6 +122,7 @@ public:
 	}
 	bool getLogging();
 	bool getAILogging();
+	void LogMessage(const char* szMessage);
 	int getInfoTypeForString(const char* szType, bool hideAssert = false) const;
 	Database::Connection* GetGameDatabase()
 	{

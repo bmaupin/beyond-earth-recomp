@@ -51,6 +51,8 @@ public:
 	const CvPlayer* GetPlayer() const;
 	CvCityBuildings* GetCityBuildings() const;
 	int GetMoveCityCostModifier() const;
+	bool canTrain(UnitTypes eUnit, bool bContinue = false, bool bTestVisible = false, bool bIgnoreCost = false, bool bIgnoreUpgrades = false, CvString* toolTipSink = NULL) const;
+	int getProductionTurnsLeft(UnitTypes eUnit, int iNum) const;
 	int getProductionTurnsLeft(ProjectTypes eProject, int iNum) const;
 	virtual ~CvCity();
 	int GetID() const { return m_iID; }
