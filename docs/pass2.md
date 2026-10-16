@@ -21,11 +21,12 @@ The goal of this pass is to copy remaining functions from the Civ 5 game core so
      -w /work \
      civ-recompile \
      /clang+llvm-3.4.1-x86_64-unknown-ubuntu12.04/bin/clang++ \
-     -std=c++11 -m32 -Os -fPIC -fno-exceptions \
+     -std=c++11 -m32 -Os -fPIC \
      -isystem /clang+llvm-3.4.1-x86_64-unknown-ubuntu12.04/include/c++/v1 \
      -Isrc \
      -Isrc/Fireworks \
      -Isrc/CvGameCoreDLLUtil \
+     -Isrc/CvGameCoreDLLUtil/include \
      -c src/CvGameCoreEnumSerialization.cpp \
      -o private/build/CvGameCoreEnumSerialization.o
    ```
