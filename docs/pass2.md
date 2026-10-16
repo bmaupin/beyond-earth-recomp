@@ -1,26 +1,40 @@
-TODO: Finish this document
+# Pass 2: Start implementing remaining functions
 
-1. If the functions do not match, or the functions only exist in Beyond Earth and not Civ 5, take action depending on the level of source to reconstruct that was decided above
-   - _Only identical code_:
-     - Do not implement the function
+## Goal
 
-   - _All source_:
-     - On the first pass, if there are any functions that do not generate matching source code as per the definition listed above under [Goal](#goal), determine the number of total total instructions and new or changed instructions
-     - Then decide in which order to implement the functions based on number of instructions to implement
+The goal of this pass is to copy remaining functions from the Civ 5 game core source and implement the changes.
 
-   - _Limited modifications_:
-     - If the changed or new regions for a function or other construct contain more than 10 machine instructions in total that need to be implemented (excluding alignment padding), do not implement it
+- The machine code must match after normalising relocation-dependent addresses and symbol references
+- Normalisation must preserve referenced targets and must not hide differences in instructions, control flow, constants, or field offsets
 
-1. Then make the changes
-   - If a function or other construct does not match and is not yet to be implemented, add a TODO with the declaration and number of total instructions and new or changed instructions:
+"Matching" in this document refers to code that meets the goals for this pass as described in this section.
 
-     ```c++
-     // TODO: CvPlayerManager::RefreshDangerPlots() (137 total instructions, 101 new or changed)
-     ```
+1. For a particular source file, look for any functions that are marked with a TODO, indicating they are not yet implemented
 
-     Then skip the steps below and instead move to the next function
+1. If the function exists in the Civ 5 game core source, copy it as-is to an identically named file in [`src/`](../src/)
 
-   - When implementing a function that differs, add a comment indicating an overview of the differences, e.g. if the difference is in the function:
+1. Compile the source, e.g.
+
+   ```
+   docker run --rm \
+     -v "$PWD:/work" \
+     -w /work \
+     civ-recompile \
+     /clang+llvm-3.4.1-x86_64-unknown-ubuntu12.04/bin/clang++ \
+     -std=c++11 -m32 -Os -fPIC -fno-exceptions \
+     -isystem /clang+llvm-3.4.1-x86_64-unknown-ubuntu12.04/include/c++/v1 \
+     -Isrc \
+     -Isrc/Fireworks \
+     -Isrc/CvGameCoreDLLUtil \
+     -c src/CvGameCoreEnumSerialization.cpp \
+     -o private/build/CvGameCoreEnumSerialization.o
+   ```
+
+1. Disassemble the compiled source and compare the relevant section of the Beyond Earth game core to determine the differences and changes that need to be made
+   - If the changed or new regions for a function or other construct contain more than 100 machine instructions in total that need to be implemented (excluding alignment padding), confirm first before implementing the changes
+
+1. Modify the function as necessary so that the assembly matches as per the goal listed above
+   - Add a comment indicating an overview of the differences, e.g. if the difference is in the function:
 
      ```c++
      // Beyond Earth's replay format starts at version 1; Civ 5 returns 2.
@@ -36,3 +50,7 @@ TODO: Finish this document
      ```
 
    - Decompiled code from Ghidra may be helpful in reconstructing missing source code
+
+1. Once the changes are made, compile the source again and compare against the Beyond Earth game core binary. Repeat as necessary until the machine code matches according to the definition above.
+
+1. Continue to the next function in the source file

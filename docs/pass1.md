@@ -96,10 +96,11 @@ For each function:
      -w /work \
      civ-recompile \
      /clang+llvm-3.4.1-x86_64-unknown-ubuntu12.04/bin/clang++ \
-     -m32 -Os -fPIC -fno-exceptions \
+     -std=c++11 -m32 -Os -fPIC -fno-exceptions \
      -isystem /clang+llvm-3.4.1-x86_64-unknown-ubuntu12.04/include/c++/v1 \
      -Isrc \
      -Isrc/Fireworks \
+     -Isrc/CvGameCoreDLLUtil \
      -c src/CvGameCoreEnumSerialization.cpp \
      -o private/build/CvGameCoreEnumSerialization.o
    ```
