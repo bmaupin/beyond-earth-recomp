@@ -10,7 +10,7 @@ if [ -z "${1}" ]; then
     echo "    ${0} private/build/CvGameCoreEnumSerialization.o" >&2
     exit 1
 fi
-file_name="${1}"
+object_file="${1}"
 
 total_current_score=0
 total_max_score=0
@@ -107,7 +107,7 @@ compare_functions() {
     game_core_num_lines=$(objdump --no-show-raw-insn -m i386 -d -z -j .text --disassemble="${mangled_function_name}" \
         "${target_binary}" | grep -E '^[[:space:]]*[[:xdigit:]]+:' | wc -l)
 
-    if [[ $game_core_num_lines -gt $num_lines ]]; then
+    if [[ $game_core_num_lines -gt $object_num_lines ]]; then
         max_lines=$game_core_num_lines
     else
         max_lines=$object_num_lines
@@ -137,20 +137,21 @@ compare_functions() {
     fi
 }
 
-# Store the result of the command in an array
-# - 'T': Filter out global function symbols
-# - 't': local text symbols, but filter out if they start with '.L', e.g. '.LBB2_2'
-mapfile -t functions < <( nm --defined-only --demangle "${file_name}" |
-    awk '($2 == "T" || $2 == "t") && $3 !~ /^\.L/ { $1 = ""; $2 = ""; sub(/^  */, ""); print }' |
+source_file="$(basename ${object_file} .o).cpp"
+# Get the list of functions from the Beyond Earth game core, in case we missed any
+mapfile -t functions < <( nm --defined-only "${civbe_gamecore}" |
+    awk '$2 ~ /^[Tt]$/ { print "0x" $1 }' |
+    addr2line -f -C -e "${civbe_gamecore}" |
+    awk -v source_file="$source_file" 'NR % 2 { name = $0; next } index($0, source_file) { print name }' |
     uniq )
 
 last_function_in_file=$(nm --defined-only --demangle private/build/CvDllCity.o | grep T | sort | tail -n 1 | awk '{ $1 = ""; $2 = ""; sub(/^  */, ""); print }')
 
 for function in "${functions[@]}"; do
-    compare_functions "${file_name}" "${civbe_gamecore}" "${function}"
+    compare_functions "${object_file}" "${civbe_gamecore}" "${function}"
 done
 
 total_score=$(((total_max_score - total_current_score) * 100 / total_max_score))
 
 echo
-echo "${file_name}: ${total_score}%"
+echo "${object_file}: ${total_score}%"
