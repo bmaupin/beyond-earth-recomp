@@ -99,10 +99,30 @@ compare_functions() {
         --line-numbers "${target_binary}" |
         tail -n +7 > "${tmp_asm_file}"
 
-    raw_score=$(private/tools/asmdiffer/bin/asm-differ --format json -o --file "${source_binary}" --ref-file "${target_binary}" --base-asm "${tmp_asm_file}" --no-pager --stop-at-ret "${mangled_function_name}" |
+    # Unfortunately asm-differ's object file comparison cannot properly detect the end of
+    # a function from an .asm text file, so we calculate the number of lines to compare
+    # and use --max-lines
+    object_num_lines=$(objdump --no-show-raw-insn -m i386 -d -z -j .text --disassemble="${mangled_function_name}" \
+        "${source_binary}" | grep -E '^[[:space:]]*[[:xdigit:]]+:' | wc -l)
+    game_core_num_lines=$(objdump --no-show-raw-insn -m i386 -d -z -j .text --disassemble="${mangled_function_name}" \
+        "${target_binary}" | grep -E '^[[:space:]]*[[:xdigit:]]+:' | wc -l)
+
+    if [[ $game_core_num_lines -gt $num_lines ]]; then
+        max_lines=$game_core_num_lines
+    else
+        max_lines=$object_num_lines
+    fi
+
+    raw_score=$(private/tools/asmdiffer/bin/asm-differ --format json -o --file "${source_binary}" --ref-file "${target_binary}" --base-asm "${tmp_asm_file}" --no-pager --max-lines "${max_lines}" "${mangled_function_name}" |
         jq | grep score
     )
     current_score=$(echo "${raw_score}" | grep current_score | awk '{print $2}' | sed 's/[^0-9]*//g')
+    # The last function in the file doesn't need the adjustment as the file ends so
+    # asm-differ calculates the score correctly
+    if [[ "${function_name}" != "${last_function_in_file}" ]]; then
+        # Using --max-lines automatically increases current_score by 100, so adjust
+        current_score=$((current_score - 100))
+    fi
     max_score=$(echo "${raw_score}" | grep max_score | awk '{print $2}' | sed 's/[^0-9]*//g')
     total_current_score=$((total_current_score+$current_score))
     total_max_score=$((total_max_score+$max_score))
@@ -113,7 +133,7 @@ compare_functions() {
     echo "${function_name}: ${score}%"
     # NOTE: Scores under 0 can result if source function has more instructions than source
     if [[ "$score" -lt 95 ]]; then
-        echo "    objdump --no-show-raw-insn -m i386 -d -rz -j .text --disassemble=${mangled_function_name} --line-numbers ${target_binary} | tail -n +7 > ${tmp_asm_file}; private/tools/asmdiffer/bin/asm-differ" -o \--file "${source_binary}" \--ref-file "${target_binary}" \--base-asm "${tmp_asm_file}" \--no-pager \--stop-at-ret "${mangled_function_name}"
+        echo "    objdump --no-show-raw-insn -m i386 -d -rz -j .text --disassemble=${mangled_function_name} --line-numbers ${target_binary} | tail -n +7 > ${tmp_asm_file}; private/tools/asmdiffer/bin/asm-differ" -o \--file "${source_binary}" \--ref-file "${target_binary}" \--base-asm "${tmp_asm_file}" \--no-pager \--max-lines "${max_lines}" "${mangled_function_name}"
     fi
 }
 
@@ -123,6 +143,8 @@ compare_functions() {
 mapfile -t functions < <( nm --defined-only --demangle "${file_name}" |
     awk '($2 == "T" || $2 == "t") && $3 !~ /^\.L/ { $1 = ""; $2 = ""; sub(/^  */, ""); print }' |
     uniq )
+
+last_function_in_file=$(nm --defined-only --demangle private/build/CvDllCity.o | grep T | sort | tail -n 1 | awk '{ $1 = ""; $2 = ""; sub(/^  */, ""); print }')
 
 for function in "${functions[@]}"; do
     compare_functions "${file_name}" "${civbe_gamecore}" "${function}"
