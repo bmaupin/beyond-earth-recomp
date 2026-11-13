@@ -61,11 +61,13 @@ compare_functions() {
 
     # Get the Beyond Earth mangled function name, needed by asm-differ
     civbe_function_start_address=$(nm --defined-only "${target_binary}" |
-        # -F allows for function names that contain asterisks
-        c++filt | grep -F "${function_name}" |
-        egrep -v "::ms_nestingOffset" |
-        uniq |
-        awk '{print $1}');
+        c++filt |
+        awk -v name="${function_name}" '{
+            address = $1
+            sub(/^[^[:space:]]+[[:space:]]+[^[:space:]]+[[:space:]]+/, "")
+            if ($0 == name) print address
+        }' |
+        uniq);
 
     if [[ "$civbe_function_start_address" = *$'\n'* ]]; then
         echo "Error: More than one match found in the Beyond Earth game core for function ${function_name}" >&2
