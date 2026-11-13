@@ -20,6 +20,8 @@
    - Sid Meier's Civilization Beyond Earth
      - This will be used as a reference since the Lua code in the game calls the game core code
 
+1. Add the Civ 5 SDK to the project workspace for reference
+
 1. Download Beyond Earth game core (libCvGameCoreDLL_Expansion1.so)
 
    ⓘ The Linux version of the game core is used as a reference, because unlike the Windows game core, it contains additional information that can be used in reconstructing the original source code (function names, debug symbols, etc)
@@ -72,3 +74,13 @@
      ```
 
    - Mac/Windows: Build the container from the `Dockerfile` in this project in Docker Desktop
+
+1. Install asm-differ
+
+   ```
+   python3 -m venv private/tools/asmdiffer
+   private/tools/asmdiffer/bin/python -m pip install 'asm-differ @ git+https://github.com/simonlindholm/asm-differ.git'
+   private/tools/asmdiffer/bin/asm-differ --help
+   ```
+
+1. See [recompile.md](./recompile.md) to start recompiling
