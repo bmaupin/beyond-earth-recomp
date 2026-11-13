@@ -10,6 +10,7 @@
    ```
 
 1. If using an AI agent, open [pass1.md](pass1.md) and have it implement functions in that source file that match the Civ 5 source
+   - This can probably be done with a lower model, such as GPT Luna or Claude Haiku
 
 1. Then open [pass2.md](pass2.md) and have it implement remaining functions in that source file
 

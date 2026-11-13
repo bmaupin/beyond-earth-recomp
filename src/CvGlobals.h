@@ -120,6 +120,14 @@ public:
 	{
 		return m_iHIDDEN_START_TURN_OFFSET;
 	}
+	int getOPINION_WEIGHT_AFFINITY_DIFFERS() const
+	{
+		return m_iOPINION_WEIGHT_AFFINITY_DIFFERS;
+	}
+	int getOPINION_WEIGHT_AFFINITY_DIFFERS_MIN_PERCENT_TOWARDS_MAX_LEVEL() const
+	{
+		return m_iOPINION_WEIGHT_AFFINITY_DIFFERS_MIN_PERCENT_TOWARDS_MAX_LEVEL;
+	}
 	bool getLogging();
 	bool getAILogging();
 	void LogMessage(const char* szMessage);

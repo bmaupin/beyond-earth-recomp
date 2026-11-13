@@ -396,6 +396,7 @@ public:
 	virtual ~CvLeaderHeadInfo();
 
 	const char* getArtDefineTag() const;
+	int GetAffinityDevotion() const;
 
 	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
 	// TODO: CvLeaderHeadInfo (remaining SDK methods and Beyond Earth members).
