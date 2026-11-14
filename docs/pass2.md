@@ -35,6 +35,7 @@ The goal of this pass is to copy remaining functions from the Civ 5 game core so
    - If the changed or new regions for a function or other construct contain more than 100 machine instructions in total that need to be implemented (excluding alignment padding), confirm first before implementing the changes
 
 1. Modify the function as necessary so that the assembly matches as per the goal listed above
+   - For any functions that are also in the Civ 5 game core source, keep the existing order of the functions
    - Use original variable names from the Beyond Earth game core binary debug information
    - Add a comment indicating an overview of the differences, e.g. if the difference is in the function:
 

@@ -25,6 +25,8 @@ compare_functions() {
     # "grep -F" matches the string as a literal string (function names can contain asterisks)
     # ":" matches the function declaration
     # "@plt"
+    # TODO: we may need this to distinguish function overrides (functions with same name but different signature)
+    # function_name_matches=$(objdump -d --demangle "${source_binary}" | grep -F "${function_name}>:" | egrep -v "@plt")
     function_name_matches=$(objdump -d --demangle "${source_binary}" | grep -F "${function_name}" | grep ">:" | egrep -v "@plt")
 
     if [[ "$function_name_matches" = *$'\n'* ]]; then
@@ -149,7 +151,7 @@ mapfile -t functions < <( nm --defined-only "${civbe_gamecore}" |
     awk -v source_file="$source_file" 'NR % 2 { name = $0; next } index($0, source_file) { print name }' |
     uniq )
 
-last_function_in_file=$(nm --defined-only --demangle private/build/CvDllCity.o | grep T | sort | tail -n 1 | awk '{ $1 = ""; $2 = ""; sub(/^  */, ""); print }')
+last_function_in_file=$(nm --defined-only --demangle "${object_file}" | grep T | sort | tail -n 1 | awk '{ $1 = ""; $2 = ""; sub(/^  */, ""); print }')
 
 for function in "${functions[@]}"; do
     compare_functions "${object_file}" "${civbe_gamecore}" "${function}"
