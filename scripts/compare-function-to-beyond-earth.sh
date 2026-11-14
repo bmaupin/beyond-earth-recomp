@@ -18,9 +18,6 @@ if [ -z "${2}" ]; then
 fi
 function_name="${2}"
 
-total_current_score=0
-total_max_score=0
-
 compare_functions() {
     source_binary="${1}"
     target_binary="${2}"
@@ -137,8 +134,6 @@ compare_functions() {
         current_score=$((current_score - 100))
     fi
     max_score=$(echo "${raw_score}" | grep max_score | awk '{print $2}' | sed 's/[^0-9]*//g')
-    total_current_score=$((total_current_score+$current_score))
-    total_max_score=$((total_max_score+$max_score))
 
     # A score of zero means an identical match
     score=$(((max_score - current_score) * 100 / max_score))
@@ -163,8 +158,3 @@ last_function_in_file=$(nm --defined-only --demangle "${object_file}" | grep T |
 # for function in "${functions[@]}"; do
     compare_functions "${object_file}" "${civbe_gamecore}" "${function_name}"
 # done
-
-total_score=$(((total_max_score - total_current_score) * 100 / total_max_score))
-
-echo
-echo "${object_file}: ${total_score}%"
