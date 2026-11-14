@@ -1,8 +1,24 @@
 #pragma once
 
+#include "CvGameCoreDLLUtil/CvEnums.h"
+#include "CvDiplomacyAIEnums.h"
+
 class CvCity;
 class CvPlayerAffinities;
 class CvLeaderHeadInfo;
+class CvMilitaryAI;
+class CvGrandStrategyAI
+{
+public:
+	AIGrandStrategyTypes GetActiveGrandStrategy() const;
+	AIGrandStrategyTypes GetGuessOtherPlayerActiveGrandStrategy(PlayerTypes ePlayer) const;
+	GuessConfidenceTypes GetGuessOtherPlayerActiveGrandStrategyConfidence(PlayerTypes ePlayer) const;
+};
+class CvFlavorManager
+{
+public:
+	int GetPersonalityIndividualFlavor(FlavorTypes eFlavor);
+};
 class CvPlayerPerks
 {
 public:
@@ -15,6 +31,7 @@ class CvPlayer
 {
 public:
 	bool isHuman() const;
+	bool isMinorCiv() const;
 	bool IsAITeammateOfHuman() const;
 	bool isAlien() const;
 	bool isNeutralProxy() const;
@@ -27,6 +44,9 @@ public:
 	}
 	CvLeaderHeadInfo& getLeaderInfo() const;
 	const char* getCivilizationShortDescription() const;
+	CvMilitaryAI* GetMilitaryAI() const;
+	CvGrandStrategyAI* GetGrandStrategyAI() const;
+	CvFlavorManager* GetFlavorManager() const;
 	const CvCity* firstCity(int* pIterIdx, bool bRev = false) const;
 	const CvCity* nextCity(int* pIterIdx, bool bRev = false) const;
 	// TODO: CvPlayer (remaining members).

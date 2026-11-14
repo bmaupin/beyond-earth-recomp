@@ -5,5 +5,7 @@
 #pragma once
 
 #define MAX_MAJOR_CIVS                                    (22)
+#define MAX_CIV_PLAYERS                                    (62)
+#define REALLY_MAX_PLAYERS                                (80)
 #define REALLY_MAX_TEAMS                                  (80)
 #define INVALID_PLOT_COORD                                (-(INT_MAX))

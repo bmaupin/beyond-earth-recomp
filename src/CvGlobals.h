@@ -2,8 +2,11 @@
 #include "CvPoint.h"
 #include <map>
 
+enum AIGrandStrategyTypes : int;
+
 // Forward declaration retained from CvGlobals.h for CvBuildingClassInfo users.
 class CvBuildingClassInfo;
+class CvAIGrandStrategyXMLEntry;
 class CvPolicyEntry;
 class CvProjectXMLEntries;
 class CvProjectEntry;
@@ -81,6 +84,7 @@ class CvVictoryInfo;
 class CvVoteInfo;
 class CvVoteSourceInfo;
 class CvYieldInfo;
+class CvString;
 
 // Partial SDK declaration.
 // TODO: CvGlobals (remaining members).
@@ -99,6 +103,10 @@ public:
 	int getNumFlavorTypes() const
 	{
 		return m_iNumFlavorTypes;
+	}
+	CvString& getFlavorTypes(FlavorTypes eFlavor)
+	{
+		return m_paszFlavorTypes[eFlavor];
 	}
 	_Ret_maybenull_ CvEntityEventInfo* getEntityEventInfo(EntityEventTypes e);
 
@@ -130,8 +138,10 @@ public:
 	}
 	bool getLogging();
 	bool getAILogging();
+	bool getPlayerAndCityAILogSplit();
 	void LogMessage(const char* szMessage);
 	int getInfoTypeForString(const char* szType, bool hideAssert = false) const;
+	CvAIGrandStrategyXMLEntry* getAIGrandStrategyInfo(AIGrandStrategyTypes eGrandStrategy);
 	Database::Connection* GetGameDatabase()
 	{
 		return m_pGameDatabase;

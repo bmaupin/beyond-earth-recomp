@@ -7,6 +7,7 @@ namespace Localization
 class String
 {
 public:
+	String();
 	String(const char* text);
 	~String();
 	CvString toUTF8() const;

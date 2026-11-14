@@ -77,6 +77,16 @@ private:
 	// TODO: CvBaseInfo (remaining SDK methods).
 };
 
+class CvAIGrandStrategyXMLEntry : public CvBaseInfo
+{
+public:
+	virtual ~CvAIGrandStrategyXMLEntry();
+	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
+	int GetFlavorValue(int i) const;
+	int GetFlavorModValue(int i) const;
+	int GetSpecializationBoost(YieldTypes eYield) const;
+};
+
 // Partial SDK civilization declarations; native getters remain external.
 class CvCivilizationBaseInfo : public CvBaseInfo
 {
