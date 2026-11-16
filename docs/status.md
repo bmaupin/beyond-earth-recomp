@@ -185,7 +185,7 @@
 | CvGameCoreDLL_Expansion1/CvReligionClasses.cpp                             |                         | 43070         |
 | CvGameCoreDLL_Expansion1/CvReplayInfo.cpp                                  |                         | 8747          |
 | CvGameCoreDLL_Expansion1/CvReplayInfo.h                                    |                         | 348           |
-| CvGameCoreDLL_Expansion1/CvReplayMessage.cpp                               |                         | 1332          |
+| CvGameCoreDLL_Expansion1/CvReplayMessage.cpp                               | 99%                     | 1332          |
 | CvGameCoreDLL_Expansion1/CvSiteEvaluationClasses.cpp                       |                         | 8474          |
 | CvGameCoreDLL_Expansion1/CvStartPositioner.cpp                             |                         | 8336          |
 | CvGameCoreDLL_Expansion1/CvStationAI.cpp                                   |                         | 6626          |

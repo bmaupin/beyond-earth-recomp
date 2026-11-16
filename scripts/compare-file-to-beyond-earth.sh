@@ -30,8 +30,12 @@ compare_functions() {
     function_name_matches=$(objdump -d --demangle "${source_binary}" | grep -F "${function_name}" | grep ">:" | egrep -v "@plt")
 
     if [[ "$function_name_matches" = *$'\n'* ]]; then
-        echo "Error: More than one match found in the object file" >&2
+        echo "Error: More than one match found in the object file for ${function_name}" >&2
         echo "${function_name_matches}" >&2
+        # TODO: Destructors can have multiple matching functions and we need to handle them all
+        if [[ "$function_name" = *::~* ]]; then
+            return
+        fi
         exit 1
     fi
 

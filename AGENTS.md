@@ -2,12 +2,14 @@
 - Beyond Earth game core library is at private/beyond-earth/libCvGameCoreDLL_Expansion1.so
 - Civ 5 game core libraries are at private/civ5/libCvGameCoreDLL\*.so
   - Civ 5 game core source is at ~/.local/share/Steam/steamapps/common/Sid Meier's Civilization V SDK/CvGameCoreSource/
-- Highest priority is code that matches the Beyond Earth assembly
-- Next-highest priority is code that matches the Civ 5 game core source
+- Follow these guidelines when writing code
+  - Highest priority is code should match the Beyond Earth assembly
+  - As much as possible, code should match the Civ 5 game core source
+  - Use original variable names from the Beyond Earth game core binary debug information
+  - If a function is created that does not match the Beyond Earth assembly, it should have a TODO comment above it
 - Only create new documentation files in docs/ai/
 - Source goes in src/
 - Binaries go in private/build/
-- Other binary files go in private/ai/
 - Never remove files or directories. Tell me what needs to be removed and I will do it.
 - On Linux, prefer commands directly in the shell and not custom code (e.g. Perl, Python) nor shell scripts in files
 - Do not write unit tests; the measure of success is if the machine code matches the Beyond Earth game core binary

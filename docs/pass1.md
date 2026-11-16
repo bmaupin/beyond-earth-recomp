@@ -101,6 +101,7 @@ For each function:
      -Isrc \
      -Isrc/Fireworks \
      -Isrc/CvGameCoreDLLUtil \
+     -Isrc/CvGameCoreDLLUtil/include \
      -c src/CvGameCoreEnumSerialization.cpp \
      -o private/build/CvGameCoreEnumSerialization.o
    ```

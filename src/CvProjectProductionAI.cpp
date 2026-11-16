@@ -41,13 +41,12 @@ void CvProjectProductionAI::Read(FDataStream& kStream)
 	uint uiVersion;
 	kStream >> uiVersion;
 
+	int iWeight;
 	int iNumProjects = GC.GetGameProjects()->GetNumProjects();
 	if(uiVersion >= 2)
 	{
 		kStream >> iNumProjects;
 	}
-
-	int iWeight;
 
 	// Reset vector
 	m_ProjectAIWeights.clear();

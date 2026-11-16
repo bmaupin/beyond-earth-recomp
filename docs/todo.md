@@ -25,7 +25,7 @@ Ordered by each file’s size plus its directly included project headers.
 - [x] CvInternalGameCoreUtils.cpp (4.2K)
 - [x] cvStopWatch.cpp (5.1K)
 - [ ] CvGoodyHuts.cpp (5.2K)
-- [ ] CvReplayMessage.cpp (6.5K)
+- [x] CvReplayMessage.cpp (6.5K)
 - [ ] CvProjectProductionAI.cpp (7.3K)
 - [x] Lua/CvLuaGameInfo.cpp (7.6K)
 - [ ] CvPlotManager.cpp (11.2K)
