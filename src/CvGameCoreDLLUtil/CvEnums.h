@@ -547,6 +547,16 @@ enum ForeignPolicyTypes
 	NO_FOREIGN_POLICY = -1
 };
 
+enum PlayerPerkTypes
+{
+	NO_PLAYER_PERK = -1
+};
+
+enum PersonalityTraitCategoryTypes
+{
+	NO_PERSONALITY_TRAIT_CATEGORY = -1
+};
+
 enum FromUIDiploEventTypes
 {
 	NO_FROM_UI_DIPLO_EVENT = -1,

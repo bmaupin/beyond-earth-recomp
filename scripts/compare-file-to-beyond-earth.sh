@@ -25,9 +25,7 @@ compare_functions() {
     # "grep -F" matches the string as a literal string (function names can contain asterisks)
     # ":" matches the function declaration
     # "@plt"
-    # TODO: we may need this to distinguish function overrides (functions with same name but different signature)
-    # function_name_matches=$(objdump -d --demangle "${source_binary}" | grep -F "${function_name}>:" | egrep -v "@plt")
-    function_name_matches=$(objdump -d --demangle "${source_binary}" | grep -F "${function_name}" | grep ">:" | egrep -v "@plt")
+    function_name_matches=$(objdump -d --demangle "${source_binary}" | grep -F "${function_name}>:" | egrep -v "@plt")
 
     if [[ "$function_name_matches" = *$'\n'* ]]; then
         echo "Error: More than one match found in the object file for ${function_name}" >&2
@@ -78,6 +76,10 @@ compare_functions() {
     if [[ "$civbe_function_start_address" = *$'\n'* ]]; then
         echo "Error: More than one match found in the Beyond Earth game core for function ${function_name}" >&2
         echo "$civbe_function_start_address" >&2
+        # TODO: Destructors can have multiple matching functions and we need to handle them all
+        if [[ "$function_name" = *::~* ]]; then
+            return
+        fi
         exit 1
     fi
 

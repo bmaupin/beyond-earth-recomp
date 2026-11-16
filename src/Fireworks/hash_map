@@ -72,6 +72,7 @@ public:
     void clear() noexcept;
     size_type erase(const key_type&);
     iterator lower_bound(const key_type&);
+    const_iterator lower_bound(const key_type&) const;
 
     template<class _Valty>
     typename std::enable_if<is_convertible<_Valty, value_type>::value,

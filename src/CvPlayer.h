@@ -5,6 +5,9 @@
 
 class CvCity;
 class CvPlayerAffinities;
+class CvHandicapInfo;
+class CvPlayerDiplomacy;
+class CvPlayerPersonality;
 class CvLeaderHeadInfo;
 class CvMilitaryAI;
 class CvGrandStrategyAI
@@ -22,6 +25,8 @@ public:
 class CvPlayerPerks
 {
 public:
+	void AddPerk(PlayerPerkTypes ePerk, int iCount = 1, CvCity* pCity = NULL);
+	void RemovePerk(PlayerPerkTypes ePerk);
 	int GetCityMoveCostMod(const CvCity& city) const;
 	// TODO: Inline after restoring authentic members through m_aquaticCityMoveCostMod (target offset 0x44).
 	int GetAquaticCityMoveCostMod() const;
@@ -30,6 +35,9 @@ public:
 class CvPlayer
 {
 public:
+	PlayerTypes GetID() const;
+	int getPersonalityType() const;
+	bool canSendTelemetry() const;
 	bool isHuman() const;
 	bool isMinorCiv() const;
 	bool IsAITeammateOfHuman() const;
@@ -37,6 +45,14 @@ public:
 	bool isNeutralProxy() const;
 	// TODO: Inline after restoring authentic members through m_pPlayerPerks (target offset 0xf4bc).
 	CvPlayerPerks* GetPlayerPerks() const;
+	CvPlayerDiplomacy* GetPlayerDiplomacy() const;
+	int GetDiplomaticCapital() const;
+	void ChangeDiplomaticCapital(int iChange);
+	CvHandicapInfo& getHandicapInfo() const;
+	CvPlayerPersonality* GetPlayerPersonality() const
+	{
+		return *reinterpret_cast<CvPlayerPersonality* const*>(reinterpret_cast<const char*>(this) + 0x1060);
+	}
 	// TODO: Reimplement using m_pAffinities after restoring the authentic CvPlayer layout; DWARF offset 0xf4b4.
 	CvPlayerAffinities* GetPlayerAffinities() const
 	{

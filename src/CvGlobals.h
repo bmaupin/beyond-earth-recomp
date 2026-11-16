@@ -94,6 +94,25 @@ public:
 	virtual ~CvGlobals();
 	typedef stdext::hash_map<std::string /* type string */, int /* info index */> InfosMap;
 	const InfosMap& GetInfoTypes() const;
+	CvPersonalityTraitEntry* getPersonalityTraitInfo(PersonalityTraitTypes eTrait);
+	CvPersonalityTraitCategoryEntry* getPersonalityTraitCategoryInfo(PersonalityTraitCategoryTypes eCategory)
+	{
+		return m_paPersonalityTraitCategoryInfo[eCategory];
+	}
+	CvPersonalityEntry* getPersonalityInfo(int ePersonality)
+	{
+		return m_paPersonalityInfo[ePersonality];
+	}
+	CvReactionEntry* getReactionInfo(ReactionTypes eReaction)
+	{
+		return m_paReactionInfo[eReaction];
+	}
+	CvForeignPolicyEntry* getForeignPolicyInfo(ForeignPolicyTypes ePolicy)
+	{
+		return m_paForeignPolicyInfo[ePolicy];
+	}
+	int getNumPersonalityTraitInfos() const { return m_paPersonalityTraitInfo.size(); }
+	int getNumPersonalityTraitCategoryInfos() const { return m_paPersonalityTraitCategoryInfo.size(); }
 	std::vector<CvActionInfo*>& getActionInfo();
 	int getNumTechInfos();
 	int getNumResourceInfos();

@@ -243,6 +243,7 @@ public:
 
 	// Beyond Earth adds turn thresholds exposed by the DLL wrapper.
 	int getCreatePercent() const;
+	int getDiploTraitModificationCostPercent() const;
 	int getMidGameTurn() const;
 	int getLateGameTurn() const;
 	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
@@ -259,6 +260,7 @@ public:
 	int getAlienSpawnMod() const;
 	int getAIWorldCreatePercent() const;
 	int getAICreatePercent() const;
+	int getDiploTraitModificationCostPercent() const;
 	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
 	// TODO: CvHandicapInfo (remaining SDK methods and Beyond Earth members).
 };
